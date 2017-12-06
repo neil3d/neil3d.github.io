@@ -1,11 +1,11 @@
 title:  游戏程序员的自我修养
-tagline:  by 燕良
+tagline:  探讨游戏开发的知识体系
 
 # Authors documented under _data
 
 # Change to true for Disqus comments
 disqus:
-  comments: true
+  comments: false
   disqus_shortname: 'https-lenpaul-github-io-lagrange'
 
 google-ID: 'UA-80213386-1'
