@@ -2,7 +2,7 @@
 
   <title>
     {% if page.title == "Home" %}
-      {{ site.data.settings.title }} | {{ site.data.settings.tagline }}
+      {{ site.data.settings.title }}
     {% else %}
       {{ page.title }} | {{ site.data.settings.title }}
     {% endif %}
@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="{{ site.github.url }}/assets/css/main.css">
   <link rel="stylesheet" href="{{ site.github.url }}/assets/css/syntax.css">
   <!-- RSS-v2.0
-  <link href="{{ site.github.url }}/feed.xml" type="application/rss+xml" rel="alternate" title="{{ site.data.settings.title }} | {{ site.data.settings.tagline }}"/>
+  <link href="{{ site.github.url }}/feed.xml" type="application/rss+xml" rel="alternate" title="{{ site.data.settings.title }}"/>
   //-->
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
