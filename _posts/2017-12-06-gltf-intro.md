@@ -5,7 +5,7 @@ author: "燕良"
 categories: 3dengine
 tags: [glTF, WebGL]
 image:
-  feature: 2016-gltf-jpeg-of-3d.jpg
+  feature: gltf/2016-gltf-jpeg-of-3d.jpg
   credit: Khronos Group
   creditlink: ""
 ---
