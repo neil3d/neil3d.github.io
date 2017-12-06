@@ -10,8 +10,6 @@ image:
   creditlink: ""
 ---
 
-glTF介绍
-
 ### 什么是glTF？
 
 什么是glTF呢？
