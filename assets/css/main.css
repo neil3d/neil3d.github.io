@@ -20,7 +20,7 @@ body {
 }
 
 h1{
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 h1 a {
@@ -113,7 +113,7 @@ blockquote {
   max-width: 100%;
   overflow: hidden;
   border-radius: 9px;
-  margin-bottom: 25px;
+  margin-bottom: 9px;
 }
 
 .thumbnail-container img{
