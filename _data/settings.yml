@@ -11,7 +11,6 @@ disqus:
 google-ID: 'UA-80213386-1'
 
 menu:
-- {name: 'Home', path: '/', url: 'index.html'}
 - {name: 'Writing', path: 'menu', url: 'writing.html'}
 - {name: 'About', path: 'menu', url: 'about.html'}
 

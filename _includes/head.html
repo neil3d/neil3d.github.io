@@ -1,9 +1,9 @@
 <head>
 
   <title>
-    {% if page.title == "Home" %}
-      {{ site.data.settings.title }}
-    {% else %}
+    {% if page.title == "Home" %} 
+      {{ site.data.settings.title }} 
+    {% else %} 
       {{ page.title }} | {{ site.data.settings.title }}
     {% endif %}
   </title>
