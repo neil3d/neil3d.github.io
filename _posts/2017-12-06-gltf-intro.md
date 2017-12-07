@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "从glTF看3D引擎的数据组织(1)"
+title: "3D引擎的数据组织与glTF"
 author: "燕良"
 categories: 3dengine
 tags: [glTF, WebGL]

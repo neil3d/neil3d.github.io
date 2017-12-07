@@ -45,7 +45,7 @@ a:hover {
 img {
   max-width: 100%;
   height: auto;
-  border-radius: 5px;
+  border-radius: 9px;
 }
 
 blockquote {
@@ -112,7 +112,7 @@ blockquote {
 .thumbnail-container {
   max-width: 100%;
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: 9px;
   margin-bottom: 25px;
 }
 
@@ -298,7 +298,7 @@ pre {
  */
  table {
      border-collapse: collapse;
-     margin-bottom: 30px;
+     margin-bottom: 15px;
      width: 100%;
  }
 
@@ -306,7 +306,7 @@ pre {
      border: 1px solid black;
  }
  th, td {
-     padding: 15px;
+     padding: 8px;
      text-align: left;
  }
 
