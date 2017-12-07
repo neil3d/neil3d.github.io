@@ -201,12 +201,12 @@ blockquote {
 .footer {
   color: #999;
   text-align: center;
-  margin: 2rem;
+  margin: 0rem;
 }
 
 .footer a {
   color: #999;
-  padding: 10px;
+  padding: 1px;
   text-decoration: none;
 }
 
