@@ -63,7 +63,7 @@ blockquote {
 .container {
   margin-left: auto;
   margin-right: auto;
-  width: 95%;
+  width: 800px;
 }
 
 @media (max-width: 1366px) {
