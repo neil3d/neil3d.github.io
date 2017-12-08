@@ -34,6 +34,13 @@
       {% if page.image.feature %}
         <img src="{{ site.github.url }}/assets/img/{{ page.image.feature }}">
       {% endif %}
+
+      <blockquote>
+        <p>
+        <strong>内容概要</strong><br>
+        {{ page.brief }}
+        </p>
+      </blockquote>
       
       {{ content }}
       

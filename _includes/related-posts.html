@@ -5,15 +5,15 @@
       {% for mypost in site.tags[tag] limit:3 %}
         {% if listed_posts_urls contains mypost.url %}
         {% else %}
-          <h2 >You may also enjoy:</h2>  
+          <h4 >You may also enjoy:</h4>  
           <li>
-            <h3>
+            <h5>
               <a href="{{ site.github.url }}{{ mypost.url }}">
                 {{ mypost.title }}
                 <!--<img src="{{ site.url }}{{ site.baseurl }}/images/{{ mypost.image.teaser }}">-->
                 <!--<small>{{ mypost.date | date: "%B %-d, %Y" }}</small>-->
               </a>
-            </h3>
+            </h5>
           </li>
           {% assign listed_posts_urls = listed_posts_urls | push: mypost.url %}
         {% endif %}

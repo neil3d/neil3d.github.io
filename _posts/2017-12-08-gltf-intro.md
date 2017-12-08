@@ -8,11 +8,9 @@ image:
   feature: 2016-gltf-jpeg-of-3d.jpg
   credit: Khronos Group
   creditlink: ""
+brief: "glTF是Khronos Group制定的一套3D内容的格式标准，包括场景、Mesh、动画、材质等方面。通过学习它，可以对3D引擎中的核心数据结构有一个基础的的理解，对于深入掌握3D引擎技术有很大的帮助。"
 ---
 
-> 【**内容概要**】  
-> glTF是Khronos Group制定的一套3D场景数据的标准，包括场景、Mesh、动画、材质等方面。通过学习它，可以对3D引擎中的核心数据结构有一个基础的的理解，对于深入掌握3D引擎技术有很大的帮助。  
-  
 不是有句老话讲“程序 = 算法 + 数据结构”嘛，对于3D引擎来说也是这样。学习和掌握3D引擎中的核心数据有哪些，它们直接的关系是怎样等等问题，对于理解3D引擎的架构和图形渲染关系都有着非常大的帮助。然而，现在的商业3D引擎非常复杂，想要通过学习其源代码嘛非常困难，那么你就这样放弃了吗？ :wink: 我们需要一个合适的方式切入。  
   
 ### 那么，什么是glTF呢  
@@ -20,14 +18,13 @@ image:
 直接去研读Unreal Engine的源代码，对于没有基础的同学来说，确实太困难了。想要对3D引擎内部有一些必要的了解，glTF是一个很好的切入点。学习glTF也是具有实用价值的，已经有越来越多的引擎支持这种格式，另外还可以顺便学一下英语。:smile:
 
 glTF是什么呢？  
-* glTF即GL Transmission Format；
+* glTF即GL Transmission Format的缩写；
 * glTF是一种3D内容的格式标准，由Khronos Group管理；（Khronos Group还管理着OpenGL系列、OpenCL等重要的行业标准）
 * glTF的设计是**面向实时渲染应用**的，尽量提供可以直接传输给图形API的数据形式，不再需要二次转换；
-* glTF对OpenGL ES、WebGL非常友好；对于Metal、Vulkan也完全无障碍；
+* glTF对OpenGL ES、WebGL非常友好；
 * glTF的目标是：3D领域的JPEG；
-* 作为一个标准，自2015年10月发布以来，已经得到了业界广泛的认可，你可以相信它的水平；
-  
-glTF目前最新版本为2.0已经与XXXX发布。
+* 作为一个标准，自2015年10月发布（glTF 1.0）以来，已经得到了业界广泛的认可，你可以相信它的水平；
+* glTF目前最新版本为2.0已于2017年6月正式发布。
 
 ### glTF都包含哪些数据
 
@@ -50,5 +47,5 @@ glTF标准所定义的上述数据，从物理结构上了由以下几个文件�
 
 ### 参考资料
 * [glTF官方网站](https://www.khronos.org/gltf)
-* [glTF 1.0 标准文档](https://www.khronos.org/gltf)
-* [glTF 2.0 标准文档](https://www.khronos.org/gltf)
+* [glTF 2.0 标准文档](https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md)
+* [glTF 1.0 标准文档](https://github.com/KhronosGroup/glTF/blob/master/specification/1.0/README.md)
