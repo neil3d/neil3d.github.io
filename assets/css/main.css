@@ -151,12 +151,12 @@ blockquote {
 }
 
 .related {
-  padding-bottom: 1rem;
+  padding-bottom: 0rem;
 }
 
 .related-posts {
   padding-left: 0px;
-  list-style: none;
+  list-style: circle;
 }
 
 .related-posts a {
