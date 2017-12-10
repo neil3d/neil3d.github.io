@@ -8,7 +8,7 @@ image:
   feature: 2016-gltf-jpeg-of-3d.jpg
   credit: Khronos Group
   creditlink: ""
-brief: "在这篇文章中我们将介绍 Scene Graph 的概念，已经glTF标准中是如何定义场景的。"
+brief: "在这篇文章中我们将介绍 Scene Graph 的概念，以及在 glTF 标准中是如何定义场景的。"
 ---
 
 ### 图形学中的 Scene Graph
