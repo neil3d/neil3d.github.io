@@ -11,8 +11,8 @@ disqus:
 google-ID: 'UA-80213386-1'
 
 menu:
-- {name: 'Writing', path: 'menu', url: 'writing.html'}
-- {name: 'About', path: 'menu', url: 'about.html'}
+- {name: 'Writing', path: 'menu', url: 'writing.html', icon: 'menu-list.png'}
+- {name: 'About', path: 'menu', url: 'about.html', icon: 'menu-about.png'}
 
 # Available social icons are powered by Font Awesome, so you can use any icon that they offer
 social:

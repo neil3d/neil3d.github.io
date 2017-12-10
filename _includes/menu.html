@@ -1,8 +1,15 @@
 <div class="menu">
   <nav class="menu-content">
-    <a href="{{ site.github.url }}">Home</a>
+    <a href="{{ site.github.url }}">
+      <img src="{{ site.github.url }}/assets/img/menu-home.png">              
+      Home
+    </a>
+
     {% for item in site.data.settings.menu %}
-    <a href="{{ site.github.url }}/{{ item.path }}/{{ item.url }}">{{ item.name }}</a>
+    <a href="{{ site.github.url }}/{{ item.path }}/{{ item.url }}">
+      <img src="{{ site.github.url }}/assets/img/{{ item.icon }}">      
+      {{ item.name }}
+    </a>
     {% endfor %}
   </nav>
 </div>
