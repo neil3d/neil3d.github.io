@@ -5,6 +5,7 @@ author: "燕良"
 categories: 3dengine
 tags: [glTF, WebGL]
 image:
+  path: gltf
   feature: 2016-gltf-jpeg-of-3d.jpg
   credit: Khronos Group
   creditlink: ""
@@ -32,7 +33,7 @@ glTF是什么呢？
 
 我们熟悉的大神卡马克也曾经呼吁建立实时渲染的3D内容格式的标准。如果没有一种标准格式的话，每个3D引擎都要实现自己的文件导入、转换工具，用来和3DS MAX、Maya、Blender等工具对接；而有了glTF这一标准之后，一切可以变得简单很多。
   
-![contentPipelineWithGltf]({{ site.github.url }}/assets/img/2017-contentPipelineWithGltf.png)  
+![contentPipelineWithGltf](/assets/img/gltf/2017-contentPipelineWithGltf.png)  
 
 ### glTF都包含哪些数据
 
@@ -44,7 +45,7 @@ glTF是什么呢？
 * 包含材质定义；在glTF 1.0中，包含一个technique的定义，相对于Unity3D中的ShaderLab，或者D3D中的effect文件；
 
 glTF标准所定义的上述数据，从物理结构上了由以下几个文件组成：  
-![gltf-bin-glsl-png]({{ site.github.url }}/assets/img/2017-gltf-files.png)  
+![gltf-bin-glsl-png](/assets/img/gltf/2017-gltf-files.png)  
 * 一个JSON文本文件，作为整个标准的核心，描述场景结构，数据对应关系等；
 * 一个二进制文件，用来存储Vertex Buffer、Index Buffer等，这些数据可以直接通过OpenGL或者WebGL API直接上传到显示驱动，无需再做解析和转换；
 * 还包含所引用的shader文件、贴图文件等；
