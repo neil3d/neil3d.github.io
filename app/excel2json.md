@@ -39,3 +39,10 @@ GUI模式方便预览；而命令行式，方便将多个表格转换工作写�
 * 读取Excel Workbook中的第一个sheet；
 * 对于SQL导出模式：第二行固定为字段类型
 * 使用表头生成C#数据定义代码
+
+### 在Mac、Linux上运行
+
+这个小工具使用C#编写，编译出来的.exe通过Mono即可在Mac或者Linux上运行。
+* Mono下载地址：[http://www.mono-project.com/download](http://www.mono-project.com/download/)
+* 运行GUI模式：mono ./excel2json.exe
+* 运行命令行模式： mono ./excel2json.exe 命令行参数
