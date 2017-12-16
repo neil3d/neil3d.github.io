@@ -74,7 +74,7 @@ blockquote {
 
 /*48em*/
 
-@media (max-width: 768px) {
+@media (max-width: 750px) {
   .container {
     width: 90vw;
   }
