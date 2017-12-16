@@ -17,6 +17,19 @@ title: excel2json
 ### 支持GUI模式和命令行模式
 
 GUI模式方便预览；而命令行式，方便将多个表格转换工作写成一个批处理文件（.bat或者.sh），一键处理几十个表格。
+例如，使用下面这个.bat批处理文件，可以一次性转换".\excel"目录下所有的.xlsx文件到".\json"目录：  
+```
+@SET EXCEL_FOLDER=.\excel
+@SET JSON_FOLDER=.\json
+@SET EXE=.\excel2json.exe
+
+@ECHO Converting excel files in folder %EXCEL_FOLDER% ...
+for /f "delims=" %%i in ('dir /b /a-d /s %EXCEL_FOLDER%\*.xlsx') do (
+    @echo   processing %%~nxi 
+    @CALL %EXE% --excel %EXCEL_FOLDER%\%%~nxi --json %JSON_FOLDER%\%%~ni.json --header 3
+)
+```
+  
 ![excel2json_gui](/assets/img/excel2json/gui.png)  
 ![excel2json_cmd](/assets/img/excel2json/cmd.png)  
 
