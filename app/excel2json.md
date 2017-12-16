@@ -14,6 +14,11 @@ title: excel2json
 
 由于这里使用OpenXML格式直接解析，所以只支持.xlsx文件，并不支持.xls文件。
 
+### 下载地址
+
+* 稳定版下载：[https://github.com/neil3d/excel2json/releases](https://github.com/neil3d/excel2json/releases)
+* 源代码Github地址：[https://github.com/neil3d/excel2json](https://github.com/neil3d/excel2json)
+
 ### 支持GUI模式和命令行模式
 
 GUI模式方便预览；而命令行式，方便将多个表格转换工作写成一个批处理文件（.bat或者.sh），一键处理几十个表格。
