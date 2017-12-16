@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "3D引擎数据结构与glTF:简介"
+title: "3D引擎数据结构与glTF(1): 简介"
 author: "燕良"
 categories: 3dengine
 tags: [glTF, WebGL]

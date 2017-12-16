@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "3D引擎数据结构与glTF:场景"
+title: "3D引擎数据结构与glTF(2): Scene Graph"
 author: "燕良"
 categories: 3dengine
 tags: [glTF, WebGL, SceneGraph]
 image:
   path: gltf
-  feature: 2016-gltf-jpeg-of-3d.jpg
+  feature: 2017-scene-graph.jpg
   credit: Khronos Group
   creditlink: ""
 brief: "在这篇文章中我们将介绍 Scene Graph 的概念，以及在 glTF 标准中是如何定义场景的。"
