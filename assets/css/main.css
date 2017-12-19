@@ -42,10 +42,15 @@ a:hover {
   border-bottom: none;
 }
 
-img {
+.thumb_img {
   max-width: 100%;
   height: auto;
   border-radius: 9px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 blockquote {
