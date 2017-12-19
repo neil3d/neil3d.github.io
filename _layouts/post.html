@@ -40,6 +40,9 @@
       <h1>
         {{ page.title }}
       </h1>
+
+      {% include menu.html %}
+      
       {% if page.image.feature %}
         <img class="thumb_img" src="{{ site.github.url }}/assets/img/{{ page.image.path }}/{{ page.image.feature }}">
       {% endif %}
