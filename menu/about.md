@@ -25,9 +25,6 @@ title: About
 
 之前开发的3D引擎由于商业授权的原因，无法拿出来开源，也挺遗憾的。目前只有几个小东西放在[我的GitHub](https://github.com/neil3d)上，争取以后搞点有意义的开源项目。    
 
-* [excel2json](/app/excel2json.html)：使用解析OpenXML的方式直接解析excel文件，并转换成JSON，SQL等。
-
-
 ## 微信公众号
 这个博客主要是作为同名的微信公众号的文章存储，请**微信扫描或者长按下图识别二维码**关注，公众号ID：ForGameProgrammer。   
   

@@ -16,6 +16,8 @@ brief: "在这篇文章中我们将介绍 Scene Graph 的概念，以及在 glTF
 
 ### 游戏引擎中的 Scene Graph
 
+![unity_scene](/assets/img/gltf/2017-unity-scene.png)  
+
 先来看一下 Unity3D引擎吧。在 Unity Editor 中我们可以直观的从 Hierarchy 视图中看到整个Scene Graph结构。当你移动移动一个 GameObject 时，它下面的所有子节点也会跟随它一起移动。  从代码的角度看，场景节点中的父子关系并不由 GameObject 负责管理，而是由Transform组件去完成。
 keep world
 
