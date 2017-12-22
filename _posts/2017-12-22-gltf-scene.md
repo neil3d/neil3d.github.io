@@ -79,12 +79,12 @@ Scene Graph 的概念在游戏引擎中也被普遍使用，先来看一下 Unit
 
 ### glTF 样例数据
 
-本文中所引用的 JSON 内容来自下面这个样例数据，你可以下载这个完整的 glTF 资源查看一下整体数据的样子。
+如果你想看看完整的 glTF 资源长什么样子，可以下载这两个zip包：
 
-* 只包含一个 Node 的简单场景
+1. 只包含一个 Node 的简单场景
   * [Box](/assets/img/gltf/box.zip)    
   * ![gltf_box](/assets/img/gltf/2017-gltf-box.png)  
 
-* 卡车模型的场景，包含多个 Node ，组成层次结构
+2. 卡车模型的场景，包含多个 Node ，组成层次结构
   * [Cesium Milk Truck](/assets/img/gltf/truck.zip)  
   * ![gltf_truck](/assets/img/gltf/2017-gltf-truck.gif)  

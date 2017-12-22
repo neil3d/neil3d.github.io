@@ -58,3 +58,4 @@ glTF标准所定义的上述数据，从物理结构上了由以下几个文件�
 * [glTF官方网站](https://www.khronos.org/gltf)
 * [glTF 2.0 标准文档](https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md)
 * [glTF 1.0 标准文档](https://github.com/KhronosGroup/glTF/blob/master/specification/1.0/README.md)
+* [glTF Tutorial](https://github.com/KhronosGroup/glTF-Tutorials/blob/master/gltfTutorial/README.md)

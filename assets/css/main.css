@@ -45,7 +45,7 @@ a:hover {
 .thumb_img {
   max-width: 100%;
   height: auto;
-  border-radius: 9px;
+  border-radius: 5px;
 }
 
 img {
@@ -117,7 +117,7 @@ blockquote {
 .thumbnail-container {
   max-width: 100%;
   overflow: hidden;
-  border-radius: 9px;
+  border-radius: 5px;
   margin-bottom: 9px;
 }
 
