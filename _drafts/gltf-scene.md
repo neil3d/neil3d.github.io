@@ -36,13 +36,14 @@ Scene Graph 的概念在游戏引擎中也被普遍使用，先来看一下 Unit
 
 ![gltf_scene_graph](/assets/img/gltf/2017-gltf-scenegraph.png)  
 
-在glTF标准中也使用 Scene Graph 的概念。首先，一个glTF数据可以包含零到多个 scene ，每个场景都是由 node 组成的一个树形层次结构。
+在glTF标准中也使用 Scene Graph 的概念。一个 glTF 数据可以包含零到多个 scene ，每个 scene 都是由 node 组成的一个树形层次结构。
 
-在前面一篇文章的[glTF简介](/3dengine/gltf-intro.html)中，我们讲到了 glTF 的核心数据是由一个 JSON 格式的文本文件定义的 （如果你对 JSON 格式不熟悉，可以到 [json.org](http://json.org/json-zh.html) 看一看）。  下面我们就先看一下 glTF 中场景的定义：
+在前面一篇文章的[glTF简介](/3dengine/gltf-intro.html)中，我们讲到了 glTF 的核心数据是由一个 JSON 格式的文本文件定义的。下面我们就先看一下 glTF 中场景的定义：
 ``` json
 {
     "scenes": [
         {
+            "name": "defaultScene"
             "nodes": [0]
         }
     ],
@@ -60,10 +61,12 @@ Scene Graph 的概念在游戏引擎中也被普遍使用，先来看一下 Unit
 }
 ```
 
-上面这段 JSON 数据定义了一个 Object ，它有三个重要的字段：
-* scenes：是一个对象数组，定义这个 glTF 数据中有几个场景，每个场景是一个对象，包含 name 和 nodes 两个字段。nodes 是一个数组，通常只有一个元素，它指定这个场景的根节点；
+上面这段 JSON 数据是glTF文件的一部分，它定义了一个 Object ，它有三个重要的字段：
+* scenes：是一个对象数组，定义这个 glTF 数据中有几个场景。上面这段 JSON 数据中只包含一个场景。每个场景是一个对象，包含两个字段：
+    * name：字符串，场景的名称；
+    * nodes：一个数组，通常只有一个元素，它指定这个场景的根节点；数组的每个元素是下面的 nodes 数组的索引；
 * scene：这个字段指定默认渲染哪个场景，是指定的上面的 scenes 数组的 index；
-* nodes：是一个对象数组，包含所有的节点数据。
+* nodes：是一个对象数组，包含所有的节点数据；上面这段 JOSN 数据中一共有两个节点：root 和 box 。
 
 其中，nodes 数组是构成 Scene Graph 的核心数据，下面我们再看一下 nodes 中的单个节点的数据构成。一个节点可以拥有以下的可选字段：
 * name：名称，字符串；

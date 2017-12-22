@@ -46,7 +46,7 @@ glTF是什么呢？
 
 glTF标准所定义的上述数据，从物理结构上了由以下几个文件组成：  
 ![gltf-bin-glsl-png](/assets/img/gltf/2017-gltf-files.png)  
-* 一个JSON文本文件，作为整个标准的核心，描述场景结构，数据对应关系等；
+* 一个JSON文本文件，作为整个标准的核心，描述场景结构，数据对应关系等；（如果你对 JSON 格式不熟悉，可以到 [json.org](http://json.org/json-zh.html) 看一看）
 * 一个二进制文件，用来存储Vertex Buffer、Index Buffer等，这些数据可以直接通过OpenGL或者WebGL API直接上传到显示驱动，无需再做解析和转换；
 * 还包含所引用的shader文件、贴图文件等；
   
