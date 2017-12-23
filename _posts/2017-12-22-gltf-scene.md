@@ -43,18 +43,18 @@ Scene Graph 的概念在游戏引擎中也被普遍使用，先来看一下 Unit
 {
     "scenes": [
         {
-            "name": "defaultScene"
+            "name": "defaultScene",
             "nodes": [0]
         }
     ],
     "scene": 0,    
     "nodes": [
         {
-            "name": "root"
+            "name": "root",
             "children": [1]
         },
         {
-            "name": "box"
+            "name": "box",
             "mesh": 0
         }
     ],
