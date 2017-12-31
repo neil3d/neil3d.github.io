@@ -4,6 +4,11 @@ title: "Shadow Mapping原理与实践"
 author: "燕良"
 categories: 3dengine
 tags: [D3D, shader, shadow]
+image:
+  path: d3d
+  feature: 2008-shadow-cover.png
+  credit: ""
+  creditlink: ""
 brief: "通过本文，你可以理解 Shadow Mapping 算法原理，已经如何编程实现它。"
 ---
 
