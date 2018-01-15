@@ -74,11 +74,15 @@ GPU 在渲染每个三角形时，三角形的每个顶点都要进行计算，�
 
 ### glTF 中的 Mesh 数据组织
 
+![glTF Mesh UML](/assets/img/gltf/2017-gltf-mesh-uml.svg)  
+
 #### Mesh
 
 #### Primitive
 
 #### 读取 Vertex Buffer 和 Index Buffer
+
+### 在场景节点中引用 Mesh
 
 
 ### 参考资料
