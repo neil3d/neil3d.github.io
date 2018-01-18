@@ -7,6 +7,14 @@ title: excel2json
 
 之前项目使用的Excel表导入工具都是通过Office Excel组件来实现数据访问的，效率十分令人不满。一个端游项目一般要上百个表格，手游项目20、30个表格基本也是要的，于是表格导入程序的过程一般要几分钟，项目后期要接近半个小时。这里分享的这个小工具，在速度上有质的飞越，比上述方法实现的工具有**接近100倍的速度提升**.
 
+### 版本更新
+
+* 最新版：  **1.1.1**
+* 更新日期：**2018年1月16日**
+* 最新版下载：[https://github.com/neil3d/excel2json/releases](https://github.com/neil3d/excel2json/releases)
+* 源代码Github地址：[https://github.com/neil3d/excel2json](https://github.com/neil3d/excel2json)
+
+
 ### 主要功能：
 
 * 把Excel表单转换成Json对象，并保存到一个文本文件中。支持将表中内容转换成**Array**，或者以第一列为ID的**字典对象**；
@@ -14,11 +22,6 @@ title: excel2json
 * 把Excel的表头转换成C#的struct数据定义代码。
 
 由于这里使用OpenXML格式直接解析，所以只支持.xlsx文件，并不支持.xls文件。
-
-### 下载地址
-
-* 稳定版下载：[https://github.com/neil3d/excel2json/releases](https://github.com/neil3d/excel2json/releases)
-* 源代码Github地址：[https://github.com/neil3d/excel2json](https://github.com/neil3d/excel2json)
 
 ### 支持GUI模式和命令行模式
 
