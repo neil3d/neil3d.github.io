@@ -6,8 +6,8 @@ categories: 3dengine
 tags: [glTF, WebGL, Bin]
 image:
   path: gltf
-  feature: 2017-gltf-mesh.png
-  credit: AutoDesk
+  feature: 2018-bin.jpg
+  credit: ""
   creditlink: ""
 brief: "针对顶点缓冲、Index缓冲等数据，glTF 提供一个高效的二进制存储方式。"
 ---
