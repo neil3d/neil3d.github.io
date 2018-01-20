@@ -27,7 +27,7 @@ brief: "分析一下炉石这款游戏中一共有哪些Scene，他们各自负�
 
 除了前文提到的Login，我们可以看到Scene还有很多派生类，详见下图：  
 
-![UML](/assets/img/hearthstone/scenemgr.svg)  
+![UML](/assets/img/hearthstone/uml_scenemgr.svg)  
 
 这是我猜测的这些类和游戏内容的对应关系，没有太仔细分析，可能有些对应是错误的：  
 
@@ -35,7 +35,7 @@ brief: "分析一下炉石这款游戏中一共有哪些Scene，他们各自负�
 
 下面我们就挑选一个简单的Scene来分析一下它的内部运作机制，我们来看一下AdventureScene吧。Adventure相关的Class很多，我们只做一个粗略的分析，只涉及到下面这几个类和接口：  
 
-![UML](/assets/img/hearthstone/adventure.svg)  
+![UML](/assets/img/hearthstone/uml_adventure.svg)  
 
 首先我推测，在Hub屏幕中点击中间的【Solo Adventure】（冒险模式）按钮之后，通过我们前文分析的LoadScene流程，加载了一个冒险模式相关的Scene。它里面有一个GameObject绑定了“AdventureScene”这个脚本，我们可以看到AdventureScene:Awake()方法中主要是注册了很多事件的回调。  
 

@@ -26,7 +26,7 @@ brief: "分析《炉石传说》游戏的启动流程，这中间就涉及到了
 
 首先看一下我找到的一些游戏启动过程相关的类，下面是他们的类图：  
   
-![UML](/assets/img/hearthstone/startup.svg)  
+![UML](/assets/img/hearthstone/uml_startup.svg)  
   
 接下来我们分析一下游戏启动的操作流程。
 
