@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "Three.js 源代码解读(1)：场景数据结构"
+title: "Three.js 材质系统解析(1)：场景数据组织"
 author: "燕良"
 categories: 3dengine
-tags: [glTF, WebGL]
+tags: [glTF, WebGL, ThreeJS]
 image:
-  path: gltf
-  feature: 2016-gltf-jpeg-of-3d.jpg
-  credit: Khronos Group
+  path: threejs
+  feature: cover1.png
+  credit: ""
   creditlink: ""
-brief: "Three.js 源代码解读，解析 Three.js 的内部结构，以及实现原理。"
+brief: "通过阅读 Three.js 的源代码，理解 Three.js 的材质系统，重点是 Shader。"
 ---
 
 
