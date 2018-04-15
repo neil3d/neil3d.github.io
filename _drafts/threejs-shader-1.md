@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Three.js 材质系统解析(1)：场景数据组织"
+title: "Three.js 材质系统解析(1)：知识准备"
 author: "燕良"
 categories: 3dengine
 tags: [glTF, WebGL, ThreeJS]
