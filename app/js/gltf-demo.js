@@ -77,10 +77,6 @@ function start(gltf) {
 	var camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 0.1, 1000);
 	camera.position.set(0, 2, 8);
 
-	var controls = new THREE.OrbitControls(camera);
-	controls.target.set(0, 0, 0);
-	controls.update();
-
 	createSceneObjects(scene);
 
 	var renderer = new THREE.WebGLRenderer();
@@ -88,8 +84,15 @@ function start(gltf) {
 	renderer.setPixelRatio(window.devicePixelRatio);
 	renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.PCFShadowMap;
-	document.getElementById("demo").appendChild(renderer.domElement);
 
+	var canvas = renderer.domElement;
+	document.getElementById("demo").appendChild(canvas);
+	canvas.style.width = "100%";
+	canvas.style.height = (HEIGHT * canvas.clientWidth / WIDTH) + "px";
+
+	var controls = new THREE.OrbitControls(camera, canvas);
+	controls.target.set(0, 0, 0);
+	controls.update();
 
 	function animate() {
 		requestAnimationFrame(animate);
