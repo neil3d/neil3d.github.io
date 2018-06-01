@@ -1,0 +1,1107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- 由 Microsoft Visio, SVG Export 生成 startup.svg Page-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="8.41532in" height="9.3617in"
+		viewBox="0 0 605.903 674.042" xml:space="preserve" color-interpolation-filters="sRGB" class="st11">
+	<v:documentProperties v:langID="2052" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st2 {fill:#fdefe3;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st3 {fill:#000000;font-family:微软雅黑;font-size:0.666664em;font-weight:bold}
+		.st4 {fill:#000000;font-family:微软雅黑;font-size:0.666664em}
+		.st5 {font-size:1em}
+		.st6 {fill:#facca7;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st7 {stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st8 {marker-end:url(#mrkr1-62);stroke:#000000;stroke-dasharray:3.36,2.4;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st9 {fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.10810810810811}
+		.st10 {fill:#f8b57e;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st11 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Markers">
+		<g id="lend1">
+			<path d="M 1 -1 L 0 0 L 1 1 " style="stroke-linecap:round;stroke-linejoin:round;fill:none"/>
+		</g>
+		<marker id="mrkr1-62" class="st9" v:arrowType="1" v:arrowSize="4" orient="auto" markerUnits="strokeWidth"
+				overflow="visible">
+			<use xlink:href="#lend1" transform="scale(-9.25,-9.25) "/>
+		</marker>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>页-1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<g id="group1-1" transform="translate(18.36,-611.397)" v:mID="1" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({995551C3-582D-449F-9C3D-6DA3E6690C0B})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(0.95887712570161):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(0.95887712570161):1"/>
+			</v:userDefs>
+			<title>类.11</title>
+			<g id="shape2-2" v:mID="2" v:groupContext="shape" transform="translate(37.1767,1328.24) rotate(180)">
+				<title>工作表.2</title>
+			</g>
+			<g id="shape3-3" v:mID="3" v:groupContext="shape" transform="translate(37.1767,1328.24) rotate(180)">
+				<title>工作表.3</title>
+			</g>
+			<g id="shape4-4" v:mID="4" v:groupContext="shape" transform="translate(37.1767,1328.24) rotate(180)">
+				<title>工作表.4</title>
+			</g>
+			<g id="shape5-5" v:mID="5" v:groupContext="shape" transform="translate(37.1767,1328.24) rotate(180)">
+				<title>工作表.5</title>
+			</g>
+			<g id="shape6-6" v:mID="6" v:groupContext="shape">
+				<title>Operations</title>
+				<rect x="0" y="661.428" width="74.3534" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape7-8" v:mID="7" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="74.3534" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape8-10" v:mID="8" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>MonoBehaviour</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="37.1767" cy="666.814" width="74.36" height="14.4567"/>
+				<path d="M0 674.04 L74.35 674.04 L74.35 659.59 L0 659.59 L0 674.04 Z" class="st2"/>
+				<text x="4.85" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>MonoBehaviour</text>			</g>
+			<g id="shape9-13" v:mID="9" v:groupContext="shape" transform="translate(38.3534,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group10-15" transform="translate(66.1666,-201.195)" v:mID="10" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({93659629-5D43-4D9F-8589-E0976CE0733D})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(1.3778643998715):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(1.3778643998715):1"/>
+			</v:userDefs>
+			<title>类.158</title>
+			<g id="shape11-16" v:mID="11" v:groupContext="shape" transform="translate(49.9466,-52.9371)">
+				<title>工作表.11</title>
+			</g>
+			<g id="shape12-17" v:mID="12" v:groupContext="shape" transform="translate(49.9466,-52.9371)">
+				<title>工作表.12</title>
+			</g>
+			<g id="shape13-18" v:mID="13" v:groupContext="shape" transform="translate(49.9466,-52.9371)">
+				<title>工作表.13</title>
+			</g>
+			<g id="shape14-19" v:mID="14" v:groupContext="shape" transform="translate(49.9466,-52.9371)">
+				<title>工作表.14</title>
+			</g>
+			<g id="shape15-20" v:mID="15" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Awake() +Initialize() +InitializeMode() +InitializeUnity() +...</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="49.9466" cy="634.641" width="99.9" height="78.8033"/>
+				<rect x="0" y="595.239" width="99.8933" height="78.8033" class="st1"/>
+				<text x="1" y="603.44" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Awake()<v:newlineChar/><tspan x="1"
+							dy="1.2em" class="st5">+</tspan>Initialize()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">+</tspan>InitializeMode()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">+</tspan>InitializeUnity()<v:newlineChar/><tspan x="1" dy="1.2em"
+							class="st5">+</tspan>InitializeGame()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">+</tspan>InitializeWindowTitle()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">+</tspan>InitializeOptionValues()<v:newlineChar/><tspan x="1" dy="1.2em"
+							class="st5">+</tspan>Exit()</text>			</g>
+			<g id="shape16-30" v:mID="16" v:groupContext="shape" transform="translate(0,-78.8033)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="99.8933" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape17-32" v:mID="17" v:groupContext="shape" transform="translate(0,-91.4175)">
+				<title>Name</title>
+				<desc>ApplicationMgr</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="49.9466" cy="666.814" width="99.9" height="14.4567"/>
+				<path d="M0 674.04 L99.89 674.04 L99.89 659.59 L0 659.59 L0 674.04 Z" class="st6"/>
+				<text x="18.34" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>ApplicationMgr</text>			</g>
+			<g id="shape18-35" v:mID="18" v:groupContext="shape" transform="translate(63.8933,-92.6399)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group19-37" transform="translate(55.5367,-611.397)" v:mID="19" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(22):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="BeginAngle" v:val="VT0(-1.5707963267949):32"/>
+				<v:ud v:nameU="DX1" v:val="VT0(0.03):1"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="DY1" v:val="VT0(-0.03):1"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示一般性元素和较具体元素之间的分类关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({3514CD8A-4434-4697-8F16-F5EF24CB6B9D})"/>
+				<v:ud v:nameU="BeginAngle" v:prompt="" v:val="VT0(1.5707963267949):32"/>
+				<v:ud v:nameU="DX1" v:prompt="" v:val="VT0(-1.1102230246252E-16):1"/>
+				<v:ud v:nameU="DY1" v:prompt="" v:val="VT0(-0.30408692539402):24"/>
+			</v:userDefs>
+			<title>归纳</title>
+			<g id="shape20-38" v:mID="20" v:groupContext="shape" transform="translate(7.2,24.8)">
+				<title>Discriminator</title>
+			</g>
+			<g id="shape19-39" v:mID="19" v:groupContext="groupContent">
+				<path d="M0 674.04 L0 967.74 L60.58 967.74 L60.58 978.37" class="st7"/>
+			</g>
+		</g>
+		<g id="group21-42" transform="translate(213.2,-18.36)" v:mID="21" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({2455E702-B90F-493E-9BC2-1F5A9A464307})"/>
+			</v:userDefs>
+			<title>类</title>
+			<g id="shape22-43" v:mID="22" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.22</title>
+			</g>
+			<g id="shape23-44" v:mID="23" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.23</title>
+			</g>
+			<g id="shape24-45" v:mID="24" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.24</title>
+			</g>
+			<g id="shape25-46" v:mID="25" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.25</title>
+			</g>
+			<g id="shape26-47" v:mID="26" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="32.5984" cy="667.735" width="65.2" height="12.6142"/>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape27-50" v:mID="27" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape28-52" v:mID="28" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>DemoMgr</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="32.5984" cy="666.814" width="65.2" height="14.4567"/>
+				<path d="M0 674.04 L65.2 674.04 L65.2 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="12.08" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>DemoMgr</text>			</g>
+			<g id="shape29-55" v:mID="29" v:groupContext="shape" transform="translate(29.1969,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="shape30-57" v:mID="30" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({63B97D0F-AA7C-4CFA-AB7F-688951732CA4})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 806.56 L129.69 806.56 L129.69 817.19" class="st8"/>
+		</g>
+		<g id="group31-63" transform="translate(126.743,-79.3049)" v:mID="31" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({790CA1DF-7708-49E4-9E5F-19951684C65F})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(0.79285768600434):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(0.79285768600434):1"/>
+			</v:userDefs>
+			<title>类.32</title>
+			<g id="shape32-64" v:mID="32" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.32</title>
+			</g>
+			<g id="shape33-65" v:mID="33" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.33</title>
+			</g>
+			<g id="shape34-66" v:mID="34" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.34</title>
+			</g>
+			<g id="shape35-67" v:mID="35" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.35</title>
+			</g>
+			<g id="shape36-68" v:mID="36" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="32.5984" cy="667.735" width="65.2" height="12.6142"/>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape37-71" v:mID="37" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape38-73" v:mID="38" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>LocalOptions</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="32.5984" cy="666.814" width="65.2" height="14.4567"/>
+				<path d="M0 674.04 L65.2 674.04 L65.2 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="6.25" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>LocalOptions</text>			</g>
+			<g id="shape39-76" v:mID="39" v:groupContext="shape" transform="translate(29.1969,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="shape40-78" v:mID="40" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系.41</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({CD06406E-2400-4D7C-81EE-908179FD22D3})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 745.62 L43.23 745.62 L43.23 756.25" class="st8"/>
+		</g>
+		<g id="group41-83" transform="translate(213.2,-79.3049)" v:mID="41" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({305C96C5-A347-4E68-BCDE-8054C3FD4457})"/>
+			</v:userDefs>
+			<title>类.42</title>
+			<g id="shape42-84" v:mID="42" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.42</title>
+			</g>
+			<g id="shape43-85" v:mID="43" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.43</title>
+			</g>
+			<g id="shape44-86" v:mID="44" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.44</title>
+			</g>
+			<g id="shape45-87" v:mID="45" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.45</title>
+			</g>
+			<g id="shape46-88" v:mID="46" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="32.5984" cy="667.735" width="65.2" height="12.6142"/>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape47-91" v:mID="47" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape48-93" v:mID="48" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>Network</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="32.5984" cy="666.814" width="65.2" height="14.4567"/>
+				<path d="M0 674.04 L65.2 674.04 L65.2 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="15.11" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>Network</text>			</g>
+			<g id="shape49-96" v:mID="49" v:groupContext="shape" transform="translate(29.1969,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="shape50-98" v:mID="50" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系.51</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({F477A9C0-5921-4BC8-BBFA-6BEED0F0D2B4})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 745.62 L129.69 745.62 L129.69 756.25" class="st8"/>
+		</g>
+		<g id="group51-103" transform="translate(299.657,-79.3049)" v:mID="51" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({FFD5FB06-70E3-4CC7-96EF-B30F11C6E1DD})"/>
+			</v:userDefs>
+			<title>类.52</title>
+			<g id="shape52-104" v:mID="52" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.52</title>
+			</g>
+			<g id="shape53-105" v:mID="53" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.53</title>
+			</g>
+			<g id="shape54-106" v:mID="54" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.54</title>
+			</g>
+			<g id="shape55-107" v:mID="55" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.55</title>
+			</g>
+			<g id="shape56-108" v:mID="56" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="32.5984" cy="667.735" width="65.2" height="12.6142"/>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape57-111" v:mID="57" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape58-113" v:mID="58" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>Localization</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="32.5984" cy="666.814" width="65.2" height="14.4567"/>
+				<path d="M0 674.04 L65.2 674.04 L65.2 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="8.61" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>Localization</text>			</g>
+			<g id="shape59-116" v:mID="59" v:groupContext="shape" transform="translate(29.1969,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="shape60-118" v:mID="60" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系.61</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({81048A65-F199-4AAE-84FB-5060D88CE9D7})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 745.62 L216.14 745.62 L216.14 756.25" class="st8"/>
+		</g>
+		<g id="group61-123" transform="translate(126.743,-18.36)" v:mID="61" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({A3FAED5E-C204-494D-8AE1-258E32C80C1B})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(0.77739671798676):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(0.77739671798676):1"/>
+			</v:userDefs>
+			<title>类.62</title>
+			<g id="shape62-124" v:mID="62" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.62</title>
+			</g>
+			<g id="shape63-125" v:mID="63" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.63</title>
+			</g>
+			<g id="shape64-126" v:mID="64" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.64</title>
+			</g>
+			<g id="shape65-127" v:mID="65" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.65</title>
+			</g>
+			<g id="shape66-128" v:mID="66" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="32.5984" cy="667.735" width="65.2" height="12.6142"/>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape67-131" v:mID="67" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape68-133" v:mID="68" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>GameStrings</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="32.5984" cy="666.814" width="65.2" height="14.4567"/>
+				<path d="M0 674.04 L65.2 674.04 L65.2 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="6.81" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>GameStrings</text>			</g>
+			<g id="shape69-136" v:mID="69" v:groupContext="shape" transform="translate(29.1969,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group70-138" transform="translate(213.2,-140.25)" v:mID="70" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({294AEEF6-3B22-42F8-8E28-0361CCB0FA4D})"/>
+			</v:userDefs>
+			<title>类.72</title>
+			<g id="shape71-139" v:mID="71" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.71</title>
+			</g>
+			<g id="shape72-140" v:mID="72" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.72</title>
+			</g>
+			<g id="shape73-141" v:mID="73" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.73</title>
+			</g>
+			<g id="shape74-142" v:mID="74" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.74</title>
+			</g>
+			<g id="shape75-143" v:mID="75" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="32.5984" cy="667.735" width="65.2" height="12.6142"/>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape76-146" v:mID="76" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape77-148" v:mID="77" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>PlayErrors</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="32.5984" cy="666.814" width="65.2" height="14.4567"/>
+				<path d="M0 674.04 L65.2 674.04 L65.2 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="12.2" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>PlayErrors</text>			</g>
+			<g id="shape78-151" v:mID="78" v:groupContext="shape" transform="translate(29.1969,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group79-153" transform="translate(126.743,-140.25)" v:mID="79" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({879A7A12-7C75-4C85-AF44-FCACF691BEEA})"/>
+			</v:userDefs>
+			<title>类.81</title>
+			<g id="shape80-154" v:mID="80" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.80</title>
+			</g>
+			<g id="shape81-155" v:mID="81" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.81</title>
+			</g>
+			<g id="shape82-156" v:mID="82" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.82</title>
+			</g>
+			<g id="shape83-157" v:mID="83" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.83</title>
+			</g>
+			<g id="shape84-158" v:mID="84" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="32.5984" cy="667.735" width="65.2" height="12.6142"/>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape85-161" v:mID="85" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape86-163" v:mID="86" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>GameMgr</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="32.5984" cy="666.814" width="65.2" height="14.4567"/>
+				<path d="M0 674.04 L65.2 674.04 L65.2 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="12.5" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>GameMgr</text>			</g>
+			<g id="shape87-166" v:mID="87" v:groupContext="shape" transform="translate(29.1969,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group88-168" transform="translate(299.657,-140.25)" v:mID="88" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({DF8BD55A-DCAB-4312-B00D-CB10E9F3C4F4})"/>
+			</v:userDefs>
+			<title>类.90</title>
+			<g id="shape89-169" v:mID="89" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.89</title>
+			</g>
+			<g id="shape90-170" v:mID="90" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.90</title>
+			</g>
+			<g id="shape91-171" v:mID="91" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.91</title>
+			</g>
+			<g id="shape92-172" v:mID="92" v:groupContext="shape" transform="translate(32.5984,-19.8425)">
+				<title>工作表.92</title>
+			</g>
+			<g id="shape93-173" v:mID="93" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="32.5984" cy="667.735" width="65.2" height="12.6142"/>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape94-176" v:mID="94" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="65.1969" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape95-178" v:mID="95" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>Cheats</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="32.5984" cy="666.814" width="65.2" height="14.4567"/>
+				<path d="M0 674.04 L65.2 674.04 L65.2 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="19.05" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>Cheats</text>			</g>
+			<g id="shape96-181" v:mID="96" v:groupContext="shape" transform="translate(29.1969,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group97-183" transform="translate(299.657,-18.36)" v:mID="97" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({5409F555-F2DC-406F-8A1C-E7D04FAFCB70})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(1.0510974320981):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(1.0510974320981):1"/>
+			</v:userDefs>
+			<title>类.99</title>
+			<g id="shape98-184" v:mID="98" v:groupContext="shape" transform="translate(46.063,-19.8425)">
+				<title>工作表.98</title>
+			</g>
+			<g id="shape99-185" v:mID="99" v:groupContext="shape" transform="translate(46.063,-19.8425)">
+				<title>工作表.99</title>
+			</g>
+			<g id="shape100-186" v:mID="100" v:groupContext="shape" transform="translate(46.063,-19.8425)">
+				<title>工作表.100</title>
+			</g>
+			<g id="shape101-187" v:mID="101" v:groupContext="shape" transform="translate(46.063,-19.8425)">
+				<title>工作表.101</title>
+			</g>
+			<g id="shape102-188" v:mID="102" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Initialize()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="46.063" cy="667.735" width="92.13" height="12.6142"/>
+				<rect x="0" y="661.428" width="92.126" height="12.6142" class="st1"/>
+				<text x="1" y="669.63" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Initialize()</text>			</g>
+			<g id="shape103-191" v:mID="103" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="92.126" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape104-193" v:mID="104" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>ChangedCardMgr</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="46.063" cy="666.814" width="92.13" height="14.4567"/>
+				<path d="M0 674.04 L92.13 674.04 L92.13 659.59 L0 659.59 L0 674.04 Z" class="st1"/>
+				<text x="10.42" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>ChangedCardMgr</text>			</g>
+			<g id="shape105-196" v:mID="105" v:groupContext="shape" transform="translate(56.126,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group106-198" transform="translate(181.296,-474.663)" v:mID="106" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({CAD9809A-C7AE-4FCF-98BC-BAC8EA009D2B})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(0.95030168624848):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(0.95030168624848):1"/>
+			</v:userDefs>
+			<title>类.112</title>
+			<g id="shape107-199" v:mID="107" v:groupContext="shape" transform="translate(46.9348,-57.7371)">
+				<title>工作表.107</title>
+			</g>
+			<g id="shape108-200" v:mID="108" v:groupContext="shape" transform="translate(46.9348,-57.7371)">
+				<title>工作表.108</title>
+			</g>
+			<g id="shape109-201" v:mID="109" v:groupContext="shape" transform="translate(46.9348,-57.7371)">
+				<title>工作表.109</title>
+			</g>
+			<g id="shape110-202" v:mID="110" v:groupContext="shape" transform="translate(46.9348,-57.7371)">
+				<title>工作表.110</title>
+			</g>
+			<g id="shape111-203" v:mID="111" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Awake() +Start() +LoadScene() +SwitchMode() +Update() +SetNe...</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="46.9348" cy="629.841" width="93.87" height="88.4033"/>
+				<rect x="0" y="585.639" width="93.8696" height="88.4033" class="st1"/>
+				<text x="1" y="593.84" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Awake()<v:newlineChar/><tspan x="1"
+							dy="1.2em" class="st5">+</tspan>Start()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">+</tspan>LoadScene()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">+</tspan>SwitchMode()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">+</tspan>Update()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">+</tspan>SetNextMode()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">-</tspan>SwitchMode()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">-</tspan>LoadMode()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">-</tspan>LoadScene()</text>			</g>
+			<g id="shape112-214" v:mID="112" v:groupContext="shape" transform="translate(0,-88.4033)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="93.8696" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape113-216" v:mID="113" v:groupContext="shape" transform="translate(0,-101.017)">
+				<title>Name</title>
+				<desc>SceneMgr</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="46.9348" cy="666.814" width="93.87" height="14.4567"/>
+				<path d="M0 674.04 L93.87 674.04 L93.87 659.59 L0 659.59 L0 674.04 Z" class="st6"/>
+				<text x="26.75" y="669.21" class="st3" v:langID="1033"><v:paragraph v:horizAlign="1"/><v:tabList/>SceneMgr</text>			</g>
+			<g id="shape114-219" v:mID="114" v:groupContext="shape" transform="translate(57.8696,-101.04)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group115-221" transform="translate(55.5367,-611.397)" v:mID="115" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(22):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="BeginAngle" v:val="VT0(-1.5707963267949):32"/>
+				<v:ud v:nameU="DX1" v:val="VT0(0.03):1"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="DY1" v:val="VT0(-0.03):1"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示一般性元素和较具体元素之间的分类关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({DBFCA99E-107C-4424-8930-EF88AB132030})"/>
+				<v:ud v:nameU="BeginAngle" v:prompt="" v:val="VT0(0.29329714466223):32"/>
+				<v:ud v:nameU="DX1" v:prompt="" v:val="VT0(0.013990578676148):1"/>
+				<v:ud v:nameU="DY1" v:prompt="" v:val="VT0(-0.1476377952756):24"/>
+			</v:userDefs>
+			<title>归纳.121</title>
+			<g id="shape116-222" v:mID="116" v:groupContext="shape" transform="translate(8.97412,24.8)">
+				<title>Discriminator</title>
+			</g>
+			<g id="shape115-223" v:mID="115" v:groupContext="groupContent">
+				<path d="M0 674.04 L0 684.67 L172.69 684.67 L172.69 695.3" class="st7"/>
+			</g>
+		</g>
+		<g id="group117-226" transform="translate(296.426,-522.662)" v:mID="117" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({5072143B-02A4-4F60-9136-4ECBF8B4035D})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(0.85464433761567):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(0.85464433761567):1"/>
+			</v:userDefs>
+			<title>类.123</title>
+			<g id="shape118-227" v:mID="118" v:groupContext="shape" transform="translate(46.9348,-33.7372)">
+				<title>工作表.118</title>
+			</g>
+			<g id="shape119-228" v:mID="119" v:groupContext="shape" transform="translate(46.9348,-33.7372)">
+				<title>工作表.119</title>
+			</g>
+			<g id="shape120-229" v:mID="120" v:groupContext="shape" transform="translate(46.9348,-33.7372)">
+				<title>工作表.120</title>
+			</g>
+			<g id="shape121-230" v:mID="121" v:groupContext="shape" transform="translate(46.9348,-33.7372)">
+				<title>工作表.121</title>
+			</g>
+			<g id="shape122-231" v:mID="122" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Awake() +IsUnloading() +PreUnload() +Unload()</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="46.9348" cy="653.841" width="93.87" height="40.4035"/>
+				<rect x="0" y="633.639" width="93.8696" height="40.4035" class="st1"/>
+				<text x="1" y="641.84" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Awake()<v:newlineChar/><tspan x="1"
+							dy="1.2em" class="st5">+</tspan>IsUnloading()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">+</tspan>PreUnload()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">+</tspan>Unload()</text>			</g>
+			<g id="shape123-237" v:mID="123" v:groupContext="shape" transform="translate(0,-40.4035)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="93.8696" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape124-239" v:mID="124" v:groupContext="shape" transform="translate(0,-53.0176)">
+				<title>Name</title>
+				<desc>Scene</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="46.9348" cy="666.814" width="93.87" height="14.4567"/>
+				<path d="M0 674.04 L93.87 674.04 L93.87 659.59 L0 659.59 L0 674.04 Z" class="st6"/>
+				<text x="35.21" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>Scene</text>			</g>
+			<g id="shape125-242" v:mID="125" v:groupContext="shape" transform="translate(57.8696,-59.04)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group126-244" transform="translate(55.5367,-611.397)" v:mID="126" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(22):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="BeginAngle" v:val="VT0(-1.5707963267949):32"/>
+				<v:ud v:nameU="DX1" v:val="VT0(0.03):1"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="DY1" v:val="VT0(-0.03):1"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示一般性元素和较具体元素之间的分类关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({97D9F662-A429-4802-96AF-994C16231AD4})"/>
+				<v:ud v:nameU="BeginAngle" v:prompt="" v:val="VT0(0.77510423295234):32"/>
+				<v:ud v:nameU="DX1" v:prompt="" v:val="VT0(0.10993180435525):1"/>
+				<v:ud v:nameU="DY1" v:prompt="" v:val="VT0(-0.14763779527559):24"/>
+			</v:userDefs>
+			<title>归纳.143</title>
+			<g id="shape127-245" v:mID="127" v:groupContext="shape" transform="translate(10.1818,24.8)">
+				<title>Discriminator</title>
+			</g>
+			<g id="shape126-246" v:mID="126" v:groupContext="groupContent">
+				<path d="M0 674.04 L0 684.67 L287.82 684.67 L287.82 695.3" class="st7"/>
+			</g>
+		</g>
+		<g id="shape128-249" v:mID="128" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系.71</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({A75C486F-5C5A-4EC0-8BD0-29F8580F7CEB})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 806.56 L43.23 806.56 L43.23 817.19" class="st8"/>
+		</g>
+		<g id="shape129-254" v:mID="129" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系.108</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({0E86E898-832F-4B59-A9DB-52BEB6877715})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 684.67 L43.23 684.67 L43.23 695.3" class="st8"/>
+		</g>
+		<g id="shape130-259" v:mID="130" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系.109</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({3BB7AD3F-882D-4946-B8B4-827D9FDB0DE3})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 684.67 L129.69 684.67 L129.69 695.3" class="st8"/>
+		</g>
+		<g id="shape131-264" v:mID="131" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系.110</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({4D4CCA29-F3D4-4A3F-A6E8-6CE4F58D7701})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 806.56 L229.61 806.56 L229.61 817.19" class="st8"/>
+		</g>
+		<g id="shape132-269" v:mID="132" v:groupContext="shape" transform="translate(116.113,-201.195)">
+			<title>依赖关系.111</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(31):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示两个模型元素之间的语义关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({DE8D07E5-2CD8-436F-BA20-EB0C70A2860F})"/>
+			</v:userDefs>
+			<path d="M0 674.04 L0 684.67 L216.14 684.67 L216.14 695.3" class="st8"/>
+		</g>
+		<g id="group133-274" transform="translate(66.1666,-550.452)" v:mID="133" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({F835C7B4-CE71-4FA5-9620-756C8CD03E2B})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(0.79807237716645):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(0.79807237716645):1"/>
+			</v:userDefs>
+			<title>类.145</title>
+			<g id="shape134-275" v:mID="134" v:groupContext="shape" transform="translate(46.9348,-19.8425)">
+				<title>工作表.134</title>
+			</g>
+			<g id="shape135-276" v:mID="135" v:groupContext="shape" transform="translate(46.9348,-19.8425)">
+				<title>工作表.135</title>
+			</g>
+			<g id="shape136-277" v:mID="136" v:groupContext="shape" transform="translate(46.9348,-19.8425)">
+				<title>工作表.136</title>
+			</g>
+			<g id="shape137-278" v:mID="137" v:groupContext="shape" transform="translate(46.9348,-19.8425)">
+				<title>工作表.137</title>
+			</g>
+			<g id="shape138-279" v:mID="138" v:groupContext="shape">
+				<title>Operations</title>
+				<rect x="0" y="661.428" width="93.8696" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape139-281" v:mID="139" v:groupContext="shape" transform="translate(0,-12.6142)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="93.8696" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape140-283" v:mID="140" v:groupContext="shape" transform="translate(0,-25.2283)">
+				<title>Name</title>
+				<desc>SplashScreen</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="46.9348" cy="666.814" width="93.87" height="14.4567"/>
+				<path d="M0 674.04 L93.87 674.04 L93.87 659.59 L0 659.59 L0 674.04 Z" class="st6"/>
+				<text x="20.4" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>SplashScreen</text>			</g>
+			<g id="shape141-286" v:mID="141" v:groupContext="shape" transform="translate(57.8696,-34.7244)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group142-288" transform="translate(55.5367,-611.397)" v:mID="142" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(22):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="BeginAngle" v:val="VT0(-1.5707963267949):32"/>
+				<v:ud v:nameU="DX1" v:val="VT0(0.03):1"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="DY1" v:val="VT0(-0.03):1"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示一般性元素和较具体元素之间的分类关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({6AC34E5C-19DD-4348-9403-7A7860540187})"/>
+				<v:ud v:nameU="BeginAngle" v:prompt="" v:val="VT0(1.5707963267949):32"/>
+				<v:ud v:nameU="DX1" v:prompt="" v:val="VT0(1.1102230246252E-16):1"/>
+				<v:ud v:nameU="DY1" v:prompt="" v:val="VT0(-0.065687148272628):24"/>
+			</v:userDefs>
+			<title>归纳.154</title>
+			<g id="shape143-289" v:mID="143" v:groupContext="shape" transform="translate(7.2,24.8)">
+				<title>Discriminator</title>
+			</g>
+			<g id="shape142-290" v:mID="142" v:groupContext="groupContent">
+				<path d="M0 674.04 L0 684.67 L57.56 684.67 L57.56 695.3" class="st7"/>
+			</g>
+		</g>
+		<g id="group144-293" transform="translate(353.99,-328.329)" v:mID="144" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLTemplate" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(20):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(10291):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="DefaultWidth" v:val="VT0(0.74803149606299):24"/>
+				<v:ud v:nameU="EnsureWidthOK" v:val="VT0(0.75):0"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(表示具有相似结构、方式和关系的一组对象的描述符。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({3B3DCC84-203F-47B7-9F01-51906CC31A2E})"/>
+				<v:ud v:nameU="DefaultWidth" v:prompt="" v:val="VT0(2.6642604264829):1"/>
+				<v:ud v:nameU="EnsureWidthOK" v:prompt="" v:val="VT0(2.6642604264829):1"/>
+			</v:userDefs>
+			<title>类.156</title>
+			<g id="shape145-294" v:mID="145" v:groupContext="shape" transform="translate(98.9562,-86.537)">
+				<title>工作表.145</title>
+			</g>
+			<g id="shape146-295" v:mID="146" v:groupContext="shape" transform="translate(98.9562,-86.537)">
+				<title>工作表.146</title>
+			</g>
+			<g id="shape147-296" v:mID="147" v:groupContext="shape" transform="translate(98.9562,-86.537)">
+				<title>工作表.147</title>
+			</g>
+			<g id="shape148-297" v:mID="148" v:groupContext="shape" transform="translate(98.9562,-86.537)">
+				<title>工作表.148</title>
+			</g>
+			<g id="shape149-298" v:mID="149" v:groupContext="shape">
+				<title>Operations</title>
+				<desc>+Start() -AutoLogin() +Update() -LoginOk() -AssetsVersionChec...</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+				<v:textRect cx="98.9562" cy="601.041" width="197.92" height="146.003"/>
+				<rect x="0" y="528.039" width="197.912" height="146.003" class="st1"/>
+				<text x="1" y="536.24" class="st4" v:langID="2052"><v:paragraph/><v:tabList/>+Start()<v:newlineChar/><tspan x="1"
+							dy="1.2em" class="st5">-</tspan>AutoLogin()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">+</tspan>Update()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">-</tspan>LoginOk()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">-</tspan>AssetsVersionCheckCompleted()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">-</tspan>Login:OnNetCacheReadyStep2()<v:newlineChar/><tspan x="1"
+							dy="1.2em" class="st5">-</tspan>WaitForAchievesThenInit()<v:newlineChar/><tspan x="1" dy="1.2em"
+							class="st5">-</tspan>ReconnectOrChangeMode()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">-</tspan>ChangMode()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">-</tspan>ChangeMode_Hub()<v:newlineChar/><tspan x="1" dy="1.2em"
+							class="st5">-</tspan>OnStartupHubSpellFinished()<v:newlineChar/><tspan x="1" dy="1.2em" class="st5">-</tspan>ShowUnAckedRewardsAndQuests()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">-</tspan>HandleUnAckedRewardsAndCompletedQuests()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">-</tspan>ShowNextUnAckedRewardOrCompletedQuest()<v:newlineChar/><tspan
+							x="1" dy="1.2em" class="st5">-</tspan>ShowWelcomeQuests()</text>			</g>
+			<g id="shape150-315" v:mID="150" v:groupContext="shape" transform="translate(0,-146.003)">
+				<title>Attributes</title>
+				<rect x="0" y="661.428" width="197.912" height="12.6142" class="st1"/>
+			</g>
+			<g id="shape151-317" v:mID="151" v:groupContext="shape" transform="translate(0,-158.617)">
+				<title>Name</title>
+				<desc>Login</desc>
+				<v:textBlock v:margins="rect(1,1,1,1)" v:tabSpace="42.5197"/>
+				<v:textRect cx="98.9562" cy="666.814" width="197.92" height="14.4567"/>
+				<path d="M0 674.04 L197.91 674.04 L197.91 659.59 L0 659.59 L0 674.04 Z" class="st10"/>
+				<text x="87.71" y="669.21" class="st3" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>Login</text>			</g>
+			<g id="shape152-320" v:mID="152" v:groupContext="shape" transform="translate(161.912,-151.44)">
+				<title>Parameters</title>
+			</g>
+		</g>
+		<g id="group153-322" transform="translate(343.36,-522.662)" v:mID="153" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(22):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4()"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="BeginAngle" v:val="VT0(-1.5707963267949):32"/>
+				<v:ud v:nameU="DX1" v:val="VT0(0.03):1"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="DY1" v:val="VT0(-0.03):1"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(指示一般性元素和较具体元素之间的分类关系。)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:prompt="" v:val="VT4({35D8B90F-1302-4A27-BD94-F270F65B0ABA})"/>
+				<v:ud v:nameU="BeginAngle" v:prompt="" v:val="VT0(1.5707963267949):32"/>
+				<v:ud v:nameU="DX1" v:prompt="" v:val="VT0(0):1"/>
+				<v:ud v:nameU="DY1" v:prompt="" v:val="VT0(-0.10903831599289):24"/>
+			</v:userDefs>
+			<title>归纳.165</title>
+			<g id="shape154-323" v:mID="154" v:groupContext="shape" transform="translate(7.2,24.8)">
+				<title>Discriminator</title>
+			</g>
+			<g id="shape153-324" v:mID="153" v:groupContext="groupContent">
+				<path d="M0 674.04 L0 684.67 L109.59 684.67 L109.59 695.3" class="st7"/>
+			</g>
+		</g>
+	</g>
+</svg>
