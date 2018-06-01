@@ -23,5 +23,8 @@ glTF 2.0 已经获得了很多引擎的支持，特别是在 WebGL 领域，包�
 
 ### 使用 Three.js 加载导出的模型
 
+* 使用鼠标在下面这个窗口中拖动，可以旋转镜头；
+* 使用鼠标滚轮可以缩放镜头。
+* 源代码：[gltf-demo.js](./js/gltf-demo.js)
 {% include gltf-demo/index.html %}
 
