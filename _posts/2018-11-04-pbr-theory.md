@@ -4,6 +4,7 @@ title: "理解PBR：从原理到实现（上）"
 author: "燕良"
 categories: unreal
 tags: [PBR, unreal]
+mathjax: true
 image:
   path: pbr
   feature: cover_theory.jpg
