@@ -1,38 +1,46 @@
 <!doctype html>
 <html>
-  <head>
-    <title>
-        {{ site.data.settings.title }}
-    </title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    
-      <link rel="stylesheet" href="{{ site.github.url }}/assets/css/main.css">
-      <link rel="stylesheet" href="{{ site.github.url }}/assets/css/syntax.css">
-      <!-- RSS-v2.0
+<head>
+  <title>
+    {{ site.data.settings.title }}
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/main.css">
+  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/syntax.css">
+  <!-- RSS-v2.0
       <link href="{{ site.github.url }}/feed.xml" type="application/rss+xml" rel="alternate" title="{{ site.data.settings.title }}"/>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
       //-->
-    
-      <!-- Use Atom -->
-      {% feed_meta %}
-    
-      <!-- Use Jekyll SEO plugin -->
-      {% seo %}
-      
-      <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?c3709a8b8c6b1e793f1d1ba9e08289e7";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
+
+  <!-- Use Atom -->
+  {% feed_meta %}
+
+  <!-- Use Jekyll SEO plugin -->
+  {% seo %}
+  <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+                          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+                                  });
         </script>
-        
-    </head>
-    
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c3709a8b8c6b1e793f1d1ba9e08289e7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
 <body>
 
   <div class="container">
@@ -42,47 +50,47 @@
       </h1>
 
       {% include menu.html %}
-      
+
       {% if page.image.feature %}
-        <img class="thumb_img" src="{{ site.github.url }}/assets/img/{{ page.image.path }}/{{ page.image.feature }}">
+      <img class="thumb_img" src="{{ site.github.url }}/assets/img/{{ page.image.path }}/{{ page.image.feature }}">
       {% endif %}
 
       <blockquote>
         <p>
-        <strong>内容概要</strong><br>
-        {{ page.brief }}
+          <strong>内容概要</strong><br>
+          {{ page.brief }}
         </p>
       </blockquote>
-      
+
       <p>
         【欢迎转载，请注明作者：燕良，原文出处：<a href="https://neil3d.github.io">游戏程序员的自我修养</a>】
       </p>
       {{ content }}
-      
+
       <span class="post-date">
         Written on
-        {% assign d = page.date | date: "%-d"  %}
+        {% assign d = page.date | date: "%-d" %}
         {{ page.date | date: "%B" }}
         {% case d %}
-          {% when '1' or '21' or '31' %}{{ d }}st
-          {% when '2' or '22' %}{{ d }}nd
-          {% when '3' or '23' %}{{ d }}rd
-          {% else %}{{ d }}th{% endcase %},
+        {% when '1' or '21' or '31' %}{{ d }}st
+        {% when '2' or '22' %}{{ d }}nd
+        {% when '3' or '23' %}{{ d }}rd
+        {% else %}{{ d }}th{% endcase %},
         {{ page.date | date: "%Y" }}
         by
         {% if page.author %}
-          {{ page.author }}
+        {{ page.author }}
         {% else %}
-          {{ site.data.authors.primary.name }}
+        {{ site.data.authors.primary.name }}
         {% endif %}
       </span>
-      
+
       {% include related-posts.html %}
-      
+
       {% if site.data.settings.disqus.comments %}
-        {% include disqus.html %}
+      {% include disqus.html %}
       {% endif %}
-      
+
     </div>
 
     {% include footer.html %}
@@ -90,6 +98,5 @@
   </div>
 
 </body>
+
 </html>
-
-
