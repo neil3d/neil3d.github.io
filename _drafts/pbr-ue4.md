@@ -34,7 +34,7 @@ $$
 \int\limits_H L_i(p,l) f(l, v) cos \theta_l dl \approx \frac{1}{N} \sum_{k=1}^{N} \frac{L_i(l_k) f(l_k, v) cos \theta_{l_k}}{p(l_k, v)}
 $$
 
-这个约等于确不是糊弄，等式右边就是蒙特卡洛积分公式，其中 $p(l_k, v)$ 就是概率分布函数--pdf。首先要说明的是：**对于渲染方程，pdf 是一个归一化函数（normalized function），即在半球域内的积分值为 1 ，**所以你在后面不会看到除以这一项；其次，在虚幻4的 pdf 使用了重要性采样（Importance Sampling）。（上面公式中的$cos \theta_l$就是我们之前公式中的$n \cdot l$）
+这个约等于确不是糊弄，等式右边就是蒙特卡洛积分公式，其中 $p(l_k, v)$ 就是概率分布函数--pdf。首先要说明的是：**对于渲染方程，pdf 是一个归一化函数（normalized function），即在半球域内的积分值为 1 。** 其次，在虚幻4的 pdf 使用了重要性采样（Importance Sampling）。（上面公式中的$cos \theta_l$就是我们之前公式中的$n \cdot l$）
 
 ### Split Sum Approximation
 
@@ -44,9 +44,9 @@ $$
 \frac{1}{N} \sum_{k=1}^{N} \frac{L_i(l_k) f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} \approx (\frac{1}{N} \sum_{k=1}^{N} L_i(l_k) )(\frac{1}{N} \sum_{k=1}^{N} \frac{f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} )
 $$
 
-也就是把第一步的蒙特卡洛公式分拆为两个求均值的运算，这样就可以分别进行预计算。这是非常重要的一步，Epic 的大牛给它起了个名字，就叫做：**Split Sum Approximation**。
+也就是把第一步的蒙特卡洛公式分拆为两个求均值的运算，这样就可以分别进行预计算。这是非常重要的一步，Epic 的大牛给它起了个名字，就叫做：**Split Sum Approximation**。名字起的很好，就是把一个 $\sum$ 拆分成了两个 $\sum \cdot \sum$ !
 
-### 求解第一部分
+### 计算第一部分
 
 让我们来聚焦第一部分：
 
@@ -54,16 +54,8 @@ $$
 \frac{1}{N} \sum_{k=1}^{N} L_i(l_k) 
 $$
 
-### 求解第二部分
 
-第二部分的公式：
-
-$$
-\frac{1}{N} \sum_{k=1}^{N} \frac{f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} 
-$$
-
-
-### 重要性采样（Importance Sampling）
+#### 重要性采样（Importance Sampling）
 
 先解释一下什么是重要性采样。蒙特卡洛积分的一个焦点就是所谓的“采样（Sampling）”。对于渲染方程，我们能计算的入射光的数量是有限的，所以计算结果和理想积分值会有差距，也就是会产生渲染结果中的 noise 。另外一方面，我们对渲染方程的行为是有一个粗略的概念的，**例如对于非常光滑的表面，那么我们应该在入射光的镜面反射方向周围分配更多的样本**。这种采样的分布控制就是通过 pdf 函数实现的。  
 
@@ -89,6 +81,17 @@ float4 ImportanceSampleGGX( float2 E, float a2 )
 }
 ```
 
+### 计算第二部分
+
+第二部分的公式：
+
+$$
+\frac{1}{N} \sum_{k=1}^{N} \frac{f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} 
+$$
+
+![lut](/assets/img/pbr/lut.png)
+
+
 ----------
 ### 基础知识
 
@@ -108,15 +111,13 @@ $$
 F^{N} = \frac {1}{N}\sum _{i=1}^{N}\frac {f(X_{i})}{ pdf(X_{i}) }
 $$
 
-这个公式的意思就是在指定的范围内随机取 N 个只，并计算出相应的 $f(x)$ 值。这些值的平均值就是对理想积分的一个近似数值解。这里面比较重要的就是 *pdf*了。*pdf* 即probability distribution function，概率分布函数。对于上述例子：
-
-$$
-pdf(x_{i}) = \frac {1}{b - a }
-$$
+这个公式的意思就是在指定的范围内随机取 N 个只，并计算出相应的 $f(x)$ 值。这些值的平均值就是对理想积分的一个近似数值解。这里面比较重要的就是 *pdf*了。*pdf* 即probability distribution function，概率分布函数。
 
 #### Image Based Lighting
 
 
 ## 结束语
 
-通过这两篇文章，我们把虚幻4中 PBR 方案的理论和实现过程做了一个透彻的分析。对于一个渲染引擎来说，还有 Material Model 等重要话题没有讲，后续后时间会继续分享！
+通过这两篇文章，我们把虚幻4中 PBR 方案的理论和实现过程做了一个透彻的分析。对于一个渲染引擎来说，还有 Material Model 等重要话题没有讲，后续后时间会继续分享！这两篇文章一起哈成，自己感觉也很爽，发个图庆祝一下！
+
+![evevalkyrie](/assets/img/pbr/evevalkyrie.jpg)
