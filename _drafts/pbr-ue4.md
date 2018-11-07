@@ -12,21 +12,18 @@ image:
   creditlink: ""
 brief: "前面的文章我们讲了虚幻4中的反射率方程，及其各个部分的公式，这篇文章我们就来讲明白这个方程是如何在实时渲染中求解的！"
 ---
-
-----------
-**【重要提示】**  
-* 本文中列出的源代码来自 Unreal Engine 4.20 版本。
-* 阅读本文需要两个背景知识：**蒙特卡洛积分** 和 **Image Based Lighting**，如果你对这两不熟悉，可以先看文章后面一半的基础知识部分。  
-
-----------
-
+  
 在前面的文章中我讲了虚幻4中所使用的反射率方程，其中复杂的部分是 Cook-Torrance BRDF，我们把它带入整个积分，回顾一下完整的反射率方程。
 
 $$
 L_o(p, v) = \int\limits_H (k_d\frac{c_{diff}}{\pi} + k_s\frac{D(h)F(l,h)G(l,v,h)}{4 (n \cdot l)(n \cdot v)})L_i(p,l) n \cdot l dl
 $$
 
-这样复杂的积分是无法求**解析解**的，只能通过数值计算方法求**数值解**，在图形领域常用的方法就是“蒙特卡洛积分（Monte Carlo integration）”。对于实时渲染来说，我们还需要祭出我们最常用的两大法宝：预计算和糊弄，咳咳，说错了:wink:，近似，approximation！我们还需要另外一个重要的技术，就是 IBL，Image Based Lighting！把它们组装起来：**把上面这个积分进行恰当的近似，并将能够预计算的部分使用蒙特卡洛积分求出数值解，存储到一个 Cube Map 上。在实时渲染的时候，通过采样 Cube Map 取得 $l$ 方向上的这些预计算值，进行 Shading 计算！**
+这样复杂的积分是无法求**解析解**的，只能通过数值计算方法求**数值解**，在图形领域常用的方法就是“蒙特卡洛积分（Monte Carlo integration）”。对于实时渲染来说，我们还需要祭出我们最常用的两大法宝：预计算和凑合，咳咳，说错了:wink:，近似，approximation！我们还需要另外一个重要的技术，就是 IBL，Image Based Lighting！把它们组装起来：**把上面这个积分进行恰当的近似，并将能够预计算的部分使用蒙特卡洛积分求出数值解，以贴图的方式存储起来。在实时渲染的时候，通过采样贴图取得这些预计算值，进行 Shading 计算！** 再进一步的说，**虚幻4使用 Split Sum Approximation 将上述积分分成两部分进行预计算，分别存储到一个 Cube Map 上，管它叫做“Pre-Filtered Environment Map”，另外一个 R16G16 格式的2D贴图，管它叫做：“Environment BRDF”。**
+
+**【重要提示】** : 下面的内容需要两个背景知识：**蒙特卡洛积分** 和 **Image Based Lighting**，如果你对这两不熟悉，可以先看文章后面一半的基础知识部分。
+
+### Split Sum Approximation
 
 下面重点讲一下虚幻4在进行预计算的过程中进行了哪些公式推导和近似。我们先来看一下虚幻4文档中的公式推导的第一步：
 
@@ -34,9 +31,7 @@ $$
 \int\limits_H L_i(p,l) f(l, v) cos \theta_l dl \approx \frac{1}{N} \sum_{k=1}^{N} \frac{L_i(l_k) f(l_k, v) cos \theta_{l_k}}{p(l_k, v)}
 $$
 
-这个约等于确不是糊弄，等式右边就是蒙特卡洛积分公式，其中 $p(l_k, v)$ 就是概率分布函数：pdf。首先要说明的是：**对于渲染方程，pdf 是一个归一化函数（normalized function），即在半球域内的积分值为 1 。** 其次，在虚幻4的 pdf 使用了重要性采样（Importance Sampling）。（上面公式中的$cos \theta_l$就是我们之前公式中的$n \cdot l$）
-
-### Split Sum Approximation
+这个约等于确不是“凑合”，等式右边就是蒙特卡洛积分公式，其中 $p(l_k, v)$ 就是概率分布函数：pdf，要说明的是：**对于渲染方程，pdf 是一个归一化函数（normalized function），即在半球域内的积分值为 1 。** （上面公式中的$cos \theta_l$就是我们之前公式中的$n \cdot l$）
 
 接下来，出于性能方面的考虑，下一步是一个颇有道理的近似。
 
@@ -44,22 +39,13 @@ $$
 \frac{1}{N} \sum_{k=1}^{N} \frac{L_i(l_k) f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} \approx (\frac{1}{N} \sum_{k=1}^{N} L_i(l_k) )(\frac{1}{N} \sum_{k=1}^{N} \frac{f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} )
 $$
 
-也就是把第一步的蒙特卡洛公式分拆为两个$\sum$来运算，这样就可以分别进行预计算。这是非常重要的一步，Epic 的大牛给它起了个名字，就叫做：**Split Sum Approximation**。名字起的很好，就是把一个 $\sum$ 拆分成了两个 $\sum \cdot \sum$ !
+也就是把第一步的蒙特卡洛公式分拆为两个$\sum$来运算，这样就可以分别进行预计算。这是非常重要的一步，Epic 的大牛给它起了个名字，就叫做：**Split Sum Approximation**。名字起的很好，就是把一个 $\sum$ 拆分成了两个 $\sum \cdot \sum$ !这两个 $\sum$ 要分别使用蒙特卡洛积分去计算，并且都使用了重要性采样（Importance Sampling）。重要性采样在这里起到了很关键的作用，先单独讲一下。
 
-### 计算第一部分
+### 重要性采样（Importance Sampling）
 
-让我们来聚焦第一部分：
+蒙特卡洛积分的一个焦点就是所谓的“采样（Sampling）”。对于渲染方程，我们能计算的入射光的数量是有限的，所以计算结果和理想积分值会有偏差，也就是会产生渲染结果中的 noise 。另外一方面，我们对渲染方程的行为是有一个粗略的概念的，**例如对于非常光滑的表面，那么我们应该在入射光的镜面反射方向周围分配更多的样本**。这种采样的分布控制就是通过 pdf 函数实现的。  
 
-$$
-\frac{1}{N} \sum_{k=1}^{N} L_i(l_k) 
-$$
-
-
-#### 重要性采样（Importance Sampling）
-
-先解释一下什么是重要性采样。蒙特卡洛积分的一个焦点就是所谓的“采样（Sampling）”。对于渲染方程，我们能计算的入射光的数量是有限的，所以计算结果和理想积分值会有差距，也就是会产生渲染结果中的 noise 。另外一方面，我们对渲染方程的行为是有一个粗略的概念的，**例如对于非常光滑的表面，那么我们应该在入射光的镜面反射方向周围分配更多的样本**。这种采样的分布控制就是通过 pdf 函数实现的。  
-
-在虚幻4中使用了基于 GGX 分布函数的重要性采样来提高蒙特卡洛积分的精确度。GGX 函数的一个重要参数就是粗糙度。我们可以看一下虚幻4中对应的代码：“**Shaders\Private\MonteCarlo.ush**”，其中 ImportanceSampleGGX(E, a2) 的第一个参数 E，它的取值是 Hammersley Sequence；第二个参数 a2 的取值是粗糙度的四次方。Hammersley 可以理解为一个随机函数，它从“采样数量”和 index 计算出一个2D随机向量。
+在虚幻4中使用了基于 GGX 分布函数的重要性采样来提高蒙特卡洛积分的精确度。GGX 函数的一个重要参数就是粗糙度。我们可以看一下虚幻4中对应的代码：“**Epic Games\UE_4.20\Engine\Shaders\Private\MonteCarlo.ush**”，其中 ImportanceSampleGGX(E, a2) 的第一个参数 E，它的取值是 Hammersley Sequence；第二个参数 a2 的取值是粗糙度的四次方。
 
 ``` glsl
 float4 ImportanceSampleGGX( float2 E, float a2 )
@@ -81,15 +67,140 @@ float4 ImportanceSampleGGX( float2 E, float a2 )
 }
 ```
 
+这里还需要说明一下 Hammersley Sequence，这是一个低差异序列（Low-Discrepancy Sequence），你可以粗略的理解为：它生成一系列分布更为均匀的随机数。下面这个图就是 Hammersley 计算的结果示意图。
+
+![hammersley](/assets/img/pbr/hammersley.png)
+
+下面是它在虚幻4中的实现代码，你可以在“Epic Games\UE_4.20\Engine\Shaders\Private\MonteCarlo.ush”文件中找到它：
+
+``` glsl
+float2 Hammersley( uint Index, uint NumSamples, uint2 Random )
+{
+  float E1 = frac( (float)Index / NumSamples + float( Random.x & 0xffff ) / (1<<16) );
+  float E2 = float( ReverseBits32(Index) ^ Random.y ) * 2.3283064365386963e-10;
+  return float2( E1, E2 );
+}
+```
+
+### 计算第一部分
+
+让我们来聚焦Split Sum的第一部分：
+
+$$
+\frac{1}{N} \sum_{k=1}^{N} L_i(l_k) 
+$$
+
+这个公式是比较直观的，就是对环境贴图进行卷积，它的计算结果仍然是一个 Cube Map，也就是“Pre-Filtered Environment Map”！  
+
+这里有一个问题就是，使用 GGX 概率分布函数的话，需要观察方向V和表面法线N，这两个都是运行时才能得到的，咋整啊？在虚幻4的预计算中，假设 N=V=R ，也就是观察角度为 0！:open_mouth: 这是引入误差最大的一个近似。
+
+虚幻4使用下面这个函数：PrefilterEnvMap()，生成“Pre-Filtered Environment Map”。这个函数有两个参数：粗糙度和反射方向：
+
+1. 每一个 Mip Map Level 对应一个“粗糙度”值；
+2. 对于每个 Mip Map Level，每一个贴图像素（texel）就对应一个反射方向；
+
+对于每个 Mip Map Level 上的每个 texel 运行此函数进行卷积，即可得到这部分积分的预计算结果。这个函数计算的过程中用到了Hammersley()和ImportanceSampleGGX()，已经在上面的“重要性采样”一节介绍过了啊。
+
+``` glsl
+float3 PrefilterEnvMap(float Roughness, float3 R)
+{
+    float3 N = R;
+    float3 V = R;
+    float3 PrefilteredColor = 0;
+    const uint NumSamples = 1024;
+    for (uint i = 0; i < NumSamples; i++ )
+    {
+        float2 Xi = Hammersley(i, NumSamples);
+        float3 H = ImportanceSampleGGX(Xi, Roughness, N);
+        float3 L = 2 * dot(V, H) * H - V;
+        float NoL = saturate(dot(N, L));
+        if (NoL > 0) {
+            PrefilteredColor += EnvMap.SampleLevel(EnvMapSampler, L, 0).rgb * NoL;
+            TotalWeight += NoL;
+        }
+    }
+    return PrefilteredColor / TotalWeight;
+}
+```
+
+
 ### 计算第二部分
 
-第二部分的公式：
+我们来看一下Split Sum第二部分的公式：
 
 $$
-\frac{1}{N} \sum_{k=1}^{N} \frac{f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} 
+\frac{1}{N} \sum_{k=1}^{N} \frac{f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} = \int\limits_H f(l, v) cos \theta_l dl
 $$
+
+这部分计算的结果就是下面这样一个2D查找表，存储到一个 R16G16 的2D贴图中，叫做“Environment BRDF”。
 
 ![lut](/assets/img/pbr/lut.png)
+
+这个是怎么计算得出的呢？
+
+把 Schlick 菲涅尔近似公式：$F(v, h) = F_0 + (1-F_0)(1 - v \cdot h)^5$ 带入上述积分，发现 $F_0$ 可以从积分中提取出来，Epic 文档中的公式为：
+
+$$
+\int\limits_H f(l, v) cos \theta_l dl = F_0 \int\limits_H \frac {f(l, v)}{F(v,h)}(1 - (1 - v \cdot h)^5) cos \theta_l dl + \int\limits_H \frac {f(l, v)}{F(v,h)} (1 - v \cdot h)^5 cos \theta_l dl
+$$
+
+右侧变为两个积分之后，可以分开求解，输出为两个值：（F_0的缩放, F_0的偏移量），也就是：
+
+$$
+\int\limits_H f(l, v) cos \theta_l dl = F_0 \cdot EnvBRDF.x + EnvBRDF.y
+$$
+
+前面的一系列近似之后，这个积分值剩下两个输入变量：粗糙度和 $cos \theta_v$，它俩的取值范围都是[0,1]，可以使用下面这个函数计算出一个 2D 查找表，保存到一张贴图中，来提高运行时效率。
+
+``` glsl
+float2 IntegrateBRDF(float Roughness, float NoV)
+{
+    float3 V;
+    V.x = sqrt(1.0f - NoV * NoV); // sin
+    V.y = 0;
+    V.z = NoV; // cos
+    float A = 0;
+    float B = 0;
+    const uint NumSamples = 1024;
+    for (uint i = 0; i < NumSamples; i++ )
+    {
+        float2 Xi = Hammersley(i, NumSamples);
+        float3 H = ImportanceSampleGGX(Xi, Roughness, N);
+        float3 L = 2 * dot(V, H) * H - V;
+        float NoL = saturate(L.z);
+        float NoH = saturate(H.z);
+        float VoH = saturate(dot(V, H));
+        if (NoL > 0) {
+            float G = G_Smith(Roughness, NoV, NoL);
+            float G_Vis = G * VoH / (NoH * NoV);
+            float Fc = pow(1 - VoH, 5);
+            A += (1 - Fc) * G_Vis;
+            B += Fc * G_Vis;
+        }
+    }
+    return float2(A, B) / NumSamples;
+}
+```
+
+### IBL 计算
+
+在运行时，我们就可以通过采样 Pre-Filtered Environment Map 和 Environment BRDF 来进行 IBL 计算了，伪代码如下：
+
+``` glsl
+float3 ApproximateSpecularIBL(float3 SpecularColor, float Roughness, float3 N, float3 V)
+{
+    float NoV = saturate(dot(N, V));
+    float3 R = 2 * dot(V, N) * N - V;
+    float3 PrefilteredColor = PrefilterEnvMap(Roughness, R);
+    float2 EnvBRDF = IntegrateBRDF(Roughness, NoV);
+    return PrefilteredColor * (SpecularColor * EnvBRDF.x + EnvBRDF.y);
+}
+```
+
+虽然经过了近似，但是就 Epic 的比对来说，结果是很不错的。
+
+![approx](/assets/img/pbr/approx.png)
+
 
 ----------
 ### 基础知识
@@ -114,9 +225,17 @@ $$
 
 #### Image Based Lighting
 
+渲染方程的直观理解就是：计算空间中任意一点所接收到的所有光线在观察方向上的反射。Image Based Lighting 简称 IBL，可以用来计算场景中一点接收到的场景中其他静态对象产生的光照。把场景中**某个点的光照信息**，存储到一个 Cube Map 中，就叫做“**Light Probe**”，虚幻4中叫做“**Reflection Probe**”，如下图所示。Light Probe 的生成一般是先把这个点周围的场景静态物体渲染到一张环境贴图中（environment map），然后再使用 BRDF 对其进行预计算，形成光照计算所需的数据。在 PBR 中，通常会把不同的“粗糙度”计算结果存储到不同的 Mip Map Level 中。也就是说 Light Probe 的 Cube Map 的 Mip Map 不是传统的贴图的  Mip Map 的概念，而是针对不同“粗糙度”的 BRDF 计算结果。例如，一张有10个  Mip Map Level 的 Cube Map ，每个 Level 对应的就是“粗糙度=0.1*n”。把环境贴图预计算生成 Light Probe 的过程在数学上叫做“**卷积（Convolution）**”。  
 
-## 结束语
+理论上，一个 Light Probe 只对应场景中的一个点，而实时渲染中就把一个模型上的所有点都近似的取这个 Light Probe 了。那么，对于空间跨度很大的场景，咱们也不能太“凑合”了！于是，我们可以在场景中的不同位置放置多个 Light Probe，通常是你认为重要的位置，并且可以设置它的体积等参数。在运行时，按照着色的点的位置，对几个 Light Probe 进行插值。这种东西有个名词，叫做“**Local Light Probes**”。  
 
-通过这两篇文章，我们把虚幻4中 PBR 方案的理论和实现过程做了一个透彻的分析。对于一个渲染引擎来说，还有 Material Model 等重要话题没有讲，后续后时间会继续分享！这两篇文章一起哈成，自己感觉也很爽，发个图庆祝一下！
+![probe](/assets/img/pbr/probe.png)
 
-![evevalkyrie](/assets/img/pbr/evevalkyrie.jpg)
+与 Local Light Probes 对应的就是 “**Global Light Probe**”。我们可以用一个 Light Probe 对应无限远的光源所产生的环境光，通常就是天空，每个场景可以包含一个 Global Light Probe 。  
+
+总结一下：
+1. 把场景中的静态环境，或者是天空，存储到一个环境贴图中；
+2. 环境贴图中的每个像素可以想象成一个发射间接光的光源；使用 BRDF 对这些小小光源进行预计算，也就是所谓的卷积，从而生成 Light Probe；
+3. 在运行时，根据需要着色的点的位置，找到合适的 Local Light Probes(可能是多个)，还有 Global Light Probe；
+4. 分别根据粗糙度和反射向量，对这些 Light Probe 进行采样，然后插值；
+5. 这个计算结果就是渲染中所需要的环境光反射量。
