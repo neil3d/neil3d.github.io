@@ -19,9 +19,11 @@ $$
 L_o(p, v) = \int\limits_H (k_d\frac{c_{diff}}{\pi} + k_s\frac{D(h)F(l,h)G(l,v,h)}{4 (n \cdot l)(n \cdot v)})L_i(p,l) n \cdot l dl
 $$
 
-这样复杂的积分是无法求**解析解**的，只能通过数值计算方法求**数值解**，在图形领域常用的方法就是“蒙特卡洛积分（Monte Carlo integration）”。对于实时渲染来说，我们还需要祭出我们最常用的两大法宝：预计算和凑合，咳咳，说错了:wink:，近似，approximation！我们还需要另外一个重要的技术，就是 IBL，Image Based Lighting！把它们组装起来：**把上面这个积分进行恰当的近似，并将能够预计算的部分使用蒙特卡洛积分求出数值解，以贴图的方式存储起来。在实时渲染的时候，通过采样贴图取得这些预计算值，进行 Shading 计算！** 再进一步的说，**虚幻4使用 Split Sum Approximation 将上述积分分成两部分进行预计算，分别存储到一个 Cube Map 上，管它叫做“Pre-Filtered Environment Map”，另外一个 R16G16 格式的2D贴图，管它叫做：“Environment BRDF”。**
+这样复杂的积分是无法求**解析解**的，只能通过数值计算方法求**数值解**，在图形领域常用的方法就是“蒙特卡洛积分（Monte Carlo integration）”。对于实时渲染来说，我们还需要祭出我们最常用的两大法宝：预计算和凑合，咳咳，说错了:wink:，近似，approximation！我们还需要另外一个重要的技术，就是 IBL，Image Based Lighting！把它们组装起来：**把上面这个积分进行恰当的近似，并将能够预计算的部分使用蒙特卡洛积分求出数值解，以贴图的方式存储起来。在实时渲染的时候，通过采样贴图取得这些预计算值，进行 Shading 计算！** 再进一步的说，虚幻4使用 Split Sum Approximation 将上述积分分成两部分进行预计算：
+* 一部分的计算结果存储到一个 Cube Map 上，管它叫做“Pre-Filtered Environment Map”；
+* 另外一部分的计算结果存储为一张 R16G16 格式的2D贴图，管它叫做：“Environment BRDF”。  
 
-**【重要提示】** : 下面的内容需要两个背景知识：**蒙特卡洛积分** 和 **Image Based Lighting**，如果你对这两不熟悉，可以先看文章后面一半的基础知识部分。
+**【重要提示】** 下面的内容需要两个背景知识：**蒙特卡洛积分** 和 **Image Based Lighting**，如果你对这两不熟悉，可以先看文章后面一半的基础知识部分。
 
 ### Split Sum Approximation
 
@@ -39,7 +41,7 @@ $$
 \frac{1}{N} \sum_{k=1}^{N} \frac{L_i(l_k) f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} \approx (\frac{1}{N} \sum_{k=1}^{N} L_i(l_k) )(\frac{1}{N} \sum_{k=1}^{N} \frac{f(l_k, v) cos \theta_{l_k}}{p(l_k, v)} )
 $$
 
-也就是把第一步的蒙特卡洛公式分拆为两个$\sum$来运算，这样就可以分别进行预计算。这是非常重要的一步，Epic 的大牛给它起了个名字，就叫做：**Split Sum Approximation**。名字起的很好，就是把一个 $\sum$ 拆分成了两个 $\sum \cdot \sum$ !这两个 $\sum$ 要分别使用蒙特卡洛积分去计算，并且都使用了重要性采样（Importance Sampling）。重要性采样在这里起到了很关键的作用，先单独讲一下。
+也就是把第一步的蒙特卡洛公式分拆为两个$\sum$来运算，这样就可以分别进行预计算。这是非常重要的一步，Epic 的大牛给它起了个名字，就叫做：**Split Sum Approximation**。名字起的很好，就是把一个 $\sum$ 拆分成了 $\sum \cdot \sum$ !这两个 $\sum$ 要分别使用蒙特卡洛积分去计算，并且都使用了重要性采样（Importance Sampling）。重要性采样先单独讲一下。
 
 ### 重要性采样（Importance Sampling）
 
@@ -82,7 +84,7 @@ float2 Hammersley( uint Index, uint NumSamples, uint2 Random )
 }
 ```
 
-### 计算第一部分
+### 计算Split Sum的第一部分
 
 让我们来聚焦Split Sum的第一部分：
 
@@ -123,8 +125,7 @@ float3 PrefilterEnvMap(float Roughness, float3 R)
 }
 ```
 
-
-### 计算第二部分
+### 计算Split Sum的第二部分
 
 我们来看一下Split Sum第二部分的公式：
 
@@ -201,7 +202,6 @@ float3 ApproximateSpecularIBL(float3 SpecularColor, float Roughness, float3 N, f
 
 ![approx](/assets/img/pbr/approx.png)
 
-
 ----------
 ### 基础知识
 
@@ -221,7 +221,7 @@ $$
 F^{N} = \frac {1}{N}\sum _{i=1}^{N}\frac {f(X_{i})}{ pdf(X_{i}) }
 $$
 
-这个公式的意思就是在指定的范围内随机取 N 个只，并计算出相应的 $f(x)$ 值。这些值的平均值就是对理想积分的一个近似数值解。这里面比较重要的就是 *pdf*了。*pdf* 即probability distribution function，概率分布函数。
+这个公式的意思就是在指定的范围内随机取 N 个只，并计算出相应的 $f(x)$ 值。这些值的平均值就是对理想积分的一个近似数值解。这里面比较重要的就是 *pdf*了。*pdf* 即 probability distribution function，概率分布函数。
 
 #### Image Based Lighting
 
