@@ -45,7 +45,7 @@ $$
 
 ### 重要性采样（Importance Sampling）
 
-蒙特卡洛积分的一个焦点就是所谓的“采样（Sampling）”。对于渲染方程，我们能计算的入射光的数量是有限的，所以计算结果和理想积分值会有偏差，也就是会产生渲染结果中的 noise 。另外一方面，我们对渲染方程的行为是有一个粗略的概念的，**例如对于非常光滑的表面，那么我们应该在入射光的镜面反射方向周围分配更多的样本**。这种采样的分布控制就是通过 pdf 函数实现的。  
+蒙特卡洛积分的一个焦点就是所谓的“采样（Sampling）”。对于渲染方程，我们能计算的入射光的数量是有限的，所以计算结果和理想积分值会有偏差，也就是会产生渲染结果中的 noise 。另外一方面，我们对渲染方程的行为是有一个粗略的概念的，**例如对于非常光滑的表面，那么我们应该在出射光方向（观察方向）的镜面反射方向周围分配更多的样本**。这种采样的分布控制就是通过 pdf 函数实现的。  
 
 在虚幻4中使用了基于 GGX 分布函数的重要性采样来提高蒙特卡洛积分的精确度。GGX 函数的一个重要参数就是粗糙度。我们可以看一下虚幻4中对应的代码：“**Epic Games\UE_4.20\Engine\Shaders\Private\MonteCarlo.ush**”，其中 ImportanceSampleGGX(E, a2) 的第一个参数 E，它的取值是 Hammersley Sequence；第二个参数 a2 的取值是粗糙度的四次方。
 
@@ -69,6 +69,8 @@ float4 ImportanceSampleGGX( float2 E, float a2 )
 }
 ```
 
+#### Hammersley Sequence
+
 这里还需要说明一下 Hammersley Sequence，这是一个低差异序列（Low-Discrepancy Sequence），你可以粗略的理解为：它生成一系列分布更为均匀的随机数。下面这个图就是 Hammersley 计算的结果示意图。
 
 ![hammersley](/assets/img/pbr/hammersley.png)
@@ -83,6 +85,20 @@ float2 Hammersley( uint Index, uint NumSamples, uint2 Random )
   return float2( E1, E2 );
 }
 ```
+
+#### GGX Distribution
+
+前面讲到虚幻4在蒙特卡洛积分中使用的 pdf 函数是一个基于 GGX 的分布函数，这又是什么意思呢？
+
+![ggx_pdf](/assets/img/pbr/ggx_pdf.png)
+
+我们想要达到的采样分布如上图所示，图中黄色的部分，也就是出射光方向的反射方向，采样更多；黄色区域外的部分采样更少。黄色区域的分布收到物体粗糙度的影响，因为反射向量的分布就是收到微平面的法向量分布影响的！而微平面的法向量分布（其实是$h$向量，说法向量为了更直观），我们在上篇文章中提到了，使用的是 Trowbridge-Reitz GGX 模型。因为 $D(h)$ 是 $h$ 向量的分布，所以 pdf 函数为：
+
+$$
+pdf(h) = D(h)*cos \theta
+$$
+
+这个公式转化成代码，就是上面的 ImportanceSampleGGX() 函数了！
 
 ### 计算Split Sum的第一部分
 
