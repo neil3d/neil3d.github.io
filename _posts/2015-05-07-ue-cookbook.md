@@ -194,4 +194,34 @@ public:
 ![Load Data Asset](/assets/img/ucookbook/data6.jpg)
  
 
-> 相关官方文档：https://docs.unrealengine.com/latest/INT/Gameplay/DataDriven/
+> 相关官方文档：https://docs.unrealengine.com/latest/INT/Gameplay/DataDriven
+
+## VR应用中的焦点目标拾取  
+---------
+
+在目前的VR应用中，特别是Cardboard类游戏中，经常用到的一个功能就是“检测玩家视线焦点对准的物体”。在虚幻4中，我们可以使用Line Trace来非常方便的实现这一功能。
+
+
+### DEMO源代码
+
+打开项目后，启动“FocusActor/FocusActorMap.umap”地图文件即可运行。在这个DEMO中，当玩家视线对准杯子或者花瓶的时候，对象顶部会出现一个文字。
+
+![VR Demo](/assets/img/ucookbook/vr1.jpeg)
+
+### 功能实现
+
+在上述DEMO中，我使用“/Game/FocusActor/Blueprints/BP_FocusActor_Player”来实现视线检测的功能。
+
+
+首先在Tick的时候进行LineTrace：
+
+![BP Focus](/assets/img/ucookbook/vr2.jpeg)
+
+在Line Trace到可交互的物体后，使用一个OnFocusActor自定义事件，来处理焦点对象变化的逻辑：
+
+![LineTrace](/assets/img/ucookbook/vr3.jpeg)
+
+上图代码的基本流程是：先调用老的FocusActor的LostFocus事件；再调用新的FocusActor的OnFocus事件。
+
+
+---------
