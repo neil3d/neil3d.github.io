@@ -20,18 +20,29 @@ title: Home
 </div>
 {% endfor %}
 
-<!-- Pagination links -->
+<!-- pagination -->
 {% if paginator.total_pages > 1 %}
-<div class="pagination">
+<div class="pagination"> 
   {% if paginator.previous_page %}
-    <a class="pagination-button pagination-active" href="{{ site.baseurl }}{{ paginator.previous_page_path }}">Newer</a>
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
   {% else %}
-    <span class="pagination-button">Newer</span>
+    <span>&laquo; Prev</span>
   {% endif %}
+
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+      <span class="webjeda">{{ page }}</span>
+    {% elsif page == 1 %}
+      <a href="/">{{ page }}</a>
+    {% else %}
+      <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
   {% if paginator.next_page %}
-  <a class="pagination-button pagination-active" href="{{ site.github.url }}{{ paginator.next_page_path }}" class="next">Older</a>
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
   {% else %}
-    <span class="pagination-button">Older</span>
+    <span>Next &raquo;</span>
   {% endif %}
 </div>
 {% endif %}

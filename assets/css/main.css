@@ -466,3 +466,34 @@ pre {
 .fa-rss-square:hover {
 	color: #ff6600;
 }
+
+.pagination span {
+  padding: 7px 18px;
+  border: 1px solid gray;
+  margin-left: -2px;
+  margin-right: -2px;
+  background-color: #ffffff;
+  display: inline-block;
+  color: gray;
+}
+
+.pagination a {
+  padding: 7px 18px;
+  border: 1px solid rgba(207, 16, 16, 0.933);
+  margin-left: -2px;
+  margin-right: -2px;
+  background-color: #ffffff;
+  display: inline-block;
+  color: #ff6600;
+}
+
+.pagination a {    
+  &:hover {
+      background-color: #f1f1f1;
+      color: #333;
+  }
+}
+
+.pagination {
+  text-align: center;
+}
