@@ -129,3 +129,69 @@ brief: "虚幻4的一些常用功能、技巧的例子。"
 然后，我们在Construction Script中，检测这个Spline有几段，为每一段动态添加一个SplineMesh组件。如下面的Blueprint所示。新添加的Spline Mesh需要Attach到父节点，并且受到指定其起点、终点、切线等信息。  
 
 ![Splie Pipe Demo BP](/assets/img/ucookbook/spline3.jpg)
+
+## 数据驱动  
+----------
+
+DEMO运行：Content/DataDemo/DataDemoMap  
+
+在游戏开发中经常要用到数据驱动，俗称“策划拉表”。在虚幻4引擎中，有多种方式处理数据，在这里我就介绍最常用的两种。
+
+### 虚幻4内建的表格导入机制
+
+假设策划同学有以下这样一个数据表，用来存储道具相关的信息：
+
+|	Name | Damage | Price | Desc
+|--------|:--------|:--------|:--------|:
+|	Shanker	| 707  | 6395 | Warmongering Gladiator's Shanker
+|	Ripper	| 814  | 6400 |	Tournament Gladiator's Ripper
+|	Chopper	| 407  | 3976 |	Warmongering Combatant's Chopper
+
+想要导入这个数据表的话，首先需要定义一个与这个表结构相对应的数据结构。如果使用C++编程的话，需要创建一个FTableRowBase的派生类；使用Blueprint的话，就创建一个标准的结构体就可以了。下图就是我为这个表格创建的Blueprint Struct。
+
+![ItemDef](/assets/img/ucookbook/data1.jpg)
+
+然后，上述表格需要存成CSV格式。然后，你就可以把这个CSV文件拖放到引擎的Content Browser中了。在数据导入的设置中，把数据类型设置成我们这个结构体：ItemDef。
+
+![Import CSV](/assets/img/ucookbook/data2.jpg)
+
+最后，我们就可以使用GetDataTableRowNames和GetDataTableRow这两个蓝图节点来读取这个表格数据了。具体的蓝图如下：
+
+![BP_DataDriven](/assets/img/ucookbook/data3.jpg)
+
+如果看不清图片的话，请下载工程文件吧。：）
+
+### 虚幻4的DataAsset
+
+另外一个常见的需求是我们需要在引擎编辑器中编辑一些常用的数据对象，这些数据并不需要批量配置，但需要方便灵活的修改。在Unity3D中提供了ScriptObject来做这类事请，而在虚幻4中提供了DataAsset，也是同样的目的，使用方法也十分类似。
+首先我们需要创建一个UDataAsset的派生类，用这个类来管理一组数据：
+
+```cpp
+/**
+ * 演示使用DataAsset来处理数据
+ */
+UCLASS(Blueprintable, Category="DataDemo")
+class UNREALCOOKBOOK_API UQuestDataAsset : public UDataAsset
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DataDemo")
+	FString QuestSetName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DataDemo")
+	TArray<FQuestDef> QuestArray;
+};
+```
+
+有了这个类之后，在Content Browser的New Asset菜单-->杂项里面选择“DataAsset”，就会弹出下面这个窗口，窗口中就多出了我们这个类：
+
+![New Data Ssset](/assets/img/ucookbook/data4.jpg)
+
+-  创建了这个DataAsset之后，就可以用引擎内置的编辑器来编辑它：
+![Edit Data Asset](/assets/img/ucookbook/data5.jpg) 
+ 
+-  编辑好之后，我们就可以在Blueprint中使用LoadAsset节点来加载它：
+![Load Data Asset](/assets/img/ucookbook/data6.jpg)
+ 
+
+> 相关官方文档：https://docs.unrealengine.com/latest/INT/Gameplay/DataDriven/
