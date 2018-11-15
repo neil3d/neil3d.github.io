@@ -1,6 +1,11 @@
 /*
   Base
 */
+.center-image
+{
+    margin: 0 auto;
+    display: block;
+}
 
 body {
   font-family: "Microsoft YaHei", "PT Serif", Georgia, "Times New Roman", serif;
