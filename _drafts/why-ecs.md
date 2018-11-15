@@ -9,7 +9,7 @@ image:
   feature: cover.jpg
   credit: 
   creditlink: ""
-brief: "《守望先锋》使用了 ECS 的架构方式，但是为什么 ECS 会成为一个更好的架构呢？这篇文章就来讲一下 ECS 背后的‘面向数据的设计（Data-Oriented Design）’的兴起，你将会明白这个 Why。"
+brief: "《守望先锋》使用了 ECS 的架构方式，但是为什么 ECS 会成为一个更好的架构呢？这篇文章就来讲一下 ECS 背后的‘面向数据的设计（Data-Oriented Design）’，你将会明白这个 Why。"
 ---
 
 来自"玻璃渣"的 Timothy Ford 在 GDC 2017 大会做了一个专题演讲“《守望先锋》架构设计与网络同步（Overwatch Gameplay Architecture and Netcode）”，其中介绍的 ECS 架构一时引起众多关注。在转过年来的 Unity 2018 新版中也支持了 ECS 架构，并且做了很多比较，结合其新的 Job System 性能有大幅提升！
@@ -34,9 +34,18 @@ ECS - Entity, Component, System 这一系列概念都是非常简单清晰的，
 
 对于 CPU 来说“内存”已经是一个非常缓慢的设备了！为了少被内存拖后腿，CPU 内部集成了越来越多的 Cache。
 
+CPU 的内存预读取、Cache 对于我们软件开发者都是透明的，为了验证这个点上的性能差异，我写了一个小小的测试程序。这个测试程序分别以“基于组件的对象设计”和“基于数据的设计”两种方式，对 5000 个 GameObject 或者叫做 Entity 的 Transform 矩阵进行计算。核心的计算代码都是一样的，最重要的差别就是 Transform 数据的内存布局不同。测试的结果十分惊人，在我的电脑上前者要比后者慢 2.8 倍！这个测试程序的代码请见：[https://github.com/neil3d/GLab/tree/master/ECSProfile](https://github.com/neil3d/GLab/tree/master/ECSProfile) 。
+
 ### 多核与并行编程
 
 2005年 Herb Sutter 发表了著名的文章：*The Free Lunch Is Over*。
 
 OpenMP
 Intel Threading Building Blocks
+
+## 回顾 ECS
+
+通过理解“面向数据的设计”，我们就可以对 ECS 架构有一个更清晰的认识：不仅知道“是什么”，还知道了“为什么”。
+
+* 与“基于组件的对象设计”不同，ECS 架构中的 Component 只包含数据。例如使用 C++ 编程的话，Component就可以是 POD 类型（Plain Old Data）。Entity 也不是面向对象那样把组件、行为封装起来，而是只对应一个 ID。整个这个机制的设计使得所有组件可以在 World 中统一管理的时候，可以使用连续的内存布局，大大提高 CPU 的 Cache 命中率。
+* System 对于组件数据的“读写”是可以明确定义的。从这个数据的读写就可以分析出系统之间的依赖关系，形成一个 DAG。基于这种分析也就可以确定那些系统是可以并行执行的！典型的就是 Unity3D 的 JobSystem。
