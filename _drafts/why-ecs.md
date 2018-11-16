@@ -56,3 +56,9 @@ Intel Threading Building Blocks
 
 * 与“基于组件的对象设计”不同，ECS 架构中的 Component 只包含数据。例如使用 C++ 编程的话，Component就可以是 POD 类型（Plain Old Data）。Entity 也不是面向对象那样把组件、行为封装起来，而是只对应一个 ID。整个这个机制的设计使得所有组件可以在 World 中统一管理的时候，可以使用连续的内存布局，大大提高 CPU 的 Cache 命中率。
 * System 对于组件数据的“读写”是可以明确定义的。从这个数据的读写就可以分析出系统之间的依赖关系，形成一个 DAG。基于这种分析也就可以确定那些系统是可以并行执行的！典型的就是 Unity3D 的 JobSystem。
+
+## 参考资料
+
+* Stoyan Nikolov, "[OOP Is Dead, Long Live Data-oriented Design](/assets/img/ecs/oop_is_dead.pdf)", 2018
+* Tony Albrecht, "[Pitfalls of Object Oriented Programming](/assets/img/ecs/PitfallsRevisited.pptx)", July 2017
+* Mike Acton, “[Data-Oriented Design and C++](/assets/img/ecs/DOD-Cpp.pdf)”, 2014
