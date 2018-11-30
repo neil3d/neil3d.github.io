@@ -48,8 +48,9 @@ a:hover {
 }
 
 .thumb_img {
-  max-width: 100%;
-  height: auto;
+  max-width: 900px;
+  max-height: 500px;
+  overflow: hidden;
   border-radius: 5px;
 }
 
@@ -74,6 +75,7 @@ blockquote {
   margin-left: auto;
   margin-right: auto;
   width: 80%;
+  max-width: 900px;
 }
 
 @media (max-width: 1366px) {
@@ -120,10 +122,13 @@ blockquote {
 */
 
 .thumbnail-container {
-  max-width: 100%;
+  max-width: 900px;
   overflow: hidden;
   border-radius: 5px;
   margin-bottom: 9px;
+  margin:0 auto;
+  display: block;
+
 }
 
 .thumbnail-container img{
