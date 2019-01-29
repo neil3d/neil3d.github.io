@@ -2,37 +2,53 @@
   {
     "title": "OOP Is Dead, Long Live Data-oriented Design",
     "author": "Stoyan Nikolov",
+    "type": "演讲",
     "homepage": "https://stoyannk.wordpress.com/2018/10/26/my-cppcon-2019-talk",
     "publish_date": 43374,
     "publisher": "CppCon 2018",
     "tags": "面向数据的设计",
     "thumb": "",
     "video": "https://youtu.be/yy8jQgmhbAU",
-    "reading": "slides/oop_is_dead_long_live_dataoriented_design__stoyan_nikolov__cppcon_2018.pdf",
+    "reading": "assets\\slides\\oop_is_dead_long_live_dataoriented_design__stoyan_nikolov__cppcon_2018.pdf",
     "brief": ""
   },
   {
     "title": "Introduction to Data Oriented Design from DICE",
     "author": "DICE",
+    "type": "演讲",
     "homepage": "https://www.ea.com/frostbite/news/introduction-to-data-oriented-design",
     "publish_date": 40483,
     "publisher": "EA",
     "tags": "面向数据的设计, 寒霜引擎",
     "thumb": "",
     "video": "NONE",
-    "reading": "slides/Introduction_to_Data-Oriented_Design_2014DICE.pdf",
+    "reading": "assets\\slides\\Introduction_to_Data-Oriented_Design_2014DICE.pdf",
     "brief": ""
   },
   {
     "title": "Data-Oriented Design and C++",
     "author": "Mike Acton",
+    "type": "演讲",
     "homepage": "NONE",
     "publish_date": 41883,
     "publisher": "CppCon 2014",
     "tags": "面向数据的设计",
     "thumb": "",
     "video": "https://youtu.be/rX0ItVEVjHc",
-    "reading": "slides/Data-Oriented Design and C++ - Mike Acton - CppCon 2014.pptx",
+    "reading": "assets\\slides\\Data-Oriented Design and C++ - Mike Acton - CppCon 2014.pptx",
+    "brief": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "type": "演讲",
+    "homepage": "",
+    "publish_date": 0.0,
+    "publisher": "",
+    "tags": "",
+    "thumb": "",
+    "video": "",
+    "reading": "assets\\slides\\GDC17-framegraph.pptx",
     "brief": ""
   }
 ]

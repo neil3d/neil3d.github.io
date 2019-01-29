@@ -1,0 +1,19 @@
+/*
+  Menu
+*/
+
+.menu {
+    padding-top: 0.5rem;
+    display: block;
+  }
+  
+  .menu-content {
+    float: right;
+  }
+  
+  .menu-content a {
+    color: #999;
+    font-size: 1rem;
+    padding-right: 8px;
+    text-decoration: none;  
+  }
