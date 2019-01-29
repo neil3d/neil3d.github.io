@@ -8,7 +8,7 @@
     "publisher": "CppCon 2018",
     "main-class": "DoD",
     "tags": "面向数据的设计",
-    "thumb": "",
+    "thumb": "assets\\thumb\\oop_is_dead_cppcon2018.webp",
     "video": "https://youtu.be/yy8jQgmhbAU",
     "url": "assets\\slides\\oop_is_dead_long_live_dataoriented_design__stoyan_nikolov__cppcon_2018.pdf",
     "brief": ""
@@ -39,6 +39,20 @@
     "thumb": "",
     "video": "https://youtu.be/rX0ItVEVjHc",
     "url": "assets\\slides\\Data-Oriented Design and C++ - Mike Acton - CppCon 2014.pptx",
+    "brief": ""
+  },
+  {
+    "title": "FrameGraph: Extensible Rendering Architecture in Frostbite",
+    "author": "Yuriy O’Donnell",
+    "type": "演讲",
+    "homepage": "https://www.ea.com/frostbite/news/framegraph-extensible-rendering-architecture-in-frostbite",
+    "date": 42795,
+    "publisher": "GDC 2017",
+    "main-class": "RenderGraph",
+    "tags": "RenderGraph",
+    "thumb": "",
+    "video": "",
+    "url": "assets\\slides\\GDC17-framegraph.pptx",
     "brief": ""
   }
 ]
