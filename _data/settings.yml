@@ -12,6 +12,7 @@ google-ID: 'UA-80213386-1'
 
 menu:
 - {name: 'Home', url: 'index.html', icon: 'menu-home.png'}
+- {name: 'Reading', url: 'reading/index.html', icon: 'menu-list.png'}
 - {name: 'Writing', url: 'menu/writing.html', icon: 'menu-list.png'}
 - {name: 'Code', url: 'menu/code.html', icon: 'menu-code.png'}
 - {name: 'About', url: 'menu/about.html', icon: 'menu-about.png'}
