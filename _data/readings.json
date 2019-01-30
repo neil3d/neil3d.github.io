@@ -1,0 +1,54 @@
+[
+  {
+    "title": "OOP Is Dead, Long Live Data-oriented Design",
+    "author": "Stoyan Nikolov",
+    "type": "演讲",
+    "homepage": "https://stoyannk.wordpress.com/2018/10/26/my-cppcon-2019-talk",
+    "date": "2018年10月",
+    "publisher": "CppCon 2018",
+    "tags": "面向数据的设计",
+    "thumb": "assets\\thumb\\oop_is_dead_cppcon2018.png",
+    "video": "https://youtu.be/yy8jQgmhbAU",
+    "url": "assets\\slides\\oop_is_dead_long_live_dataoriented_design__stoyan_nikolov__cppcon_2018.pdf",
+    "brief": "2018年引起广泛关注的一篇演讲。作者以实现CSS动画引擎为例，比较了DoD的优势，并将其封装为OOD方式API，保持上层有好。"
+  },
+  {
+    "title": "Introduction to Data Oriented Design from DICE",
+    "author": "DICE",
+    "type": "演讲",
+    "homepage": "https://www.ea.com/frostbite/news/introduction-to-data-oriented-design",
+    "date": "2010年11月",
+    "publisher": "EA",
+    "tags": "面向数据的设计|寒霜引擎",
+    "thumb": "assets\\thumb\\dod_dice.png",
+    "video": "",
+    "url": "assets\\slides\\Introduction_to_Data-Oriented_Design_2014DICE.pdf",
+    "brief": "DIC工作室对于面向数据的设计的一个分享。"
+  },
+  {
+    "title": "Data-Oriented Design and C++",
+    "author": "Mike Acton",
+    "type": "演讲",
+    "homepage": "",
+    "date": "2014年9月",
+    "publisher": "CppCon 2014",
+    "tags": "面向数据的设计",
+    "thumb": "assets\\thumb\\dod_cppcon2014.png",
+    "video": "https://youtu.be/rX0ItVEVjHc",
+    "url": "assets\\slides\\Data-Oriented Design and C++ - Mike Acton - CppCon 2014.pptx",
+    "brief": "非常朴实的PPT，讲出面向数据的设计的实践经验。"
+  },
+  {
+    "title": "FrameGraph: Extensible Rendering Architecture in Frostbite",
+    "author": "Yuriy O’Donnell",
+    "type": "演讲",
+    "homepage": "https://www.ea.com/frostbite/news/framegraph-extensible-rendering-architecture-in-frostbite",
+    "date": "2017年3月",
+    "publisher": "GDC 2017",
+    "tags": "RenderGraph|寒霜引擎",
+    "thumb": "assets\\thumb\\framegraph_gdc2018.png",
+    "video": "",
+    "url": "assets\\slides\\GDC17-framegraph.pptx",
+    "brief": "寒霜引擎的 FrameGraph 设计，是一个非常先进、能够发挥多线程渲染优势的渲染架构！"
+  }
+]

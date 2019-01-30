@@ -1,0 +1,82 @@
+---
+layout: reading
+---
+
+<div class="home">
+    <div class="row pack">
+        {% for post in site.data.readings %}
+        <div class="col-md-4 card">
+            <div class="panel panel-default">
+
+                <!-- show thumb image -->
+                {% if post.thumb != blank %}
+                <img class="thumb" src="{{site.baseurl}}/reading/{{post.thumb}}" alt="{{post.title}}">
+                {% else %}
+                <img class="thumb" src="{{site.baseurl}}/reading/assets/thumb/default.png" alt="{{site.title}}">
+                {% endif %}
+
+                <!-- show title & date -->
+                <div class="panel-body">
+                    <h3 class="panel-title pull-left">{{ post.title}}</h3>
+                    <div class="post-meta pull-right">
+                        <small>
+                            {{ post.date | date: "%b %-d, %Y" }}
+                        </small>
+                    </div>
+                </div>
+                
+                <!-- show tags -->
+                {% if post.tags != blank %}
+                <div class="panel-body">
+                    <small>
+                        {% assign tags = post.tags | split: "|" %}
+                        {% for tag in tags %}
+                        <a class="tag" href="{{site.baseurl}}/reading/tags.html#{{tag}}">{{tag}}</a>
+                        {% endfor %}
+                    </small>
+                </div>
+                {% endif %}
+
+                <!-- show author & publisher -->
+                <div class="panel-body">
+                    <small>
+                        <span class="post-meta pull-left">
+                            {{ post.author | strip_html | strip_newlines | truncate: 180 }}
+                        </span>
+                        <span class="post-meta pull-right">
+                            {{ post.publisher | strip_html | strip_newlines | truncate: 180 }}
+                        </span>
+                    </small>
+                </div>
+
+                <!-- show links -->
+                <div class="panel-body">
+                    <small>
+                        {% if post.homepage != blank %}
+                        <span class="post-meta pull-left">
+                            <a href="{{post.homepage}}">Homepage</a>
+                        </span>
+                        {% endif %}
+
+                        {% if post.video != blank %}
+                        <span class="post-meta pull-right">
+                            <a href="{{post.video}}">Video</a>
+                        </span>
+                        {% endif %}
+                    </small>
+                </div>
+
+                <!-- show brief -->
+                {% if post.brief != blank %}
+                <div class="panel-body">
+                    <small>
+                        {{ post.brief }}
+                    </small>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
