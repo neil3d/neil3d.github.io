@@ -7,22 +7,25 @@ layout: reading
         {% for post in site.data.readings %}
         <div class="col-md-4 card">
             <div class="panel panel-default">
-                {% assign str_length = post.img|size %}
-                {% if str_length > 0 %}
-                <img width="100%" src="{{site.baseurl}}/reading/assets/thumb/{{post.thumb}}" alt="{{post.title}}">
+
+                <!-- show thumb image -->
+                {% if post.thumb != blank %}
+                <img width="100%" src="{{site.baseurl}}/reading/{{post.thumb}}" alt="{{post.title}}">
                 {% else %}
                 <img width="100%" src="{{site.baseurl}}/reading/assets/thumb/default.png" alt="{{site.title}}">
                 {% endif %}
 
-
+                <!-- show title & date -->
                 <div class="panel-body">
                     <h3 class="panel-title pull-left">{{ post.title}}</h3>
                     <div class="post-meta pull-right">
-                        <small>{{
-                            post.date | date: "%b %-d, %Y" }}
+                        <small>
+                            {{ post.date | date: "%b %-d, %Y" }}
                         </small>
                     </div>
                 </div>
+
+                <!-- show author & publisher -->
                 <div class="panel-body">
                     <small>
                         <span class="post-meta pull-left">
@@ -33,6 +36,7 @@ layout: reading
                         </span>
                     </small>
                 </div>
+
             </div>
         </div>
         {% endfor %}

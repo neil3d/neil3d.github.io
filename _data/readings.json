@@ -8,7 +8,7 @@
     "publisher": "CppCon 2018",
     "main-class": "DoD",
     "tags": "面向数据的设计",
-    "thumb": "assets\\thumb\\oop_is_dead_cppcon2018.webp",
+    "thumb": "assets\\thumb\\oop_is_dead_cppcon2018.png",
     "video": "https://youtu.be/yy8jQgmhbAU",
     "url": "assets\\slides\\oop_is_dead_long_live_dataoriented_design__stoyan_nikolov__cppcon_2018.pdf",
     "brief": ""
@@ -22,7 +22,7 @@
     "publisher": "EA",
     "main-class": "DoD",
     "tags": "面向数据的设计|寒霜引擎",
-    "thumb": "",
+    "thumb": "assets\\thumb\\dod_dice.png",
     "video": "NONE",
     "url": "assets\\slides\\Introduction_to_Data-Oriented_Design_2014DICE.pdf",
     "brief": ""
@@ -36,7 +36,7 @@
     "publisher": "CppCon 2014",
     "main-class": "DoD",
     "tags": "面向数据的设计",
-    "thumb": "",
+    "thumb": "assets\\thumb\\dod_cppcon2014.png",
     "video": "https://youtu.be/rX0ItVEVjHc",
     "url": "assets\\slides\\Data-Oriented Design and C++ - Mike Acton - CppCon 2014.pptx",
     "brief": ""
@@ -50,7 +50,7 @@
     "publisher": "GDC 2017",
     "main-class": "RenderGraph",
     "tags": "RenderGraph|寒霜引擎",
-    "thumb": "",
+    "thumb": "assets\\thumb\\framegraph_gdc2018.png",
     "video": "",
     "url": "assets\\slides\\GDC17-framegraph.pptx",
     "brief": ""
