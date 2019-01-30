@@ -24,6 +24,18 @@ layout: reading
                         </small>
                     </div>
                 </div>
+                
+                <!-- show tags -->
+                {% if post.tags != blank %}
+                <div class="panel-body">
+                    <small>
+                        {% assign tags = post.tags | split: "|" %}
+                        {% for tag in tags %}
+                        <a class="tag" href="{{site.baseurl}}/reading/tag.html#{{tag}}">{{tag}}</a>
+                        {% endfor %}
+                    </small>
+                </div>
+                {% endif %}
 
                 <!-- show author & publisher -->
                 <div class="panel-body">
@@ -54,19 +66,14 @@ layout: reading
                     </small>
                 </div>
 
-                <!-- show tags -->
-                <div class="panel-body">
-
-                </div>
-
                 <!-- show brief -->
+                {% if post.brief != blank %}
                 <div class="panel-body">
                     <small>
-                        {% if post.brief != blank %}
                         {{ post.brief }}
-                        {% endif %}
                     </small>
                 </div>
+                {% endif %}
 
             </div>
         </div>
