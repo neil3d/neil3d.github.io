@@ -31,7 +31,7 @@ layout: reading
                     <small>
                         {% assign tags = post.tags | split: "|" %}
                         {% for tag in tags %}
-                        <a class="tag" href="{{site.baseurl}}/reading/tag.html#{{tag}}">{{tag}}</a>
+                        <a class="tag" href="{{site.baseurl}}/reading/tags.html#{{tag}}">{{tag}}</a>
                         {% endfor %}
                     </small>
                 </div>
