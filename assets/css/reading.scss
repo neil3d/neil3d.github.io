@@ -65,3 +65,23 @@ $on-laptop:        800px;
     border-radius: 3px;
     padding: 2px 5px;
 }
+
+/*
+  Menu
+*/
+
+.menu {
+    padding-top: 1.5rem;
+    display: block;
+  }
+  
+  .menu-content {
+    float: right;
+  }
+  
+  .menu-content a {
+    color: #999;
+    font-size: 1rem;
+    padding-right: 9px;
+    text-decoration: none;  
+  }
