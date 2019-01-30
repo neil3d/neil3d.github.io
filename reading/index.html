@@ -10,9 +10,9 @@ layout: reading
 
                 <!-- show thumb image -->
                 {% if post.thumb != blank %}
-                <img width="100%" src="{{site.baseurl}}/reading/{{post.thumb}}" alt="{{post.title}}">
+                <img class="thumb" src="{{site.baseurl}}/reading/{{post.thumb}}" alt="{{post.title}}">
                 {% else %}
-                <img width="100%" src="{{site.baseurl}}/reading/assets/thumb/default.png" alt="{{site.title}}">
+                <img class="thumb" src="{{site.baseurl}}/reading/assets/thumb/default.png" alt="{{site.title}}">
                 {% endif %}
 
                 <!-- show title & date -->

@@ -51,3 +51,10 @@ $on-laptop:        800px;
         "custom",
         "syntax-highlighting"
 ;
+
+.thumb {
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 4px 4px 0px 0px;
+    margin-bottom: 7px;
+  }
