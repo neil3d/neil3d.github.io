@@ -54,9 +54,9 @@ img {
 }
 
 .panel {
-    margin-bottom: 2em;
+    margin-bottom: 1.5em;
    border: none;
-   box-shadow: 0 0 1px rgba(0,0,0,.4);
+   box-shadow: 0 0 2px rgba(0,0,0,.8);
    transition: all 0.3s ease;
     &:hover, &:focus, &:active {
            box-shadow: 
