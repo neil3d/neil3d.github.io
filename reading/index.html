@@ -37,7 +37,7 @@ layout: reading
                     </small>
                 </div>
 
-                <!-- show link -->
+                <!-- show links -->
                 <div class="panel-body">
                     <small>
                         {% if post.homepage != blank %}
@@ -50,6 +50,20 @@ layout: reading
                         <span class="post-meta pull-right">
                             <a href="{{post.video}}">Video</a>
                         </span>
+                        {% endif %}
+                    </small>
+                </div>
+
+                <!-- show tags -->
+                <div class="panel-body">
+
+                </div>
+
+                <!-- show brief -->
+                <div class="panel-body">
+                    <small>
+                        {% if post.brief != blank %}
+                        {{ post.brief }}
                         {% endif %}
                     </small>
                 </div>

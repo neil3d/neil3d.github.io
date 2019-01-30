@@ -10,7 +10,7 @@
     "thumb": "assets\\thumb\\oop_is_dead_cppcon2018.png",
     "video": "https://youtu.be/yy8jQgmhbAU",
     "url": "assets\\slides\\oop_is_dead_long_live_dataoriented_design__stoyan_nikolov__cppcon_2018.pdf",
-    "brief": ""
+    "brief": "这是一些简单的介绍文字，不要太长，也不要太短，差不多就行了。"
   },
   {
     "title": "Introduction to Data Oriented Design from DICE",
@@ -23,7 +23,7 @@
     "thumb": "assets\\thumb\\dod_dice.png",
     "video": "",
     "url": "assets\\slides\\Introduction_to_Data-Oriented_Design_2014DICE.pdf",
-    "brief": ""
+    "brief": "这是一些简单的介绍文字，不要太长，也不要太短，差不多就行了。"
   },
   {
     "title": "Data-Oriented Design and C++",
@@ -36,7 +36,7 @@
     "thumb": "assets\\thumb\\dod_cppcon2014.png",
     "video": "https://youtu.be/rX0ItVEVjHc",
     "url": "assets\\slides\\Data-Oriented Design and C++ - Mike Acton - CppCon 2014.pptx",
-    "brief": ""
+    "brief": "这是一些简单的介绍文字，不要太长，也不要太短，差不多就行了。"
   },
   {
     "title": "FrameGraph: Extensible Rendering Architecture in Frostbite",
@@ -49,6 +49,6 @@
     "thumb": "assets\\thumb\\framegraph_gdc2018.png",
     "video": "",
     "url": "assets\\slides\\GDC17-framegraph.pptx",
-    "brief": ""
+    "brief": "这是一些简单的介绍文字，不要太长，也不要太短，差不多就行了。"
   }
 ]
