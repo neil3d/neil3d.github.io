@@ -1,39 +1,27 @@
 <head>
-
-  <title>
-    {% if page.title == "Home" %} 
-      {{ site.data.settings.title }} 
-    {% else %} 
-      {{ page.title }} | {{ site.data.settings.title }}
-    {% endif %}
-  </title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/reading.css">
-  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/main.css">
-  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/syntax.css">
-  <!-- RSS-v2.0
-  <link href="{{ site.github.url }}/feed.xml" type="application/rss+xml" rel="alternate" title="{{ site.data.settings.title }}"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-  //-->
-
-  <!-- Use Atom -->
-  {% feed_meta %}
-
-  <!-- Use Jekyll SEO plugin -->
   {% seo %}
+
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="{{site.baseurl}}/assets/css/reading.css">
+  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/rss-feed.xml" | prepend: site.baseurl | prepend: site.url }}">
+  <link rel="stylesheet" href="{{site.baseurl}}/assets/css//font-awesome.min.css">
+
+  <script src="{{site.baseurl}}/assets/js/jquery.min.js"></script>
+  <script src="{{site.baseurl}}/assets/js/bootstrap.min.js"></script>
 
   <script>
     var _hmt = _hmt || [];
-    (function() {
+    (function () {
       var hm = document.createElement("script");
       hm.src = "https://hm.baidu.com/hm.js?c3709a8b8c6b1e793f1d1ba9e08289e7";
-      var s = document.getElementsByTagName("script")[0]; 
+      var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-    </script>
-    
+  </script>
 
 </head>
