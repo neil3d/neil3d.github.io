@@ -110,5 +110,19 @@
     "my_blog": "https://neil3d.github.io/3dengine/why-ecs.html",
     "notes": "",
     "brief": "DIC工作室对于面向数据的设计的一个分享。"
+  },
+  {
+    "title": "A Reflectance Model for Computer Graphics",
+    "author": " R. L. Cook &  K. E. Torrance",
+    "homepage": "https://dl.acm.org/citation.cfm?id=357293",
+    "date": "1982年1月",
+    "publisher": "ACM",
+    "tags": "图形学理论|PBR",
+    "thumb": "assets\\thumb\\cook-brdf.png",
+    "video": "",
+    "url": "assets\\paper\\p7-cook.pdf",
+    "my_blog": "https://neil3d.github.io/unreal/pbr-theory.html",
+    "notes": "",
+    "brief": "PBR 中广泛使用的Cook-Torrance BRDF是1982年此篇论文提出。"
   }
 ]
