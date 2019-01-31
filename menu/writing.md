@@ -16,8 +16,8 @@ title: Writing
     {% endunless %}
 
     <li itemscope>
-      <a href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
-      <p class="post-date"><span><i class="fa fa-calendar" aria-hidden="true"></i> {{ post.date | date: "%B %-d" }}</span></p>
+       <span><a href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a></span>
+      <span class="post-date"> {{ post.date | date: "%B %-d" }}</span>
     </li>
 
   {% endfor %}
