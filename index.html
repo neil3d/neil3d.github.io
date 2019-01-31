@@ -15,34 +15,37 @@ title: Home
   {% endif %}
   <p>
     {{ post.brief | strip_html | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
-    <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>Written on {{ post.date | date_to_string }}</span>
+    <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>Written on {{ post.date | date_to_string
+      }}</span>
   </p>
 </div>
 {% endfor %}
 
-<!-- pagination -->
-{% if paginator.total_pages > 1 %}
-<div class="pagination"> 
-  {% if paginator.previous_page %}
+<center>
+  <!-- pagination -->
+  {% if paginator.total_pages > 1 %}
+  <div class="pagination">
+    {% if paginator.previous_page %}
     <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
-  {% else %}
-    <span>&laquo; Prev</span>
-  {% endif %}
-
-  {% for page in (1..paginator.total_pages) %}
-    {% if page == paginator.page %}
-      <span>{{ page }}</span>
-    {% elsif page == 1 %}
-      <a href="/">{{ page }}</a>
     {% else %}
-      <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+    <span>&laquo; Prev</span>
     {% endif %}
-  {% endfor %}
 
-  {% if paginator.next_page %}
+    {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+    <span>{{ page }}</span>
+    {% elsif page == 1 %}
+    <a href="/">{{ page }}</a>
+    {% else %}
+    <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+    {% endif %}
+    {% endfor %}
+
+    {% if paginator.next_page %}
     <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
-  {% else %}
+    {% else %}
     <span>Next &raquo;</span>
+    {% endif %}
+  </div>
   {% endif %}
-</div>
-{% endif %}
+</center>
