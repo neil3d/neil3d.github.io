@@ -56,6 +56,20 @@
     "brief": "这个演讲的内容应作为UE4 PBR相关或其他演讲的背景资料，先行研读。"
   },
   {
+    "title": "Physically Based Shading at Disney",
+    "author": "Brent Burley",
+    "homepage": "https://blog.selfshadow.com/publications/s2012-shading-course/",
+    "date": "2012年8月",
+    "publisher": "SIGGRAPH 2012",
+    "tags": "PBR",
+    "thumb": "assets\\thumb\\disney_pbs_sig2012.png",
+    "video": "",
+    "url": "assets\\slides\\s2012_pbs_disney_brdf_slides_v2.pdf",
+    "my_blog": "",
+    "notes": "assets\\slides\\s2012_pbs_disney_brdf_notes_v3.pdf",
+    "brief": "虚幻4的材质模型参考了迪士尼，这个演讲可以参考。"
+  },
+  {
     "title": "Real Shading in Unreal Engine 4",
     "author": "Brian Karis",
     "homepage": "https://blog.selfshadow.com/publications/s2013-shading-course/",
