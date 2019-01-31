@@ -9,11 +9,13 @@ layout: reading
             <div class="panel panel-default">
 
                 <!-- show thumb image -->
-                {% if post.thumb != blank %}
-                <img class="thumb" src="{{site.baseurl}}/reading/{{post.thumb}}" alt="{{post.title}}">
-                {% else %}
-                <img class="thumb" src="{{site.baseurl}}/reading/assets/thumb/default.png" alt="{{site.title}}">
-                {% endif %}
+                <a href="{{site.baseurl}}/reading/{{post.url}}"  class="index-anchor">
+                    {% if post.thumb != blank %}
+                    <img class="thumb" src="{{site.baseurl}}/reading/{{post.thumb}}" alt="{{post.title}}">
+                    {% else %}
+                    <img class="thumb" src="{{site.baseurl}}/reading/assets/thumb/default.png" alt="{{site.title}}">
+                    {% endif %}
+                </a>
 
                 <!-- show title & date -->
                 <div class="panel-body">
@@ -24,7 +26,7 @@ layout: reading
                         </small>
                     </div>
                 </div>
-                
+
                 <!-- show tags -->
                 {% if post.tags != blank %}
                 <div class="panel-body">

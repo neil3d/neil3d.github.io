@@ -50,5 +50,18 @@
     "video": "",
     "url": "assets\\slides\\GDC17-framegraph.pptx",
     "brief": "寒霜引擎的 FrameGraph 设计，是一个非常先进、能够发挥多线程渲染优势的渲染架构！"
+  },
+  {
+    "title": "",
+    "author": "James T. Kajiya ",
+    "type": "论文",
+    "homepage": "https://dl.acm.org/citation.cfm?id=15902",
+    "date": "1986年8月",
+    "publisher": "SIGGRAPH 1986",
+    "tags": "图形学理论",
+    "thumb": "assets\\thumb\\the_rendering_equation.png",
+    "video": "",
+    "url": "assets\\paper\\p143-kajiya.pdf",
+    "brief": "在SIGGRAPH提出渲染方程的论文。"
   }
 ]
