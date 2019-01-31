@@ -56,13 +56,25 @@ title: Reading
                 <div class="panel-body">
                     <small>
                         {% if post.homepage != blank %}
-                        <span class="post-meta pull-left">
+                        <span class="post-meta">
                             <a href="{{post.homepage}}">Homepage</a>
                         </span>
                         {% endif %}
 
+                        {% if post.my_blog != blank %}
+                        <span class="post-meta">
+                            <a href="{{post.my_blog}}">相关博文</a>
+                        </span>
+                        {% endif %}
+
+                        {% if post.notes != blank %}
+                        <span class="post-meta">
+                            <a href="{{post.notes}}">Notes</a>
+                        </span>
+                        {% endif %}
+
                         {% if post.video != blank %}
-                        <span class="post-meta pull-right">
+                        <span class="post-meta">
                             <a href="{{post.video}}">Video</a>
                         </span>
                         {% endif %}
