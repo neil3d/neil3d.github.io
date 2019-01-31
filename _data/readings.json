@@ -70,6 +70,20 @@
     "brief": "详细讲解了虚幻4中实现PBR的原理，重点是Split Sum Approximation。"
   },
   {
+    "title": "Introduction to DirectX Raytracing Shaders",
+    "author": "Chris Wyman",
+    "homepage": "http://intro-to-dxr.cwyman.org",
+    "date": "2018年8月",
+    "publisher": "SIGGRAPH 2018",
+    "tags": "Ray Tracing",
+    "thumb": "assets\\thumb\\intro_dxr_sig2018.png",
+    "video": "https://youtu.be/Q1cuuepVNoY",
+    "url": "assets\\slides\\s2018_IntroDXR_RaytracingShaders.pdf",
+    "my_blog": "https://neil3d.github.io/3dengine/DXRPreview.html",
+    "notes": "http://cwyman.org/code/dxrTutors/dxr_tutors.md.html",
+    "brief": "Real-time Ray Tracing 无疑是2018年的热点，GDC 2018发布DXR API之后，SIGGRAPH这个专场值得一看。"
+  },
+  {
     "title": "FrameGraph: Extensible Rendering Architecture in Frostbite",
     "author": "Yuriy O’Donnell",
     "homepage": "https://www.ea.com/frostbite/news/framegraph-extensible-rendering-architecture-in-frostbite",
