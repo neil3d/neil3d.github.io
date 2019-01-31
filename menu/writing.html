@@ -22,18 +22,22 @@ title: Writing
         <!-- show title & date -->
         <div class="panel-body">
           <h3 class="panel-title pull-left">{{ post.title}}</h3><br>
-          <div class="post-meta pull-right">
+
+          <span class="post-meta pull-left">
+            {{ post.author | strip_html | strip_newlines | truncate: 180 }}
+          </span>
+          <span class="post-meta pull-right">
             <small>
               {{ post.date | date: "%b %-d, %Y" }}
             </small>
-          </div>
+          </span>
         </div>
 
         <!-- show brief -->
         {% if post.brief != blank %}
         <div class="panel-body">
           <small>
-            {{ post.brief | truncate: 60  }}
+            {{ post.brief | truncate: 60 }}
           </small>
         </div>
         {% endif %}
