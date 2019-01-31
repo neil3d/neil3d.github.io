@@ -141,14 +141,14 @@ blockquote {
 
 .post-container {
   margin-bottom: 1rem;
-  max-width:900;
+  max-width:900px;
 }
 
 .posts {
   margin-bottom: 2rem;
   padding: 0px;
   list-style: none;
-  max-width:900;
+  max-width:900px;
 }
 
 .post-date {
