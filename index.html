@@ -4,6 +4,8 @@ title: Home
 ---
 
 <!-- 置顶文章 -->
+{% if 1 == paginator.page %}
+
 {% for post in site.posts %}
 {% if post.top==true %}
 <div class="posts" style="max-width:900px;">
@@ -26,6 +28,8 @@ title: Home
 </div>
 {% endif %}
 {% endfor %}
+
+{% endif %}
 
 <!-- 非置顶文章 -->
 {% for post in paginator.posts %}
