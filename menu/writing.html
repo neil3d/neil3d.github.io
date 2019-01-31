@@ -12,7 +12,7 @@ title: Writing
         <!-- show thumb image -->
 
         <a href="{{ site.github.url }}{{ post.url }}" class="index-anchor">
-          {% if post.image.path != blank and post.image.feature!=blank %}
+          {% if post.image.feature %}
           <img class="thumb" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
           {% else %}
           <img class="thumb" src="{{site.baseurl}}/reading/assets/thumb/default.png" alt="{{site.title}}">

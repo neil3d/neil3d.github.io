@@ -4,6 +4,11 @@ title: "《炉石传说》架构设计赏析(3)：Gameplay初探"
 author: "燕良"
 categories: gamedev
 tags: [Hearthstone, Game]
+image:
+  path: hearthstone
+  feature: cover.jpg
+  credit: "Blizzard"
+  creditlink: "http://hs.blizzard.cn"
 brief: "经过前面两篇文章的分析，我们对炉石的代码已经不陌生了，接下来我初步尝试分析其游戏逻辑代码。"
 ---
 

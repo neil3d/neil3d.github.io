@@ -4,6 +4,11 @@ title: "《炉石传说》架构设计赏析(5)：卡牌&技能的静态数据�
 author: "燕良"
 categories: gamedev
 tags: [Hearthstone, Game]
+image:
+  path: hearthstone
+  feature: cover.jpg
+  credit: "Blizzard"
+  creditlink: "http://hs.blizzard.cn"
 brief: "分析《炉石传说》的卡牌、技能的静态数据组织。"
 ---
 

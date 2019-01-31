@@ -4,6 +4,11 @@ title: "《炉石传说》架构设计赏析(6)：卡牌&技能数据的运行�
 author: "燕良"
 categories: gamedev
 tags: [Hearthstone, Game]
+image:
+  path: hearthstone
+  feature: cover.jpg
+  credit: "Blizzard"
+  creditlink: "http://hs.blizzard.cn"
 brief: "接着上一篇文章，继续分析炉石的卡牌和技能。"
 ---
 
