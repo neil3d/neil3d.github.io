@@ -140,11 +140,15 @@ blockquote {
 */
 
 .post-container {
+  margin-left:auto;
+  margin-right:auto;
   margin-bottom: 1rem;
   max-width:900px;
 }
 
 .posts {
+  margin-left:auto;
+  margin-right:auto;
   margin-bottom: 2rem;
   padding: 0px;
   list-style: none;
