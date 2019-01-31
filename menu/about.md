@@ -28,5 +28,11 @@ title: About
 ## 微信公众号
 这个博客主要是作为同名的微信公众号的文章存储，请**微信扫描或者长按下图识别二维码**关注，公众号ID：ForGameProgrammer。   
   
-    
-      
+<style>
+    .img_banner {
+      width: 100%;
+      max-width: 900px;
+      vertical-align: middle;
+    }
+</style>
+<img class="img_banner" src="{{ site.github.url }}/assets/img/ui/banner.jpg">
