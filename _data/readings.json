@@ -52,7 +52,7 @@
     "brief": "寒霜引擎的 FrameGraph 设计，是一个非常先进、能够发挥多线程渲染优势的渲染架构！"
   },
   {
-    "title": "",
+    "title": "The Rendering Equation",
     "author": "James T. Kajiya ",
     "type": "论文",
     "homepage": "https://dl.acm.org/citation.cfm?id=15902",
@@ -63,5 +63,18 @@
     "video": "",
     "url": "assets\\paper\\p143-kajiya.pdf",
     "brief": "在SIGGRAPH提出渲染方程的论文。"
+  },
+  {
+    "title": "Overwatch Gameplay Architecture and Netcode",
+    "author": "Timothy Ford",
+    "type": "演讲",
+    "homepage": "https://www.gdcvault.com/play/1024001/-Overwatch-Gameplay-Architecture-and",
+    "date": "2017年3月",
+    "publisher": "GDC 2017",
+    "tags": "ECS",
+    "thumb": "assets\\thumb\\overwatch_ecs_gdc2017.png",
+    "video": "https://youtu.be/ZvGPrDdVl4Y",
+    "url": "todo",
+    "brief": "广受关注的一个演讲，ECS也走入我的视线。这篇文章分析了《守望先锋》使用ECS架构的成功经验，但ECS的要点不止于此。"
   }
 ]
