@@ -48,10 +48,17 @@ $on-laptop:        800px;
         "layout"
 ;
 
+.title_link {
+  font-size: 20px;
+  text-decoration: none;
+  color: #111;
+}
+
 .thumb {
     max-width: 100%;
     overflow: hidden;
     border-radius: 4px 4px 0px 0px;
+    margin: 0 auto;
     margin-bottom: 7px;
   }
 

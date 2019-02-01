@@ -4,55 +4,33 @@ title: Home
 ---
 
 <!-- 置顶文章 -->
-{% if 1 == paginator.page %}
+<div style=" margin: 0 auto;width: 900px; max-width:900px;">
+  {% if 1 == paginator.page %}
 
-{% for post in site.posts %}
-{% if post.top==true %}
-<div class="posts" style="max-width:900px;">
-  <h4>
-    <img src="{{ site.github.url }}/assets/img/ui/ui_top.png">
-    <a href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
-  </h4>
-  {% if post.image.feature %}
-  <div class="thumbnail-container">
-    <center>
-      <a href="{{ site.github.url }}{{ post.url }}"><img class="thumb_img" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}"></a>
-    </center>
+  {% for post in site.posts %}
+  {% if post.top==true %}
+
+  <div class="panel panel-default">
+    {% if post.image.feature %}
+    <a href="{{ site.github.url }}{{ post.url }}"><img class="thumb" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}"></a>
+    {% endif %}
+    <div class="panel-body">
+      <img src="{{ site.github.url }}/assets/img/ui/ui_top.png">
+      <a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
+      <span class="post-meta">
+        {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
+      </span>
+      <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>
+        Written on {{ post.date | date_to_string }}
+      </span>
+    </div>
   </div>
-  {% endif %}
-  <p>
-    {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
-    <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>Written on {{ post.date | date_to_string
-      }}</span>
-  </p>
-</div>
-{% endif %}
-{% endfor %}
 
-{% endif %}
-
-<!-- 非置顶文章 -->
-{% for post in paginator.posts %}
-{% if post.top!=true %}
-<div class="posts" style="max-width:900px;">
-  <h4>
-    <a href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
-  </h4>
-  {% if post.image.feature %}
-  <div class="thumbnail-container">
-    <center>
-      <a href="{{ site.github.url }}{{ post.url }}"><img class="thumb_img" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}"></a>
-    </center>
-  </div>
   {% endif %}
-  <p>
-    {{ post.brief | markdownify | strip_html | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
-    <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>Written on {{ post.date | date_to_string
-      }}</span>
-  </p>
+  {% endfor %}
+
+  {% endif %}
 </div>
-{% endif %}
-{% endfor %}
 
 <center>
   <!-- pagination -->
