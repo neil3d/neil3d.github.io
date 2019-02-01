@@ -9,7 +9,7 @@
     "thumb": "assets\\thumb\\overwatch_ecs_gdc2017.png",
     "video": "https://youtu.be/ZvGPrDdVl4Y",
     "url": "todo.html",
-    "my_blog": "https://neil3d.github.io/3dengine/why-ecs.html",
+    "my_blog": "/3dengine/why-ecs.html",
     "notes": "http://gad.qq.com/article/detail/28682",
     "brief": "广受关注的一个演讲，ECS也走入我的视线。这篇文章分析了《守望先锋》使用ECS架构的成功经验，但ECS的要点不止于此。"
   },
@@ -23,7 +23,7 @@
     "thumb": "assets\\thumb\\oop_is_dead_cppcon2018.png",
     "video": "https://youtu.be/yy8jQgmhbAU",
     "url": "assets\\slides\\oop_is_dead_long_live_dataoriented_design__stoyan_nikolov__cppcon_2018.pdf",
-    "my_blog": "https://neil3d.github.io/3dengine/why-ecs.html",
+    "my_blog": "/3dengine/why-ecs.html",
     "notes": "",
     "brief": "2018年引起广泛关注的一篇演讲。作者以实现CSS动画引擎为例，比较了DoD的优势。"
   },
@@ -37,7 +37,7 @@
     "thumb": "assets\\thumb\\dod_cppcon2014.png",
     "video": "https://youtu.be/rX0ItVEVjHc",
     "url": "assets\\slides\\Data-Oriented Design and C++ - Mike Acton - CppCon 2014.pptx",
-    "my_blog": "https://neil3d.github.io/3dengine/why-ecs.html",
+    "my_blog": "/3dengine/why-ecs.html",
     "notes": "",
     "brief": "非常朴实的PPT，讲出面向数据的设计的实践经验。"
   },
@@ -51,7 +51,7 @@
     "thumb": "assets\\thumb\\pbr_background_sig2013.png",
     "video": "https://youtu.be/j-A0mwsJRmk",
     "url": "assets\\slides\\s2013_pbs_physics_math_slides.pdf",
-    "my_blog": "https://neil3d.github.io/unreal/pbr-theory.html",
+    "my_blog": "/unreal/pbr-theory.html",
     "notes": "assets\\slides\\s2013_pbs_physics_math_notes.pdf",
     "brief": "这个演讲的内容应作为UE4 PBR相关或其他演讲的背景资料，先行研读。"
   },
@@ -79,7 +79,7 @@
     "thumb": "assets\\thumb\\ue4_pbr_sig2013.png",
     "video": "",
     "url": "assets\\slides\\s2013_pbs_epic_slides.pdf",
-    "my_blog": "https://neil3d.github.io/unreal/pbr-ue4.html",
+    "my_blog": "/unreal/pbr-ue4.html",
     "notes": "assets\\slides\\s2013_pbs_epic_notes_v2.pdf",
     "brief": "详细讲解了虚幻4中实现PBR的原理，重点是Split Sum Approximation。"
   },
@@ -93,7 +93,7 @@
     "thumb": "assets\\thumb\\intro_dxr_sig2018.png",
     "video": "https://youtu.be/Q1cuuepVNoY",
     "url": "assets\\slides\\s2018_IntroDXR_RaytracingShaders.pdf",
-    "my_blog": "https://neil3d.github.io/3dengine/DXRPreview.html",
+    "my_blog": "/3dengine/DXRPreview.html",
     "notes": "http://cwyman.org/code/dxrTutors/dxr_tutors.md.html",
     "brief": "Real-time Ray Tracing 无疑是2018年的热点，GDC 2018发布DXR API之后，SIGGRAPH这个专场值得一看。"
   },
@@ -107,7 +107,7 @@
     "thumb": "assets\\thumb\\framegraph_gdc2018.png",
     "video": "https://www.bilibili.com/video/av10595011/",
     "url": "assets\\slides\\GDC17-framegraph.pptx",
-    "my_blog": "https://neil3d.github.io/3dengine/why-ecs.html",
+    "my_blog": "/3dengine/why-ecs.html",
     "notes": "",
     "brief": "寒霜引擎的 FrameGraph 设计，是一个非常先进、能够发挥多线程渲染优势的渲染架构！"
   },
@@ -121,7 +121,7 @@
     "thumb": "assets\\thumb\\the_rendering_equation.png",
     "video": "",
     "url": "assets\\paper\\p143-kajiya.pdf",
-    "my_blog": "https://neil3d.github.io/unreal/pbr-theory.html",
+    "my_blog": "/unreal/pbr-theory.html",
     "notes": "",
     "brief": "在SIGGRAPH提出渲染方程的论文。"
   },
@@ -135,7 +135,7 @@
     "thumb": "assets\\thumb\\dod_dice.png",
     "video": "",
     "url": "assets\\slides\\Introduction_to_Data-Oriented_Design_2014DICE.pdf",
-    "my_blog": "https://neil3d.github.io/3dengine/why-ecs.html",
+    "my_blog": "/3dengine/why-ecs.html",
     "notes": "",
     "brief": "DIC工作室对于面向数据的设计的一个分享。"
   },
@@ -149,7 +149,7 @@
     "thumb": "assets\\thumb\\cook-brdf.png",
     "video": "",
     "url": "assets\\paper\\p7-cook.pdf",
-    "my_blog": "https://neil3d.github.io/unreal/pbr-theory.html",
+    "my_blog": "/unreal/pbr-theory.html",
     "notes": "",
     "brief": "PBR 中广泛使用的Cook-Torrance BRDF是1982年此篇论文提出。"
   }

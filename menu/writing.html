@@ -12,7 +12,7 @@ title: Writing
         <!-- show thumb image -->
 
         <a href="{{ site.github.url }}{{ post.url }}" class="index-anchor">
-          {% if post.image.path != blank and post.image.feature!=blank %}
+          {% if post.image.feature %}
           <img class="thumb" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
           {% else %}
           <img class="thumb" src="{{site.baseurl}}/reading/assets/thumb/default.png" alt="{{site.title}}">
@@ -22,11 +22,15 @@ title: Writing
         <!-- show title & date -->
         <div class="panel-body">
           <h3 class="panel-title pull-left">{{ post.title}}</h3><br>
-          <div class="post-meta pull-right">
+
+          <span class="post-meta pull-left">
+            {{ post.author | strip_html | strip_newlines | truncate: 180 }}
+          </span>
+          <span class="post-meta pull-right">
             <small>
               {{ post.date | date: "%b %-d, %Y" }}
             </small>
-          </div>
+          </span>
         </div>
 
         <!-- show brief -->

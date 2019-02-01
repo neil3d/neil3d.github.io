@@ -4,6 +4,11 @@ title: "《炉石传说》架构设计赏析(7)：使用Google.ProtocolBuffers�
 author: "燕良"
 categories: gamedev
 tags: [Hearthstone, Game]
+image:
+  path: hearthstone
+  feature: cover.jpg
+  credit: "Blizzard"
+  creditlink: "http://hs.blizzard.cn"
 brief: "炉石使用Google.ProtocolBuffers来处理网络消息，这里我们就分析一下消息打包、解包等代码是适合实现的。"
 ---
 

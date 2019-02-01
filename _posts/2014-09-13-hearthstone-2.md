@@ -4,6 +4,11 @@ title: "《炉石传说》架构设计赏析(2)：Scene管理"
 author: "燕良"
 categories: gamedev
 tags: [Hearthstone, Game]
+image:
+  path: hearthstone
+  feature: cover.jpg
+  credit: "Blizzard"
+  creditlink: "http://hs.blizzard.cn"
 brief: "分析一下炉石这款游戏中一共有哪些Scene，他们各自负责什么，以及它内部的逻辑、UI的处理方式。"
 ---
 
