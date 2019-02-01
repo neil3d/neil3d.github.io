@@ -32,6 +32,30 @@ title: Home
   {% endif %}
 </div>
 
+<!-- 非置顶文章 -->
+<div style=" margin: 0 auto;width: 900px; max-width:900px;">
+  {% for post in site.posts %}
+  {% if post.top!=true %}
+
+  <div class="panel panel-default">
+    {% if post.image.feature %}
+    <a href="{{ site.github.url }}{{ post.url }}"><img class="thumb" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}"></a>
+    {% endif %}
+    <div class="panel-body">
+      <a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
+      <span class="post-meta">
+        {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
+      </span>
+      <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>
+        Written on {{ post.date | date_to_string }}
+      </span>
+    </div>
+  </div>
+
+  {% endif %}
+  {% endfor %}
+</div>
+
 <center>
   <!-- pagination -->
   {% if paginator.total_pages > 1 %}
