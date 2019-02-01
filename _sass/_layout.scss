@@ -9,9 +9,9 @@ html,body {
 
 .navbar-default {
     border-color: transparent;
-    background-color: transparent;
+    background-color: white;
     padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #999;
 }
 
 
@@ -84,7 +84,8 @@ img {
 
 
 footer {
-    border-top: 1px solid $grey-color-light;
+    background-color: white;
+    border-top: 1px solid #999;
 }
 
 .social {

@@ -35,4 +35,4 @@ title: About
       vertical-align: middle;
     }
 </style>
-<img class="img_banner" src="{{ site.github.url }}/assets/img/ui/banner.jpg">
+<img class="img_banner center-image" src="{{ site.github.url }}/assets/img/ui/banner.jpg">
