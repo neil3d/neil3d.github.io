@@ -21,7 +21,7 @@ title: Home
   </div>
   {% endif %}
   <p>
-    {{ post.brief | markdownify | strip_html | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
+    {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
     <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>Written on {{ post.date | date_to_string
       }}</span>
   </p>
