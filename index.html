@@ -34,7 +34,7 @@ title: Home
 
 <!-- 非置顶文章 -->
 <div style=" margin: 0 auto;width: 900px; max-width:900px;">
-  {% for post in site.posts %}
+  {% for post in paginator.posts %}
   {% if post.top!=true %}
 
   <div class="panel panel-default">
