@@ -33,6 +33,7 @@ title: Home
   </div>
 
   <!-- 非置顶文章 -->
+  {% assign new_post = true  %}
   {% for post in paginator.posts %}
   {% if post.top!=true %}
 
@@ -41,6 +42,10 @@ title: Home
     <a href="{{ site.github.url }}{{ post.url }}"><img class="thumb" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}"></a>
     {% endif %}
     <div class="panel-body">
+      {% if new_post %}
+      <img src="{{ site.github.url }}/assets/img/ui/ui_new.png">
+      {% assign new_post = false  %}
+      {% endif %}
       <a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
       <span class="post-meta">
         {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
