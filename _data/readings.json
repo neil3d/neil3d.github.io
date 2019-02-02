@@ -11,7 +11,7 @@
     "url": "todo.html",
     "my_blog": "/3dengine/why-ecs.html",
     "notes": "http://gad.qq.com/article/detail/28682",
-    "brief": "广受关注的一个演讲，ECS也走入我的视线。这篇文章分析了《守望先锋》使用ECS架构的成功经验，但ECS的要点不止于此。"
+    "brief": "广受关注的一个演讲，作者分享了《守望先锋》使用ECS架构的成功经验，但ECS的要点不止于此。"
   },
   {
     "title": "OOP Is Dead, Long Live Data-oriented Design",
