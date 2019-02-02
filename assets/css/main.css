@@ -17,6 +17,9 @@ body {
   color: #111111;
   line-height: 1.75rem;
   background-color: #ededed;
+  background-image: url('/assets/img/ui/mario-jumping.svg');
+  background-repeat: no-repeat;
+  background-position: left bottom;
 }
 
 @media (max-width: 30em) {
