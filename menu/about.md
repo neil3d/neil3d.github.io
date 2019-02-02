@@ -7,7 +7,7 @@ title: About
 
 ## 博主其人
 
-![id](/assets/img/ui/neil3d.png)  
+![id](/assets/img/ui/neil3d.png){: .center-image }  
 
 大家好，我叫做房燕良，大龄码农一枚。  
 
