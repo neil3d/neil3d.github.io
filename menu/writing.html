@@ -21,7 +21,9 @@ title: Writing
 
         <!-- show title & date -->
         <div class="panel-body">
-          <h3 class="panel-title pull-left">{{ post.title}}</h3><br>
+          <a href="{{ site.github.url }}{{ post.url }}" class="index-anchor">
+            <h3 class="panel-title pull-left">{{ post.title}}</h3><br>
+          </a>
 
           <span class="post-meta pull-left">
             {{ post.author | strip_html | strip_newlines | truncate: 180 }}
@@ -37,7 +39,7 @@ title: Writing
         {% if post.brief != blank %}
         <div class="panel-body">
           <small>
-            {{ post.brief | markdownify | truncate: 60  }}
+            {{ post.brief | markdownify | truncate: 60 }}
           </small>
         </div>
         {% endif %}
