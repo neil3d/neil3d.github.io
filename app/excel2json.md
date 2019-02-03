@@ -9,19 +9,17 @@ title: excel2json
 
 ### 版本更新
 
-* 最新版：  **1.1.1**
-* 更新日期：**2018年1月16日**
+* 最新版：  **1.2.0**
+* 更新日期：**2019年2月3日**
 * 最新版下载：[https://github.com/neil3d/excel2json/releases](https://github.com/neil3d/excel2json/releases)
 * 源代码Github地址：[https://github.com/neil3d/excel2json](https://github.com/neil3d/excel2json)
 
 
 ### 主要功能：
 
+* 支持读取 Excel 97-2003的 .xls格式和2007的 .xlsx格式；
+* 支持多个表单导出；
 * 把Excel表单转换成Json对象，并保存到一个文本文件中。支持将表中内容转换成**Array**，或者以第一列为ID的**字典对象**；
-* 把Excel表单转换成SQL文本；
-* 把Excel的表头转换成C#的struct数据定义代码。
-
-由于这里使用OpenXML格式直接解析，所以只支持.xlsx文件，并不支持.xls文件。
 
 ### 支持GUI模式和命令行模式
 
@@ -50,6 +48,9 @@ for /f "delims=" %%i in ('dir /b /a-d /s %EXCEL_FOLDER%\*.xlsx') do (
 -  -h, --header      Required. 表格中有几行是表头.
 -  -c, --encoding    (Default: utf8-nobom) 指定编码的名称.
 -  -l, --lowcase     (Default: false) 自动把字段名称转换成小写格式.
+-  -a 序列化成数组
+-  -d, --date:指定日期格式化字符串，例如：dd / MM / yyy hh: mm:ss
+
 
 例如：**excel2json --excel test.xlsx --json test.json --header 3 --array true**，其中的输入和输出文件，都在当前目录下；
 
