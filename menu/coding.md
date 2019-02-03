@@ -9,7 +9,7 @@ title: Coding
 
 超级快的Excel转换工具，比使用Excel COM组件或者OLE DB的方式快100倍。支持转换成JOSN、SQL等数据输出。[查看详情...](/app/excel2json.html)
 
-### [Unit glTF 2.0 Exporter](/app/unity-gltf-exporter.html)
+### [Unity glTF 2.0 Exporter](/app/unity-gltf-exporter.html)
 
 ![unit-gltf-exporter](/assets/img/unity/exporter-cover.png)  
 
