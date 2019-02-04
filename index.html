@@ -34,6 +34,10 @@ title: Home
 
   <!-- 非置顶文章 -->
   {% assign new_post = true  %}
+  {% if paginator.page > 1%}
+    {% assign new_post = false  %}
+  {% endif %}
+  
   {% for post in paginator.posts %}
   {% if post.top!=true %}
 
