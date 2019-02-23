@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "OpenGL简史"
+title: "OpenGL的可视化简史"
 author: "燕良"
 categories: 3dengine
 tags: [3dapi]
