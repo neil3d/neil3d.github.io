@@ -1,14 +1,17 @@
 [
     {
-    "name": "Internet Explorer",
-    "value": 26
+        "api": "OpenGL",
+        "date": "1996/6/30",
+        "level": 1
     },
     {
-    "name": "Chrome",
-    "value": 40
+        "api": "OpenGL ES",
+        "date": "1997/3/4",
+        "level": 1
     },
     {
-    "name": "Firefox",
-    "value": 30
+        "api": "WebGL",
+        "date": "1998/3/16",
+        "level": 1
     }
 ]

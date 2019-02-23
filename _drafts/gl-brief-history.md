@@ -54,7 +54,7 @@ TODO：前端与WebGL
 
 ### 参考资料
 
-* [Working with Metal: Fundamentals](https://developer.apple.com/videos/play/wwdc2014/604/)，WWDC 2014
+* Wiki-OpenGL, https://en.wikipedia.org/wiki/OpenGL
 * Khronos Group，"[Vulkan - The Future of High-performance Graphics](https://youtu.be/QF7gENO6CI8)"，GDC 2015
 * Chris Hecker，"[An Open Letter to Microsoft: Do the Right Thing for the 3D Game Industry](http://chrishecker.com/images/3/33/Gdmogl.pdf)"，1997
 
