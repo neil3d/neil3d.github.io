@@ -154,7 +154,7 @@
     "brief": "PBR 中广泛使用的Cook-Torrance BRDF是1982年此篇论文提出。"
   },
   {
-    "title": "MODELS OF LIQrHT REFLECTION\nFOR CO1PUTER SYNTHESIZED PICTURES",
+    "title": "Models of Light Reflection for Computer Synthesized Pictures",
     "author": " James F. Blinn",
     "homepage": "https://dl.acm.org/citation.cfm?id=563893",
     "date": "1977年7月",
@@ -168,7 +168,7 @@
     "brief": "经典的Blinn-Phong光照模型"
   },
   {
-    "title": "CASTING CURVED SHADOWS ON CURVED SURFACES ",
+    "title": "Casting curved shadows on curved surfaces ",
     "author": " Lance William",
     "homepage": "https://dl.acm.org/citation.cfm?id=807402",
     "date": "1978年8月",
