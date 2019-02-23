@@ -4,18 +4,7 @@
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.1/dist/data-set.min.js"></script>
 <script>
 
-  var data = [{
-    name: 'Internet Explorer',
-    value: 26
-  }, {
-    name: 'Chrome',
-    value: 40
-  }, {
-    name: 'Firefox',
-    value: 30
-  }];
-
-  // 自定义 shape, 支持图片形式的气泡
+  //-- 自定义 shape, 支持图片形式的气泡
   var Shape = G2.Shape;
   Shape.registerShape('point', 'logo', {
     drawShape: function drawShape(cfg, container) {
@@ -47,12 +36,14 @@
     }
   });
 
+  //-- resources
   var logoMap = {
     'Internet Explorer': '/assets/img/opengl/OpenGL_100px_June16.png',
     'Chrome': '/assets/img/opengl/OpenGL-ES_100px_May16.png',
     'Firefox': '/assets/img/opengl/WebGL_100px_June16.png',
   };
 
+  //-- render bubble chart
   function renderG2Chart(data) {
     var chart = new G2.Chart({
       container: 'mountNode',
@@ -80,6 +71,9 @@
     chart.render();
   }
 
-  renderG2Chart(data);
-  
+  //-- run
+  $.getJSON('/assets/data/gl-version.json', function(data){
+    renderG2Chart(data);
+  });
+
 </script>
