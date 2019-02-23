@@ -1,4 +1,3 @@
-
 <div id="mountNode"></div>
 <script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.4.1/dist/g2.min.js"></script>
@@ -21,12 +20,15 @@
           lineDash: [4, 2]
         }
       });
+
+      var h = 7 * cfg.size;
+      var w = h * 3;
       return container.addShape('image', {
         attrs: {
-          x: cfg.points[0].x - 12 * cfg.size / 2,
-          y: cfg.points[0].y - 12 * cfg.size,
-          width: 12 * cfg.size,
-          height: 12 * cfg.size,
+          x: cfg.points[0].x - w * 0.5,
+          y: cfg.points[0].y - h,
+          width: w,
+          height: h,
           img: cfg.shape[1]
         }
       });
@@ -41,23 +43,11 @@
   }, {
     name: 'Firefox',
     value: 30
-  }, {
-    name: 'Safari',
-    value: 24
-  }, {
-    name: 'Opera',
-    value: 15
-  }, {
-    name: 'Undetectable',
-    value: 8
   }];
   var imageMap = {
-    'Internet Explorer': 'https://gw.alipayobjects.com/zos/rmsportal/eOYRaLPOmkieVvjyjTzM.png',
-    'Chrome': 'https://gw.alipayobjects.com/zos/rmsportal/dWJWRLWfpOEbwCyxmZwu.png',
-    'Firefox': 'https://gw.alipayobjects.com/zos/rmsportal/ZEPeDluKmAoTioCABBTc.png',
-    'Safari': 'https://gw.alipayobjects.com/zos/rmsportal/eZYhlLzqWLAYwOHQAXmc.png',
-    'Opera': 'https://gw.alipayobjects.com/zos/rmsportal/vXiGOWCGZNKuVVpVYQAw.png',
-    'Undetectable': 'https://gw.alipayobjects.com/zos/rmsportal/NjApYXminrnhBgOXyuaK.png'
+    'Internet Explorer': '/assets/img/opengl/OpenGL_100px_June16.png',
+    'Chrome': '/assets/img/opengl/OpenGL-ES_100px_May16.png',
+    'Firefox': '/assets/img/opengl/WebGL_100px_June16.png',
   };
   var chart = new G2.Chart({
     container: 'mountNode',
@@ -74,7 +64,7 @@
   });
   chart.legend(false);
   chart.axis('value', false);
-  chart.point().position('name*value').size('value').color('name').shape('name', function(name) {
+  chart.point().position('name*value').size('value').color('name').shape('name', function (name) {
     return ['image', imageMap[name]]; // 根据具体的字段指定 shape
   }).label('value', {
     offset: -20,
@@ -84,4 +74,3 @@
   });
   chart.render();
 </script>
-
