@@ -3,9 +3,21 @@
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.4.1/dist/g2.min.js"></script>
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.1/dist/data-set.min.js"></script>
 <script>
+
+  var data = [{
+    name: 'Internet Explorer',
+    value: 26
+  }, {
+    name: 'Chrome',
+    value: 40
+  }, {
+    name: 'Firefox',
+    value: 30
+  }];
+
   // 自定义 shape, 支持图片形式的气泡
   var Shape = G2.Shape;
-  Shape.registerShape('point', 'image', {
+  Shape.registerShape('point', 'logo', {
     drawShape: function drawShape(cfg, container) {
       cfg.points = this.parsePoints(cfg.points);
       var coord = this._coord;
@@ -34,43 +46,40 @@
       });
     }
   });
-  var data = [{
-    name: 'Internet Explorer',
-    value: 26
-  }, {
-    name: 'Chrome',
-    value: 40
-  }, {
-    name: 'Firefox',
-    value: 30
-  }];
-  var imageMap = {
+
+  var logoMap = {
     'Internet Explorer': '/assets/img/opengl/OpenGL_100px_June16.png',
     'Chrome': '/assets/img/opengl/OpenGL-ES_100px_May16.png',
     'Firefox': '/assets/img/opengl/WebGL_100px_June16.png',
   };
-  var chart = new G2.Chart({
-    container: 'mountNode',
-    forceFit: true,
-    height: 400,
-    padding: [20, 20, 90]
-  });
-  chart.source(data, {
-    value: {
-      nice: false,
-      max: 60,
-      min: 0
-    }
-  });
-  chart.legend(false);
-  chart.axis('value', false);
-  chart.point().position('name*value').size('value').color('name').shape('name', function (name) {
-    return ['image', imageMap[name]]; // 根据具体的字段指定 shape
-  }).label('value', {
-    offset: -20,
-    textStyle: {
-      fontSize: 16 // 文本大小
-    }
-  });
-  chart.render();
+
+  function renderG2Chart(data) {
+    var chart = new G2.Chart({
+      container: 'mountNode',
+      forceFit: true,
+      height: 400,
+      padding: [20, 20, 90]
+    });
+    chart.source(data, {
+      value: {
+        nice: false,
+        max: 60,
+        min: 0
+      }
+    });
+    chart.legend(false);
+    chart.axis('value', false);
+    chart.point().position('name*value').size('value').color('name').shape('name', function (name) {
+      return ['logo', logoMap[name]]; // 根据具体的字段指定 shape
+    }).label('value', {
+      offset: -20,
+      textStyle: {
+        fontSize: 16 // 文本大小
+      }
+    });
+    chart.render();
+  }
+
+  renderG2Chart(data);
+  
 </script>
