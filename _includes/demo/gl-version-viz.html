@@ -8,6 +8,8 @@
   var Shape = G2.Shape;
   Shape.registerShape('point', 'logo', {
     drawShape: function drawShape(cfg, container) {
+      console.log(cfg);
+
       cfg.points = this.parsePoints(cfg.points);
       var coord = this._coord;
       container.addShape('line', {
@@ -22,8 +24,8 @@
         }
       });
 
-      var h = 4 * cfg.size;
-      var w = h * 3;
+      var h = 32;
+      var w = h * 2.5;
       return container.addShape('image', {
         attrs: {
           x: cfg.points[0].x - w * 0.5,
@@ -48,25 +50,12 @@
     var chart = new G2.Chart({
       container: 'mountNode',
       forceFit: true,
-      height: 400,
-      padding: [20, 20, 90]
+      height: 512
     });
 
-    chart.source(data, {
-      date: {
-        nice: true,
-      }
-    });
-
-    chart.scale({
-      api: {
-        type: 'cat',
-        values: ['WebGL', 'OpenGL ES', 'OpenGL'],
-      }
-    });
-
+    chart.source(data);
     chart.legend(false);
-    chart.axis('api', false);
+    chart.axis('version', false);
     chart.axis('date', {
       type: 'timeCat',
       line: {
@@ -85,14 +74,14 @@
       }
     });
 
-    chart.point().position(['date', 'api']).size('level').shape('api', function (api) {
+    chart.point().position(['date', 'version']).shape('api', function (api) {
       return ['logo', logoMap[api]]; // 根据具体的字段指定 shape
-    }).label('api', {
-      offset: -20,
+    }).label('version', {
+      offset: -12,
       textStyle: {
         fontSize: 16 // 文本大小
       }
-    });
+    }).tooltip('api*version*date*features');
     chart.render();
   }
 
