@@ -31,7 +31,11 @@ title: Reading Tags
             <ul>
                 {% for post in site.data.readings %}
                 {% if post.tags contains tag %}
-                <li><a href="{{ site.url }}/reading/{{ post.url }}">{{ post.title }}</a></li>
+                <li>
+                    {{post.author}}, 
+                    <a href="{{ site.url }}/reading/{{ post.url }}">{{ post.title }}</a>, 
+                    {{post.date}}
+                </li>
                 {%endif%}
                 {% endfor %}
             </ul>
