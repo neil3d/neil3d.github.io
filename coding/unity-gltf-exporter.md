@@ -3,6 +3,8 @@ layout: page
 title: Unity glTF 2.0 Exporter
 ---
 
+# Unity glTF 2.0 Exporter
+
 glTF 2.0 已经获得了很多引擎的支持，特别是在 WebGL 领域，包括 Three.js 等流行的引擎都已经支持了 glTF 2.0 格式。在开发我们需要把模型转换成 glTF 格式，目前有了一些工具。我偏爱的一种方式是把模型先导入到 Unity 中，预览 或者 进行场景布局，然后再导出。下面这个 Unity 插件就可以完成这项任务。
 
 ### 版本更新
