@@ -28,6 +28,20 @@
     "brief": "非常朴实的PPT，讲出面向数据的设计的实践经验。"
   },
   {
+    "title": "Cpu Caches and Why You Care",
+    "author": "Scott Meyers",
+    "homepage": "https://www.aristeia.com",
+    "date": "2014年11月",
+    "publisher": "code::dive",
+    "tags": "面向数据的设计",
+    "thumb": "assets/thumb/scott_cpu_cache.png",
+    "video": "https://youtu.be/WDIkqP4JbkE",
+    "url": "assets/slides/codedive-CPUCachesHandouts.pdf",
+    "my_blog": "",
+    "notes": "",
+    "brief": "《Effective C++》看过吧，那你必须看看 这个演讲，犀利，洗脑！Scott Meyers 依然给力！"
+  },
+  {
     "title": "PBR Background: Physics and Math of Shading",
     "author": "Naty Hoffman",
     "homepage": "https://blog.selfshadow.com/publications/s2013-shading-course/",
