@@ -34,5 +34,4 @@ Unity3D 2018.1 beta 引入了 Scriptable Render Pipeline，简称 SRP，并提�
 * [NVIDIA Falcor](https://developer.nvidia.com/falcor)
 * [FrameGraph: Extensible Rendering Architecture in Frostbite](https://www.ea.com/frostbite/news/framegraph-extensible-rendering-architecture-in-frostbite)
 * [Advanced Graphics Tech: Moving to DirectX 12: Lessons Learned](https://www.gdcvault.com/play/1024656/Advanced-Graphics-Tech-Moving-to)
-* [Unity Scriptable Render Pipeline](https://github.com/Unity-Technologies/ScriptableRenderPipeline)
 * [Unity Scriptable Render Pipeline Overview](https://blogs.unity3d.com/cn/2018/01/31/srp-overview)
