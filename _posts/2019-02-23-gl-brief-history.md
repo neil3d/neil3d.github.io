@@ -55,7 +55,7 @@ Direct3D 5.0并不是一个成功的版本，它提供的保留模式显得高�
 为什么连OpenGL的管理组织Khronos都急着去设计全新的图形API，而不是集中力量其中升级OpenGL呢？我想有一下几点原因：
 
 * 成也萧何败也萧何，OpenGL对软件开发者特别友好，也就代表它对硬件厂商并不友好。这在早期可能不是太大的问题，但随着GPU越来越强大、越来越复杂，GL驱动这一层也越来越厚。OpenGL显示驱动要维护所有的状态，对API调用进行各种检查，导致Draw Call的额外负担过重。虽然后面加入Draw Instance，Vertex Array Object等来减少API调用，但都是打补丁，不能根本性解决问题。
-![wwdc2014-metal](/assets/img/opengl/wwdc2014-metal.png)
+![wwdc2015-metal](/assets/img/opengl/wwdc2015-metal.gif)
 * 由于被设计为一个整体的状态机，所以OpenGL API不支持多线程。在CPU走向多核之后，并行编程越来越重要，这就成了一个明显的缺点。
 
 所以，是时候开始Vulkan，Metal或者DirectX 12啦！
