@@ -1,5 +1,19 @@
 [
   {
+    "title": "An Overview of Next-Generation Graphics APIs",
+    "author": "Chris Wyman, Tim Foley…",
+    "homepage": "http://nextgenapis.realtimerendering.com",
+    "date": "2015年8月",
+    "publisher": "SIGGRAPH 2015",
+    "tags": "3D API",
+    "thumb": "assets/thumb/s2015_NextGenAPI.png",
+    "video": "https://youtu.be/DXYROo5YAdI",
+    "url": "assets/slides/s2015_NextGenAPI.zip",
+    "my_blog": "/3dengine/gl-brief-history.html",
+    "notes": "",
+    "brief": "Vulkan，DX12都来一个简单介绍（也谈到Metal），并比较它们的异同。"
+  },
+  {
     "title": "OOP Is Dead, Long Live Data-oriented Design",
     "author": "Stoyan Nikolov",
     "homepage": "https://stoyannk.wordpress.com/2018/10/26/my-cppcon-2019-talk",
