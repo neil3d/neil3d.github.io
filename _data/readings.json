@@ -33,7 +33,7 @@
     "homepage": "",
     "date": "2014年9月",
     "publisher": "CppCon 2014",
-    "tags": "面向数据的设计",
+    "tags": "面向数据的设计|C++",
     "thumb": "assets/thumb/dod_cppcon2014.png",
     "video": "https://youtu.be/rX0ItVEVjHc",
     "url": "assets/slides/Data-Oriented Design and C++ - Mike Acton - CppCon 2014.pptx",
@@ -47,7 +47,7 @@
     "homepage": "https://www.aristeia.com",
     "date": "2014年11月",
     "publisher": "code::dive",
-    "tags": "面向数据的设计",
+    "tags": "面向数据的设计|C++",
     "thumb": "assets/thumb/scott_cpu_cache.png",
     "video": "https://youtu.be/WDIkqP4JbkE",
     "url": "assets/slides/codedive-CPUCachesHandouts.pdf",
@@ -180,6 +180,20 @@
     "my_blog": "/unreal/pbr-theory.html",
     "notes": "",
     "brief": "PBR 中广泛使用的Cook-Torrance BRDF是1982年此篇论文提出。"
+  },
+  {
+    "title": "Bi-Directional Reflectance Distribution Functions ",
+    "author": "Matthew McCrory",
+    "homepage": "https://www.cs.northwestern.edu/~jet/Teach/2003_1winAdvGraphics",
+    "date": "2003年3月",
+    "publisher": "Northwestern University",
+    "tags": "图形学",
+    "thumb": "assets/thumb/cook-brdf.png",
+    "video": "",
+    "url": "assets/slides/week5.globillum.McCrory.ppt",
+    "my_blog": "",
+    "notes": "",
+    "brief": "一个很好的BRDF的讲义"
   },
   {
     "title": "Models of Light Reflection for Computer Synthesized Pictures",
