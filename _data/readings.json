@@ -168,6 +168,20 @@
     "brief": "一个很好的BRDF的讲义"
   },
   {
+    "title": " A Data-Driven\nGame Object System",
+    "author": "Scott Bilas",
+    "homepage": "",
+    "date": "2002年3月",
+    "publisher": "GDC 2002",
+    "tags": "引擎架构",
+    "thumb": "assets/thumb/gdc02-components.png",
+    "video": "",
+    "url": "assets/slides/data-driven-game-object-system.pdf",
+    "my_blog": "",
+    "notes": "",
+    "brief": "我看到的最早的发表的谈论Component组件对象模型的演讲，是由《地牢围攻》开发者在GDC 2002做的分享。"
+  },
+  {
     "title": "The Rendering Equation",
     "author": "James T. Kajiya ",
     "homepage": "https://dl.acm.org/citation.cfm?id=15902",
