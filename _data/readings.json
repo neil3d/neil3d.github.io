@@ -84,6 +84,20 @@
     "brief": "非常朴实的PPT，讲出面向数据的设计的实践经验。"
   },
   {
+    "title": "Designers Are from Saturn, Programmers Are from Uranus",
+    "author": "Brian Schwab",
+    "homepage": "",
+    "date": "2014年3月",
+    "publisher": "GDC 2014",
+    "tags": "游戏开发",
+    "thumb": "assets/thumb/gdc14-designer-programmer.png",
+    "video": "https://youtu.be/6b-o_-Xb50E",
+    "url": "assets/slides/Schwab_Brian_Designers_Are_From.pdf",
+    "my_blog": "",
+    "notes": "",
+    "brief": "很有趣的一个讲程序+策划工作配合的一个演讲。"
+  },
+  {
     "title": "Cpu Caches and Why You Care",
     "author": "Scott Meyers",
     "homepage": "https://www.aristeia.com",
