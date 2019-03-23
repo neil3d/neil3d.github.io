@@ -168,6 +168,20 @@
     "brief": "DIC工作室对于面向数据的设计的一个分享。"
   },
   {
+    "title": "The Direct3D 10 system",
+    "author": "David Blythe",
+    "homepage": "https://dl.acm.org/citation.cfm?id=1141947",
+    "date": "2006年8月",
+    "publisher": "SIGGRAPH 2006",
+    "tags": "3D API",
+    "thumb": "assets/thumb/dx10.png",
+    "video": "",
+    "url": "assets/paper/p724-blythe-d3d10system.pdf",
+    "my_blog": "",
+    "notes": "",
+    "brief": "D3D 10的Shader Model 4.0是第一个Unified Shader Model"
+  },
+  {
     "title": "Bi-Directional Reflectance Distribution Functions ",
     "author": "Matthew McCrory",
     "homepage": "https://www.cs.northwestern.edu/~jet/Teach/2003_1winAdvGraphics",
