@@ -265,7 +265,14 @@ float UMyBlueprintFunctionLibrary::GenericArray_NumericPropertyAverage(const voi
 	}
 
 	UScriptStruct* Struct = InnerProperty->Struct;
-	UNumericProperty* NumProperty = Cast<UNumericProperty>(Struct->FindPropertyByName(PropertyName));
+	FString PropertyNameStr = PropertyName.ToString();
+	UNumericProperty* NumProperty = nullptr;
+	for (TFieldIterator<UNumericProperty> iter(Struct); iter; ++iter) {
+		if (Struct->PropertyNameToDisplayName(iter->GetFName()) == PropertyNameStr) {
+			NumProperty = *iter;
+			break;
+		}
+	}
 	if (!NumProperty) {
 		UE_LOG(LogTemp, Log, TEXT("Struct property NOT numeric = [%s]"),
 			*(PropertyName.ToString())
@@ -291,7 +298,7 @@ float UMyBlueprintFunctionLibrary::GenericArray_NumericPropertyAverage(const voi
 			Sum += NumProperty->GetSignedIntPropertyValue(ValuePtr);
 		}
 	}
-	// TODO: else if(enum etc.)
+	// TODO: else if(enum类型)
 
 	return Sum / Count;
 }
