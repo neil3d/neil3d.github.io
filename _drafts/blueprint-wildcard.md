@@ -10,9 +10,9 @@ image:
 brief: "使用CustomThunk函数方式，实现蓝图模板功能节点，用来处理任意类型的数组，并探索实现细节背后的蓝图机制。"
 ---
 
-最近想做一些通用的数据统计之类的蓝图节点，这些节点处理的数据类似于`TArray<MyStruct>`这种类型，其中`MyStruct`可以是C++或者蓝图定义的`UStruct`。这里就涉及一店“蓝图功能节点”的深入开发，主要是这个节点的输入参数是“泛型”的。最终实现的功能，如下图所示：
+最近想做一些通用的数据统计之类的蓝图节点，这些节点处理的数据类似于`TArray<MyStruct>`这种类型，其中`MyStruct`可以是C++或者蓝图定义的`UStruct`。这里就涉及一点“蓝图功能节点”的深入开发，主要是这个节点的输入参数是“泛型”的。最终实现的功能，如下图所示：
 
-TODO
+![Blueprint Generic Array Average](/assets/img/unreal/2019-bp-average.png){: .center-image }
 
 基于这个需求，探索了一下蓝图的开发，总结如下。
 
@@ -166,3 +166,133 @@ TArray<FMyStruct>& Z_Param_Out_MyStructArray = Stack.StepCompiledInRef<UArrayPro
 ## 实践：对数组中的Struct的数值型求平均
 
 下面我们就看一下文章开头的这张图里面的蓝图节点是符合通过“CustomThunk”函数来实现的。
+
+经过前面的摸索，我们对蓝图函数调用的过程有了粗略的理解，但是还远不够精确。那么如何准确的从蓝图虚拟机的栈上取出“泛型的数组”参数呢？好在隐去是开源的，我们可以参照“class UKismetArrayLibrary”，其源代码就在：Source/Runtime/Engine/Class/Kismet/KismetArrayLibrary.h 和对应的.cpp文件中。
+
+经过分析UKismetArrayLibrary的源代码，我定义了这样一个宏，用来从栈上取出泛型数组参数，并正确的移动栈指针：
+``` cpp
+#define P_GET_GENERIC_ARRAY(ArrayAddr, ArrayProperty) Stack.MostRecentProperty = nullptr;\
+		Stack.StepCompiledIn<UArrayProperty>(NULL);\
+		void* ArrayAddr = Stack.MostRecentPropertyAddress;\
+		UArrayProperty* ArrayProperty = Cast<UArrayProperty>(Stack.MostRecentProperty);\
+		if (!ArrayProperty) {	Stack.bArrayContextFailed = true;	return; }
+```
+通过这个宏，可以得到两个局部变量：
+* `void* ArrayAddr`: 数组的起始内存地址；
+* `UArrayProperty* ArrayProperty`: 数组的反射信息，`ArrayProperty->Inner`就是数组成员对应的类型了；
+  
+有了这个宏，我们就可以很方便的写出thunk函数了：
+``` cpp
+DECLARE_FUNCTION(execArray_NumericPropertyAverage) {
+
+		// get TargetArray
+		P_GET_GENERIC_ARRAY(ArrayAddr, ArrayProperty);
+
+		// get PropertyName
+		P_GET_PROPERTY(UNameProperty, PropertyName);
+
+		P_FINISH;
+
+		P_NATIVE_BEGIN;
+		*(float*)RESULT_PARAM = GenericArray_NumericPropertyAverage(ArrayAddr, ArrayProperty, PropertyName);
+		P_NATIVE_END;
+	}
+```
+
+经过以上的准备，我们就已经可以正确的处理“泛型数组”了。下一步就是对这个数组中指定的数“值类型成员变量”求均值了，这主要依靠Unreal的反射信息，一步步抽丝剥茧，找到数组中的每个变量即可。反射系统的使用不是本文的重点，先看完整代码吧。
+
+### MyBlueprintFunctionLibrary.h
+``` cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
+#include "MyBlueprintFunctionLibrary.generated.h"
+
+#define P_GET_GENERIC_ARRAY(ArrayAddr, ArrayProperty) Stack.MostRecentProperty = nullptr;\
+		Stack.StepCompiledIn<UArrayProperty>(NULL);\
+		void* ArrayAddr = Stack.MostRecentPropertyAddress;\
+		UArrayProperty* ArrayProperty = Cast<UArrayProperty>(Stack.MostRecentProperty);\
+		if (!ArrayProperty) {	Stack.bArrayContextFailed = true;	return; }
+
+
+/**
+ *
+ */
+UCLASS()
+class BLUEPRINTWILDCARD_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary {
+	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintPure, CustomThunk, meta = (DisplayName = "Array Numeric Property Average", ArrayParm = "TargetArray", ArrayTypeDependentParams = "TargetArray"), Category = "MyDemo")
+		static float Array_NumericPropertyAverage(const TArray<int32>& TargetArray, FName PropertyName);
+	static float GenericArray_NumericPropertyAverage(const void* TargetArray, const UArrayProperty* ArrayProperty, FName ArrayPropertyName);
+
+public:
+	DECLARE_FUNCTION(execArray_NumericPropertyAverage) {
+
+		// get TargetArray
+		P_GET_GENERIC_ARRAY(ArrayAddr, ArrayProperty);
+
+		// get PropertyName
+		P_GET_PROPERTY(UNameProperty, PropertyName);
+
+		P_FINISH;
+
+		P_NATIVE_BEGIN;
+		*(float*)RESULT_PARAM = GenericArray_NumericPropertyAverage(ArrayAddr, ArrayProperty, PropertyName);
+		P_NATIVE_END;
+	}
+};
+```
+
+### MyBlueprintFunctionLibrary.cpp
+``` cpp
+#include "MyBlueprintFunctionLibrary.h"
+
+float UMyBlueprintFunctionLibrary::Array_NumericPropertyAverage(const TArray<int32>& TargetArray, FName PropertyName) {
+	// We should never hit these!  They're stubs to avoid NoExport on the class.  Call the Generic* equivalent instead
+	check(0);
+	return 0.f;
+}
+
+float UMyBlueprintFunctionLibrary::GenericArray_NumericPropertyAverage(const void* TargetArray, const UArrayProperty* ArrayProperty, FName PropertyName) {
+
+	UStructProperty* InnerProperty = Cast<UStructProperty>(ArrayProperty->Inner);
+	if (!InnerProperty) {
+		UE_LOG(LogTemp, Error, TEXT("Array inner property is NOT a UStruct!"));
+		return 0.f;
+	}
+
+	UScriptStruct* Struct = InnerProperty->Struct;
+	UNumericProperty* NumProperty = Cast<UNumericProperty>(Struct->FindPropertyByName(PropertyName));
+	if (!NumProperty) {
+		UE_LOG(LogTemp, Log, TEXT("Struct property NOT numeric = [%s]"),
+			*(PropertyName.ToString())
+		);
+	}
+
+
+	FScriptArrayHelper ArrayHelper(ArrayProperty, TargetArray);
+	int Count = ArrayHelper.Num();
+	float Sum = 0.f;
+
+	if (NumProperty->IsFloatingPoint())
+		for (int i = 0; i < Count; i++) {
+			void* ElemPtr = ArrayHelper.GetRawPtr(i);
+			const uint8* ValuePtr = NumProperty->ContainerPtrToValuePtr<uint8>(ElemPtr);
+			Sum += NumProperty->GetFloatingPointPropertyValue(ValuePtr);
+
+		}
+	else if (NumProperty->IsInteger()) {
+		for (int i = 0; i < Count; i++) {
+			void* ElemPtr = ArrayHelper.GetRawPtr(i);
+			const uint8* ValuePtr = NumProperty->ContainerPtrToValuePtr<uint8>(ElemPtr);
+			Sum += NumProperty->GetSignedIntPropertyValue(ValuePtr);
+		}
+	}
+	// TODO: else if(enum etc.)
+
+	return Sum / Count;
+}
+```
