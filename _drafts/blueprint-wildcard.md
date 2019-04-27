@@ -10,13 +10,26 @@ image:
 brief: "使用CustomThunk函数方式，实现蓝图模板功能节点，用来处理任意类型的数组，并探索实现细节背后的蓝图机制。"
 ---
 
-最近想做一些通用的数据统计之类的蓝图节点，这些节点处理的数据类似于`TArray<MyStruct>`这种类型，其中`MyStruct`可以是C++或者蓝图定义的`UStruct`。这里就涉及一点“蓝图功能节点”的深入开发，主要是这个节点的输入参数是“泛型”的。最终实现的功能，如下图所示：
+Unreal的蓝图也是一种静态类型的编程语言，它又不像其他静态类型语言那样支持模板，有些时候就觉得很不方便。
+
+本周思考了一下这个问题。想要蓝图节点支持任意类型的参数，主要分为两种情况：
+* UObject派生类对象：那很简单了，使用基类指针作为参数就好，在C++里面可以Cast，或者取得对象的UClass，就可以根据反射信息做很多事了；
+* Struct类型，或者`TArray<MyStruct>`类型：这个是本文的重点。
+
+仔细想了一些，引擎中其实已经有很多能够处理任意Struct或者`TArray<MyStruct>`类型的节点了！感谢Unreal开源，通过阅读源代码，加上一点实验，就能够搞清楚具体实现方法和背后的细节。
+
+本文主要探讨使用UFUNCTION的`CustomThunk`描述符，**实现自定义的Thunk函数**；然后通过指定meta的`CustomStructureParam`和`ArrayParm`参数，来**实现参数类型“通配符”**！这中间的难点是：**需要明确蓝图Stack的处理方式**。Demo如下图所示：
 
 ![Blueprint Generic Array Average](/assets/img/unreal/2019-bp-average.png){: .center-image }
 
-基于这个需求，探索了一下蓝图的开发，总结如下。
+在上图的Demo中：
+1. 自定义了一个蓝图Struct：MyStruct
+2. 使用C++实现了一个蓝图节点“Show Struct Fields”：可以接受上次任意的UStruct对象，具体类型由C++或者蓝图定义；
+3. 蓝图节点“Array Numeric Field Average”：可以接受任意类型的TArray<MyStruct>，并对数组中指定的数值型字段求平均；
 
-## 扩展蓝图功能节点的几种方式
+完整的Demo工程可以从我的GitHub下载：https://github.com/neil3d/UnrealCookBook 。
+
+## 实现蓝图功能节点的几种方式
 
 在Unreal开发中可以使用C++对蓝图进行扩展，生成Unreal蓝图节点最方便的方法就是写一个`UFUNCTION`，无论是定义在`UBlueprintFunctionLibrary`派生类里面的static函数，还是定义在UObject、AActor派生类里面的类成员函数，只要加上UFUNCTION宏修饰，并在宏里面添加BlueprintCallable标识符，就可以自动完成蓝图编辑节点、蓝图节点执行调用的整个过程。不过，由于C++和蓝图都属于“静态类型”编程语言，这种形式编写的蓝图节点，所有的输入、输出参数的类型都必须是固定的，这样引擎才能自动处理蓝图虚拟机的栈。
 
@@ -162,14 +175,83 @@ TArray<FMyStruct>& Z_Param_Out_MyStructArray = Stack.StepCompiledInRef<UArrayPro
 1. 更新"FFrame::PropertyChainForCompiledIn"这个成员变量；
 2. 使用更新后的“FFrame::PropertyChainForCompiledIn”值，更新了"FFrame::MostRecentPropertyAddress"成员变量。
 
+## 实践1：接受任意UStruct类型参数
 
-## 实践：对数组中的Struct的数值型求平均
+下面我们就看一下文章开头的这张图里面的蓝图节点“Show Struct Fields”是如何接受任意类型UStruct参数的。
 
-下面我们就看一下文章开头的这张图里面的蓝图节点是符合通过“CustomThunk”函数来实现的。
+先上代码, **BlueprintWildcardLibrary.h**
+``` cpp
+USTRUCT(BlueprintInternalUseOnly)
+struct FDummyStruct {
+	GENERATED_USTRUCT_BODY()
 
-经过前面的摸索，我们对蓝图函数调用的过程有了粗略的理解，但是还远不够精确。那么如何准确的从蓝图虚拟机的栈上取出“泛型的数组”参数呢？好在隐去是开源的，我们可以参照“class UKismetArrayLibrary”，其源代码就在：Source/Runtime/Engine/Class/Kismet/KismetArrayLibrary.h 和对应的.cpp文件中。
+};
 
-经过分析UKismetArrayLibrary的源代码，我定义了这样一个宏，用来从栈上取出泛型数组参数，并正确的移动栈指针：
+UCLASS()
+class UNREALCOOKBOOK_API UBlueprintWildcardLibrary : public UBlueprintFunctionLibrary {
+	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintCallable, CustomThunk, Category = "MyDemo", meta = (CustomStructureParam = "CustomStruct"))
+		static void ShowStructFields(const FDummyStruct& CustomStruct);
+	static void Generic_ShowStructFields(const void* StructAddr, const UStructProperty* StructProperty);
+
+	DECLARE_FUNCTION(execShowStructFields) {
+
+		Stack.MostRecentPropertyAddress = nullptr;
+		Stack.MostRecentProperty = nullptr;
+
+		Stack.StepCompiledIn<UStructProperty>(NULL);
+		void* StructAddr = Stack.MostRecentPropertyAddress;
+		UStructProperty* StructProperty = Cast<UStructProperty>(Stack.MostRecentProperty);
+
+
+		P_FINISH;
+
+		P_NATIVE_BEGIN;
+		Generic_ShowStructFields(StructAddr, StructProperty);
+		P_NATIVE_END;
+	}
+};
+```
+
+**BlueprintWildcardLibrary.cpp**
+``` cpp
+#include "BlueprintWildcardLibrary.h"
+#include "Engine/Engine.h"
+
+void UBlueprintWildcardLibrary::Generic_ShowStructFields(const void* StructAddr, const UStructProperty* StructProperty) {
+	UScriptStruct* Struct = StructProperty->Struct;
+	for (TFieldIterator<UProperty> iter(Struct); iter; ++iter) {
+
+		FScreenMessageString NewMessage;
+		NewMessage.CurrentTimeDisplayed = 0.0f;
+		NewMessage.Key = INDEX_NONE;
+		NewMessage.DisplayColor = FColor::Blue;
+		NewMessage.TimeToDisplay = 5;
+		NewMessage.ScreenMessage = FString::Printf(TEXT("Property: [%s].[%s]"),
+			*(Struct->GetName()),
+			*(iter->GetName())
+		);
+		NewMessage.TextScale = FVector2D::UnitVector;
+		GEngine->PriorityScreenMessages.Insert(NewMessage, 0);
+	}
+}
+```
+
+解释一下这段代码：
+1. 首先声明了一个UFunction：`static void ShowStructFields(const FDummyStruct& CustomStruct);`，其参数类型是“FDummyStruct”，这只是一个占位符；
+2. 在UFUNCTION宏里面指定“CustomThunk”和“CustomStructureParam”；
+3. 实现一个`execShowStructFields`函数。这个函数很简单，主要是处理蓝图的Stack，从中取出需要的参数，然后对用C++的实现；
+4. 具体功能实现在：`static void Generic_ShowStructFields(const void* StructAddr, const UStructProperty* StructProperty)`这个函数中。
+
+
+## 实践2：对数组中的Struct的数值型求平均
+
+下面我们再来一下文章开头的这张图里面的“Array Numeric Field Average”蓝图节点是如何通过“CustomThunk”函数来实现的。
+
+参照引擎源代码，我定义了这样一个宏，用来从栈上取出泛型数组参数，并正确的移动栈指针：
+
 ``` cpp
 #define P_GET_GENERIC_ARRAY(ArrayAddr, ArrayProperty) Stack.MostRecentProperty = nullptr;\
 		Stack.StepCompiledIn<UArrayProperty>(NULL);\
@@ -201,13 +283,15 @@ DECLARE_FUNCTION(execArray_NumericPropertyAverage) {
 
 经过以上的准备，我们就已经可以正确的处理“泛型数组”了。下一步就是对这个数组中指定的数“值类型成员变量”求均值了，这主要依靠Unreal的反射信息，一步步抽丝剥茧，找到数组中的每个变量即可。反射系统的使用不是本文的重点，先看完整代码吧。
 
-### MyBlueprintFunctionLibrary.h
+### BlueprintWildcardLibrary.h
 ``` cpp
+// Fill out your copyright notice in the Description page of Project Settings.
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "MyBlueprintFunctionLibrary.generated.h"
+#include "BlueprintWildcardLibrary.generated.h"
 
 #define P_GET_GENERIC_ARRAY(ArrayAddr, ArrayProperty) Stack.MostRecentProperty = nullptr;\
 		Stack.StepCompiledIn<UArrayProperty>(NULL);\
@@ -215,15 +299,12 @@ DECLARE_FUNCTION(execArray_NumericPropertyAverage) {
 		UArrayProperty* ArrayProperty = Cast<UArrayProperty>(Stack.MostRecentProperty);\
 		if (!ArrayProperty) {	Stack.bArrayContextFailed = true;	return; }
 
-
-/**
- *
- */
 UCLASS()
-class BLUEPRINTWILDCARD_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary {
+class UNREALCOOKBOOK_API UBlueprintWildcardLibrary : public UBlueprintFunctionLibrary {
 	GENERATED_BODY()
 
 public:
+
 	UFUNCTION(BlueprintPure, CustomThunk, meta = (DisplayName = "Array Numeric Property Average", ArrayParm = "TargetArray", ArrayTypeDependentParams = "TargetArray"), Category = "MyDemo")
 		static float Array_NumericPropertyAverage(const TArray<int32>& TargetArray, FName PropertyName);
 	static float GenericArray_NumericPropertyAverage(const void* TargetArray, const UArrayProperty* ArrayProperty, FName ArrayPropertyName);
@@ -244,19 +325,22 @@ public:
 		P_NATIVE_END;
 	}
 };
+
 ```
 
-### MyBlueprintFunctionLibrary.cpp
+### BlueprintWildcardLibrary.cpp
 ``` cpp
-#include "MyBlueprintFunctionLibrary.h"
 
-float UMyBlueprintFunctionLibrary::Array_NumericPropertyAverage(const TArray<int32>& TargetArray, FName PropertyName) {
+#include "BlueprintWildcardLibrary.h"
+#include "Engine/Engine.h"
+
+float UBlueprintWildcardLibrary::Array_NumericPropertyAverage(const TArray<int32>& TargetArray, FName PropertyName) {
 	// We should never hit these!  They're stubs to avoid NoExport on the class.  Call the Generic* equivalent instead
 	check(0);
 	return 0.f;
 }
 
-float UMyBlueprintFunctionLibrary::GenericArray_NumericPropertyAverage(const void* TargetArray, const UArrayProperty* ArrayProperty, FName PropertyName) {
+float UBlueprintWildcardLibrary::GenericArray_NumericPropertyAverage(const void* TargetArray, const UArrayProperty* ArrayProperty, FName PropertyName) {
 
 	UStructProperty* InnerProperty = Cast<UStructProperty>(ArrayProperty->Inner);
 	if (!InnerProperty) {
@@ -265,6 +349,8 @@ float UMyBlueprintFunctionLibrary::GenericArray_NumericPropertyAverage(const voi
 	}
 
 	UScriptStruct* Struct = InnerProperty->Struct;
+	// FindPropertyByName not working for Blueprint Struct
+	//UNumericProperty* NumProperty = Cast<UNumericProperty>(Struct->FindPropertyByName(PropertyName));
 	FString PropertyNameStr = PropertyName.ToString();
 	UNumericProperty* NumProperty = nullptr;
 	for (TFieldIterator<UNumericProperty> iter(Struct); iter; ++iter) {
