@@ -7,7 +7,7 @@ tags: [unreal, blueprint]
 image:
   path: unreal
   feature: 2019-blueprint-cover.png
-brief: "使用CustomThunk函数方式，实现蓝图模板功能节点，用来处理任意类型的数组，并探索实现细节背后的蓝图机制。"
+brief: "使用UFunction CustomThunk函数方式，实现蓝图模板功能节点，用来处理任意类型的数组，并探索实现细节背后的蓝图机制。"
 ---
 
 Unreal的蓝图和C++一样，也是一种静态类型的编程语言，它又不像其他静态类型语言那样支持模板，有些时候就觉得很不方便。思考了一下这个问题。想要蓝图节点支持任意类型的参数，主要分为两种情况：
@@ -294,8 +294,6 @@ DECLARE_FUNCTION(execArray_NumericPropertyAverage) {
 
 ### BlueprintWildcardLibrary.h
 ``` cpp
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -358,8 +356,6 @@ float UBlueprintWildcardLibrary::GenericArray_NumericPropertyAverage(const void*
 	}
 
 	UScriptStruct* Struct = InnerProperty->Struct;
-	// FindPropertyByName not working for Blueprint Struct
-	//UNumericProperty* NumProperty = Cast<UNumericProperty>(Struct->FindPropertyByName(PropertyName));
 	FString PropertyNameStr = PropertyName.ToString();
 	UNumericProperty* NumProperty = nullptr;
 	for (TFieldIterator<UNumericProperty> iter(Struct); iter; ++iter) {
