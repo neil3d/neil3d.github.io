@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "深入Unreal蓝图开发：实现数组模板函数"
+title: "深入Unreal蓝图开发：实现蓝图模板函数"
 author: "燕良"
 categories: unreal
 tags: [unreal, blueprint]
@@ -26,7 +26,7 @@ Unreal的蓝图和C++一样，也是一种静态类型的编程语言，它又�
 2. 使用C++实现了一个蓝图节点“Show Struct Fields”：可以接受任意UStruct的引用，具体类型可以由C++或者蓝图定义；
 3. 蓝图节点“Array Numeric Field Average”：可以接受任意类型的`TArray<MyStruct>`，并对数组中指定的数值型字段求平均；
 
-> 完整的Demo工程可以从我的GitHub下载：https://github.com/neil3d/UnrealCookBook 
+> 完整的Demo工程可以从我的GitHub下载：[https://github.com/neil3d/UnrealCookBook](https://github.com/neil3d/UnrealCookBook)   
 
 ## 实现蓝图功能节点的几种方式
 
