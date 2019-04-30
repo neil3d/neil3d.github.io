@@ -35,7 +35,7 @@
     "publisher": "GDC 2017",
     "tags": "RenderGraph|寒霜引擎",
     "thumb": "assets/thumb/framegraph_gdc2018.png",
-    "video": "https://www.bilibili.com/video/av10595011/",
+    "video": "https://www.gdcvault.com/play/1024045/FrameGraph-Extensible-Rendering-Architecture-in",
     "url": "assets/slides/GDC17-framegraph.pptx",
     "my_blog": "/3dengine/why-ecs.html",
     "notes": "",
