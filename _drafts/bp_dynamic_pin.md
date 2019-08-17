@@ -14,7 +14,7 @@ brief: "通过派生class UK2Node和class SGraphNodeK2Base，为蓝图添加自�
 
 ### 目标
 
-和上篇一样，我还将通过一个尽量简单的节点，来说明实现过程，让大家尽量聚焦在“蓝图自定义节点”这个主题上。设想这样一个节点：Say Something，把输入的N个字符串连接起来，然后打印输出。也就是说，这个节点的输入Pin是可以动态添加的。我们将在上篇的那个工程基础上，实现这个节点。最终实现的效果如下图所示：  
+和上篇一样，我还将通过一个尽量简单的节点，来说明实现过程，让大家尽量聚焦在“蓝图自定义节点”这个主题上。设想这样一个节点：Say Something，把输入的N个字符串连接起来，然后打印输出。也就是说，这个节点的输入Pin是可以动态添加的。我们将在上篇的那个工程基础上实现这个自定义节点。最终实现的效果如下图所示：  
 
 ![Blueprint Node](/assets/img/ucookbook/custom_node/dynamic_pin_0.png)
 
@@ -45,7 +45,6 @@ public:
 protected:
 	virtual void CreateInputSideAddButton(TSharedPtr<SVerticalBox> InputBox) override;
 	virtual FReply OnAddPin() override;
-	// End of SGraphNode interface
 };
 ```
 
@@ -79,7 +78,7 @@ FReply SGraphNodeSaySomething::OnAddPin()
 { }
 ```
 
-如果你接触过Unreal Slate的话，上面这个Slate Widget的代码很容易看懂啦，如果你没有玩过Slate。。。。Slate是虚幻自己的一套 Immediate Mode UI framework，如果不熟悉Slate UI Framework的同学，建议先过一下[官方文档](https://docs.unrealengine.com/en-US/Programming/Slate/index.html)。
+如果你接触过Unreal Slate的话，上面这个Slate Widget的代码很容易看懂啦，如果你没有玩过Slate。。。。Slate是虚幻自己的一套 Immediate Mode UI framework，建议先过一下[官方文档](https://docs.unrealengine.com/en-US/Programming/Slate/index.html)。
 
 最后，因为这个基类：SGraphNodeK2Base，属于GraphEditor模块，所以要修改MyBlueprintNodeEditor.Build.cs，把它添加到PrivateDependencyModuleNames：
 ```csharp
@@ -98,8 +97,10 @@ OK，上面我们已经创建了两个类，分别是：
 1. class UBPNode_SaySomething : public UK2Node
 2. class SGraphNodeSaySomething : public SGraphNodeK2Base 
 
-下面我们就需要让蓝图编辑器知道，创建UBPNode_SaySomething对象的时候，需要使用SGraphNodeSaySomething这个Widget。添加自定义Node Widget的两种方式（参见引擎源码class FNodeFactory）：
-1. 首先调用：UEdGraphNode::CreateVisualWidget()，例如：
+下面我们就需要让蓝图编辑器知道：创建UBPNode_SaySomething对象的时候，需要使用SGraphNodeSaySomething这个Widget。  
+
+添加自定义Node Widget的两种方式（参见引擎源码class FNodeFactory）：
+1. 重载UEdGraphNode::CreateVisualWidget()函数，例如：
 ```cpp
 TSharedPtr<SGraphNode> UNiagaraNode::CreateVisualWidget() 
 {
@@ -127,7 +128,7 @@ TSharedPtr<SGraphNode> UBPNode_SaySomething::CreateVisualWidget() {
 
 ### 动态增加输入参数变量
 
-当用户点击“+ Add word”按钮时，SGraphNodeSaySomething::OnAddPin()会被调用，下面是它的实现代码：
+当用户点击“Add Word +”按钮时，SGraphNodeSaySomething::OnAddPin()会被调用，下面是它的实现代码：
 
 ```cpp
 FReply SGraphNodeSaySomething::OnAddPin()
@@ -167,7 +168,7 @@ void UBPNode_SaySomething::AddPinToNode()
 
 通过前面的步骤，蓝图编辑器的扩展就全部完成了，接下来就是最后一步了，通过扩展蓝图编译器来实现这个节点的实际功能。
 
-我们延续上篇的思路来实现这个节点的功能，也就是重载ExpandNode()函数，那么核心的问题是如何把当前的所有的输入的Pin组合起来？ 思路很简单，每个输入的Pin得到一个FString，把他们做成一个TArray<<FString>>，这样就可以传入到一个UFunction来调用了。
+我们延续上篇的思路来实现这个节点的功能，也就是重载UK2Node::ExpandNode()函数，核心的问题是如何把当前的所有的输入的Pin组合起来？ 思路很简单，把所有输入的Pin做成一个TArray<<FString>>，这样就可以传入到一个UFunction来调用。
 
 首先我们在 class UMyBlueprintFunctionLibrary 中添加一个函数：
 ```cpp
@@ -182,7 +183,7 @@ public:
 };
 ```
 
-然后，仍然与上篇相同，使用一个 class UK2Node_CallFunction 节点实例对象来调用这个UFunction，不同的是，我们需要使用一个 class UK2Node_MakeArray 节点的实例来把手机所有的动态生成的输入Pin。下面是实现的代码：
+然后，仍然与上篇相同，使用一个 class UK2Node_CallFunction 节点实例对象来调用这个UFunction，不同的是，我们需要使用一个 class UK2Node_MakeArray 节点的实例来把收集所有的动态生成的输入Pin。下面是实现的代码：
 ```cpp
 
 void UBPNode_SaySomething::ExpandNode(FKismetCompilerContext & CompilerContext, UEdGraph * SourceGraph) {
@@ -238,9 +239,9 @@ void UBPNode_SaySomething::ExpandNode(FKismetCompilerContext & CompilerContext, 
 ```
 核心步骤来讲解一下：
 1. 创建了一个class UK2Node_CallFunction的实例，然后把自身节点的两端的Exec Pin重定向到这个Node的两端；
-2. 使用函数参数名称，找到UK2Node_CallFunction节点的输入Pin，把它连接到一个新建的UK2Node_MakeArray的节点实例上；
+2. 使用“函数参数名称”找到UK2Node_CallFunction节点的输入Pin，把它连接到一个新建的UK2Node_MakeArray的节点实例上；
 3. 把自己所有的输入变量Pin重定向到UK2Node_MakeArray的输入上（需要为它动态添加新的Pin）；
 
 ### 结束语
 
-通过派生class SGraphNodeK2Base来扩展Blueprint Graph Editor，我们可以自己定义蓝图节点的渲染Widget，可以添加按钮，以及其他任何你想要做的东西。通过这个定制化的Node Widget，可以实现编辑时对Blueprint Graph Node的交互控制。至此，我们已经掌握了最强大的蓝图节点的扩展方法。这个说明白之后，*下篇*将写什么呢？先卖个关子，且待下回分解吧~
+通过派生class UK2Node和class SGraphNodeK2Base来扩展Blueprint Graph Editor，我们可以自己定义蓝图节点，以及编辑器中的Node Widget，可以添加按钮，以及其他任何你想要做的东西。通过这个定制化的Node Widget，可以实现编辑时对Blueprint Graph Node的交互控制。至此，我们已经掌握了最强大的蓝图节点的扩展方法。动态添加Pin这个问题说明白之后，*下篇*将写什么呢？先卖个关子，且待下回分解吧~
