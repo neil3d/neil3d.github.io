@@ -5,16 +5,20 @@ author: "燕良"
 categories: unreal
 tags: [unreal, blueprint]
 image:
-  path: unreal
-  feature: unreal4_cover.jpg
-brief: "通过派生class UK2Node，为蓝图添加自定义节点，实现一个“动态添加输入Pin”的蓝图节点。"
+  path: ucookbook
+  feature: cover2.jpg
+brief: "通过派生class UK2Node和class SGraphNodeK2Base，为蓝图添加自定义节点，实现一个“动态添加输入Pin”的蓝图节点。"
 ---
 
-通过[本系列文章：自定义蓝图节点（上）篇](/unreal/custom_bp_node.html)的介绍，我们已经可以创建一个“没什么用”的节点了。要想让它有用，关键还是上篇中说的它的典型应用场景：动态添加Pin，这篇博客就来解决这个问题。
+通过[本系列文章上篇](/unreal/custom_bp_node.html)的介绍，我们已经可以创建一个“没什么用”的节点了。要想让它有用，关键还是上篇中说的它的典型应用场景：动态添加Pin，这篇博客就来解决这个问题。
 
 ### 目标
 
-和上篇一样，我还将通过一个尽量简单的节点，来说明实现过程，让大家尽量聚焦在“蓝图自定义节点”这个主题上。设想这样一个节点：Say Something，把输入的N个字符串连接起来，然后打印输出。也就是说，这个节点的输入Pin是可以动态添加的。我们将在上篇的那个工程基础上，实现这个节点。
+和上篇一样，我还将通过一个尽量简单的节点，来说明实现过程，让大家尽量聚焦在“蓝图自定义节点”这个主题上。设想这样一个节点：Say Something，把输入的N个字符串连接起来，然后打印输出。也就是说，这个节点的输入Pin是可以动态添加的。我们将在上篇的那个工程基础上，实现这个节点。最终实现的效果如下图所示：  
+
+![Blueprint Node](/assets/img/ucookbook/custom_node/dynamic_pin_0.png)
+
+下面我们还是来仔细的过一遍每一个实现步骤吧！
 
 ### 创建Blueprint Graph节点类型
 
@@ -163,6 +167,80 @@ void UBPNode_SaySomething::AddPinToNode()
 
 通过前面的步骤，蓝图编辑器的扩展就全部完成了，接下来就是最后一步了，通过扩展蓝图编译器来实现这个节点的实际功能。
 
+我们延续上篇的思路来实现这个节点的功能，也就是重载ExpandNode()函数，那么核心的问题是如何把当前的所有的输入的Pin组合起来？ 思路很简单，每个输入的Pin得到一个FString，把他们做成一个TArray<<FString>>，这样就可以传入到一个UFunction来调用了。
+
+首先我们在 class UMyBlueprintFunctionLibrary 中添加一个函数：
+```cpp
+UCLASS()
+class MYBLUEPRINTNODE_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
+{
+	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))
+		static void SaySomething_Internal(const TArray<FString>& InWords);
+};
+```
+
+然后，仍然与上篇相同，使用一个 class UK2Node_CallFunction 节点实例对象来调用这个UFunction，不同的是，我们需要使用一个 class UK2Node_MakeArray 节点的实例来把手机所有的动态生成的输入Pin。下面是实现的代码：
+```cpp
+
+void UBPNode_SaySomething::ExpandNode(FKismetCompilerContext & CompilerContext, UEdGraph * SourceGraph) {
+	Super::ExpandNode(CompilerContext, SourceGraph);
+
+	UEdGraphPin* ExecPin = GetExecPin();
+	UEdGraphPin* ThenPin = GetThenPin();
+	if (ExecPin && ThenPin) {
+
+		// create a CallFunction node
+		FName MyFunctionName = GET_FUNCTION_NAME_CHECKED(UMyBlueprintFunctionLibrary, SaySomething_Internal);
+
+		UK2Node_CallFunction* CallFuncNode = CompilerContext.SpawnIntermediateNode<UK2Node_CallFunction>(this, SourceGraph);
+		CallFuncNode->FunctionReference.SetExternalMember(MyFunctionName, UBPNode_SaySomething::StaticClass());
+		CallFuncNode->AllocateDefaultPins();
+
+		// move exec pins
+		CompilerContext.MovePinLinksToIntermediate(*ExecPin, *(CallFuncNode->GetExecPin()));
+		CompilerContext.MovePinLinksToIntermediate(*ThenPin, *(CallFuncNode->GetThenPin()));
+
+		// create a "Make Array" node to compile all args
+		UK2Node_MakeArray* MakeArrayNode = CompilerContext.SpawnIntermediateNode<UK2Node_MakeArray>(this, SourceGraph);
+		MakeArrayNode->AllocateDefaultPins();
+
+		// Connect Make Array output to function arg
+		UEdGraphPin* ArrayOut = MakeArrayNode->GetOutputPin();
+		UEdGraphPin* FuncArgPin = CallFuncNode->FindPinChecked(TEXT("InWords"));
+		ArrayOut->MakeLinkTo(FuncArgPin);
+		
+		// This will set the "Make Array" node's type, only works if one pin is connected.
+		MakeArrayNode->PinConnectionListChanged(ArrayOut);
+
+		// connect all arg pin to Make Array input
+		for (int32 i = 0; i < ArgPinNames.Num(); i++) {
+
+			// Make Array node has one input by default
+			if (i > 0)
+				MakeArrayNode->AddInputPin();
+
+			// find the input pin on the "Make Array" node by index.
+			const FString PinName = FString::Printf(TEXT("[%d]"), i);
+			UEdGraphPin* ArrayInputPin = MakeArrayNode->FindPinChecked(PinName);
+
+			// move input word to array 
+			UEdGraphPin* MyInputPin = FindPinChecked(ArgPinNames[i], EGPD_Input);
+			CompilerContext.MovePinLinksToIntermediate(*MyInputPin, *ArrayInputPin);
+		}// end of for
+	}
+
+	// break any links to the expanded node
+	BreakAllNodeLinks();
+}
+```
+核心步骤来讲解一下：
+1. 创建了一个class UK2Node_CallFunction的实例，然后把自身节点的两端的Exec Pin重定向到这个Node的两端；
+2. 使用函数参数名称，找到UK2Node_CallFunction节点的输入Pin，把它连接到一个新建的UK2Node_MakeArray的节点实例上；
+3. 把自己所有的输入变量Pin重定向到UK2Node_MakeArray的输入上（需要为它动态添加新的Pin）；
+
 ### 结束语
 
-通过派生class SGraphNodeK2Base来扩展Blueprint Graph Editor，我们可以自己定义蓝图节点的渲染Widget，可以添加按钮，以及其他任何你想要做的东西。通过这个定制话的Node Widget，可以实现编辑时对Blueprint Graph Node的交互控制。至此，你已经掌握了最强大的蓝图节点的扩展方法。这个问题说明白之后，*下篇*将写什么呢？先卖个关子，且待下回分解吧~
+通过派生class SGraphNodeK2Base来扩展Blueprint Graph Editor，我们可以自己定义蓝图节点的渲染Widget，可以添加按钮，以及其他任何你想要做的东西。通过这个定制化的Node Widget，可以实现编辑时对Blueprint Graph Node的交互控制。至此，我们已经掌握了最强大的蓝图节点的扩展方法。这个说明白之后，*下篇*将写什么呢？先卖个关子，且待下回分解吧~
