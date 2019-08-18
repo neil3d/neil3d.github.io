@@ -244,7 +244,7 @@ void UBPNode_SaySomething::ExpandNode(FKismetCompilerContext & CompilerContext, 
 
 ### 结束语
 
-今天涉及到的class稍微有点多，我整理了一个UML静态结构图，看看这几个classes直接的关系以及它们所在的模块。
+今天涉及到的class稍微有点多，我整理了一个UML静态结构图，看看这几个classes直接的关系以及它们所在的模块。完整源代码仍然是在我的GitHub：[https://github.com/neil3d/UnrealCookBook/tree/master/MyBlueprintNode](https://github.com/neil3d/UnrealCookBook/tree/master/MyBlueprintNode)
 
 ![Blueprint Classes](/assets/img/ucookbook/custom_node/bp_classes.svg)
 
