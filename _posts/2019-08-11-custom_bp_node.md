@@ -122,7 +122,7 @@ void UBPNode_SayHello::ExpandNode(FKismetCompilerContext & CompilerContext, UEdG
 	BreakAllNodeLinks();
 }
 ```
-这段代码通过新建一个UK2Node_CallFunction节点，然后把Pin重新绑定来实现所需的功能；UK2Node_CallFunction节点可以调用任意的UFUNCTION，在这里我们调用一个自己的简单函数：UMyBlueprintFunctionLibrary::SayHello_Internal()，这个函数实现很简单，需要注意的是在它的UFUNCTION声明里面，我知道了它为“BlueprintInternalUseOnly”，具体看代码：
+这段代码通过新建一个UK2Node_CallFunction节点，然后把Pin重新绑定来实现所需的功能；UK2Node_CallFunction节点可以调用任意的UFUNCTION，在这里我们调用一个自己的简单函数：UMyBlueprintFunctionLibrary::SayHello_Internal()，这个函数实现很简单，需要注意的是在它的UFUNCTION声明里面，我设置了它为“BlueprintInternalUseOnly”，具体看代码：
 ```
 UCLASS()
 class MYBLUEPRINTNODE_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
