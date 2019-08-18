@@ -244,4 +244,8 @@ void UBPNode_SaySomething::ExpandNode(FKismetCompilerContext & CompilerContext, 
 
 ### 结束语
 
-通过派生class UK2Node和class SGraphNodeK2Base来扩展Blueprint Graph Editor，我们可以自己定义蓝图节点，以及编辑器中的Node Widget，可以添加按钮，以及其他任何你想要做的东西。通过这个定制化的Node Widget，可以实现编辑时对Blueprint Graph Node的交互控制。至此，我们已经掌握了最强大的蓝图节点的扩展方法。动态添加Pin这个问题说明白之后，*下篇*将写什么呢？先卖个关子，且待下回分解吧~
+今天涉及到的class稍微有点多，我整理了一个UML静态结构图，看看这几个classes直接的关系以及它们所在的模块。
+
+![Blueprint Classes](/assets/img/ucookbook/custom_node/bp_classes.svg)
+
+至此，通过派生class UK2Node和class SGraphNodeK2Base来扩展Blueprint Graph Editor，我们可以自己定义蓝图节点，以及编辑器中的Node Widget，可以添加按钮，以及其他任何你想要做的东西。通过这个定制化的Node Widget，可以实现编辑时对Blueprint Graph Node的交互控制。至此，我们已经掌握了最强大的蓝图节点的扩展方法。动态添加Pin这个问题说明白之后，*下篇*将写什么呢？先卖个关子，且待下回分解吧~
