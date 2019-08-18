@@ -166,9 +166,11 @@ void UBPNode_SaySomething::AddPinToNode()
 
 ### 实现这个蓝图节点的编译
 
-通过前面的步骤，蓝图编辑器的扩展就全部完成了，接下来就是最后一步了，通过扩展蓝图编译器来实现这个节点的实际功能。
+通过前面的步骤，蓝图编辑器的扩展就全部完成了，接下来就是最后一步了，通过扩展蓝图编译过程来实现这个节点的实际功能。
 
-我们延续上篇的思路来实现这个节点的功能，也就是重载UK2Node::ExpandNode()函数，核心的问题是如何把当前的所有的输入的Pin组合起来？ 思路很简单，把所有输入的Pin做成一个TArray<<FString>>，这样就可以传入到一个UFunction来调用。
+我们延续上篇的思路来实现这个节点的功能，也就是重载UK2Node::ExpandNode()函数。  
+
+核心的问题是如何把当前的所有的输入的Pin组合起来？ 答案很简单，把所有输入的Pin做成一个TArray<<FString>>，这样就可以传入到一个UFunction来调用。
 
 首先我们在 class UMyBlueprintFunctionLibrary 中添加一个函数：
 ```cpp
