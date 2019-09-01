@@ -2,6 +2,7 @@
 layout: post
 title: "《炉石传说》架构设计赏析(6)：卡牌&技能数据的运行时组织"
 author: "燕良"
+column: "Unity3D"
 categories: gamedev
 tags: [Hearthstone, Game]
 image:

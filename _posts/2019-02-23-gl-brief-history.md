@@ -2,6 +2,7 @@
 layout: post
 title: "可视化的OpenGL简史"
 author: "燕良"
+column: "Graphics"
 categories: 3dengine
 tags: [3dapi]
 image:

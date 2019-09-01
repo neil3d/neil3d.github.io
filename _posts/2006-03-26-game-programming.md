@@ -2,6 +2,7 @@
 layout: post
 title: "2006年总结的游戏程序员所需的知识体系"
 author: "燕良"
+column: "GameDev"
 categories: gamedev
 tags: [learning]
 brief: "2006年第一次总结关于游戏程序员的知识体系的博文"

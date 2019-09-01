@@ -2,6 +2,7 @@
 layout: post
 title: "Shadow Mapping原理与实践"
 author: "燕良"
+column: "Graphics"
 categories: 3dengine
 tags: [D3D, shader, shadow]
 image:

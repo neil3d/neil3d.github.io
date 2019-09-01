@@ -2,6 +2,7 @@
 layout: post
 title: " 在Unity中使用Lua脚本：语言层和游戏逻辑粘合层处理"
 author: "燕良"
+column: "Unity3D"
 categories: unity3d
 tags: [unity3d, scripting]
 image:

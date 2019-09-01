@@ -2,6 +2,7 @@
 layout: post
 title: "深入Unreal蓝图开发：自定义蓝图节点(上)"
 author: "燕良"
+column: "Unreal Engine"
 categories: unreal
 tags: [unreal, blueprint]
 image:

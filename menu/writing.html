@@ -4,48 +4,15 @@ title: Writing
 ---
 
 <div class="home">
-  <div class="row pack">
-    {% for post in site.posts %}
-    <div class="col-md-3 card">
-      <div class="panel panel-default">
 
-        <!-- show thumb image -->
+  {% for column in site.data.settings.columns %}    
+    {% assign current_column=column.name %}
+    <blockquote>
+        <p>
+          <strong>{{current_column}}</strong><br>
+        </p>
+    </blockquote>
+    {% include column.html %}
+  {% endfor %}
 
-        <a href="{{ site.github.url }}{{ post.url }}" class="index-anchor">
-          {% if post.image.feature %}
-          <img class="thumb" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
-          {% else %}
-          <img class="thumb" src="{{site.baseurl}}/assets/img/default.png" alt="{{site.title}}">
-          {% endif %}
-        </a>
-
-        <!-- show title & date -->
-        <div class="panel-body">
-          <a href="{{ site.github.url }}{{ post.url }}" class="index-anchor">
-            <h3 class="panel-title pull-left">{{ post.title}}</h3><br>
-          </a>
-
-          <span class="post-meta pull-left">
-            {{ post.author | strip_html | strip_newlines | truncate: 180 }}
-          </span>
-          <span class="post-meta pull-right">
-            <small>
-              {{ post.date | date: "%b %-d, %Y" }}
-            </small>
-          </span>
-        </div>
-
-        <!-- show brief -->
-        {% if post.brief != blank %}
-        <div class="panel-body">
-          <small>
-            {{ post.brief | markdownify | truncate: 60 }}
-          </small>
-        </div>
-        {% endif %}
-
-      </div>
-    </div>
-    {% endfor %}
-  </div>
 </div>

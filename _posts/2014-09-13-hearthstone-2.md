@@ -2,6 +2,7 @@
 layout: post
 title: "《炉石传说》架构设计赏析(2)：Scene管理"
 author: "燕良"
+column: "Unity3D"
 categories: gamedev
 tags: [Hearthstone, Game]
 image:
