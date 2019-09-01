@@ -7,11 +7,11 @@ title: Writing
 
   {% for column in site.data.settings.columns %}    
     {% assign current_column=column.name %}
-    <blockquote>
-        <p>
-          <strong>{{current_column}}</strong><br>
-        </p>
-    </blockquote>
+      <h3>
+          <img src="{{ site.url }}/assets/img/ui/{{ column.icon }}">      
+          {{current_column}}<br>
+          <hr style="height:1px;border:none;border-top:1px solid #555555;" />
+       </h3>
     {% include column.html %}
   {% endfor %}
 

@@ -26,9 +26,9 @@ social:
 - {icon: 'rss-square', link: 'feed.xml'}
 
 columns:
-- {name: 'Unreal Engine', icon: 'logo.png'}
-- {name: 'Unity3D', icon: 'logo.png'}
-- {name: 'GameDev', icon: 'logo.png'}
-- {name: 'Graphics', icon: 'logo.png'}
+- {name: 'Unreal Engine', icon: 'ue4_logo_32.png'}
+- {name: 'Unity3D', icon: 'unity_logo_32.png'}
+- {name: 'GameDev', icon: 'mario_32.png'}
+- {name: 'Graphics', icon: 'gpu_logo_32.png'}
 
 
