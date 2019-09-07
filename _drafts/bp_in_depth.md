@@ -61,6 +61,10 @@ brief: "除了ExpandNode，还有另外一种重要的蓝图扩展方式，就�
 
 编译之后，蓝图字节码的解释执行了，这部分功能完全是由UObject这个基类来完成的。这个不必吐槽，这是Unreal的传统，从Unreal第一代的Unreal Script运行时就是这样的。
 
+【相关引擎源码】
+1. CoreUObject/Public/UObject/Script.h
+1. CoreUObject/Private/Uobject/ScriptCore.h
+
 我们先通过一个最简单的例子，来看看具体的执行过程。我们拉一个最简单的蓝图，从Actor派生，命名为：BP_MyActor，只加一点简单的功能：
 
 ![Blueprint Sample](/assets/img/ucookbook/custom_node/bp_in_depth_20.png)
@@ -85,10 +89,62 @@ void AActor::ReceiveBeginPlay()
 }
 ```
 
-这段代码首先使用名称在UClass（这里实际上是UClass的子类：UBlueprintGeneratedClass）中使用函数名称字符串找到一个UFunction对象，然后调用UObject::ProcessEvent()来执行这个UFunction。
+这段自动生成的代码实际上是做了两件事：
+1. 找到名为“ReceiveBeginPlay”的UFunction对象；
+1. 执行“ProcessEvent”函数。
 
+我们先来看一下这个“FindFunctionChecked()”操作，它的调用过程如下：
+* UObject::FindFunctionChecked()，this==BP_MyActor对象实例
+  * UObject::FindFunction()，其实现为：`GetClass()->FindFunctionByName(InName)`
+    * UClass::FindFunctionByName()，this==BP_MyActor的UClass对象实例；在这个例子中，this的类型为UClass的子类：UBlueprintGeneratedClass；
+    * 上述函数就返回了“ReceiveBeginPlay”对应的一个UFunction对象指针；
 
-在我们这个例子中，这个UFunction就是蓝图编辑器里连接出的那个Graph---编译生成的字节码。
+在这个例子中，返回的UFunction对象，对应的就是一个“Kismet callable function”（代码注释里的说法），或者是说“蓝图函数”，其字节码就定义在在它的父类UStruct上：`	TArray<uint8> UStruct::Script`。也就是上图，我们在蓝图编辑器中拉的那个Graph。
+
+接下来，这个UFunction对象作为参数，调用了“AActor::ProcessEvent()”函数，这个函数是父类：UObject::ProcessEvent()的几个简单封装，后者就是字节码解释执行的重点部分了！在我们这个例子中，这个函数做了以下几件核心的事情：
+1. 创建了一个 FFrame 对象，这个对象就是执行这个UFunction所需要的的“栈”对象，他内部保存了一个“uint8* Code”指针，相当于汇编语言的PC，指向当前需要的字节码；
+2. 调用这个UFunction::Invoke()，this就是刚才找到的那个代表“ReceiveBeginPlay”的UFunction对象；
+3. 调用“ProcessLocalScriptFunction()”函数，解释执行字节码。
+
+**那么蓝图的字节码又是怎样被解释执行的呢？** 在CoreUObject/Public/UObject/Script.h这个文件中有一个“enum EExprToken”，这个枚举就是蓝图的字节码定义。如果学过汇编语言或者.Net CLR IL的话，对这些东西并不会陌生：
+```cpp
+//
+// Evaluatable expression item types.
+//
+enum EExprToken
+{
+	EX_Return				= 0x04,	// Return from function.
+	EX_Jump					= 0x06,	// Goto a local address in code.
+	EX_JumpIfNot			= 0x07,	// Goto if not expression.
+  EX_Let					= 0x0F,	// Assign an arbitrary size value to a variable.
+
+  EX_LocalVirtualFunction	= 0x45, // Special instructions to quickly call a virtual function that we know is going to run only locally
+	EX_LocalFinalFunction	= 0x46, // Special instructions to quickly call a final function that we know is going to run only locally
+};
+```
+
+在“ProcessLocalScriptFunction()”函数中，使用一个循环“	while (*Stack.Code != EX_Return)”从当前的栈上取出每个字节码，也就是是UFunction对象中的那个“TArray<uint8> Script”成员中的每个元素，解释字节码的代码是否直观：
+
+```cpp
+void FFrame::Step(UObject* Context, RESULT_DECL)
+{
+	int32 B = *Code++;
+	(GNatives[B])(Context,*this,RESULT_PARAM);
+}
+```
+
+引擎定义了一个全局变量：“FNativeFuncPtr GNatives[EX_Max]”，它保存了一个“字节码到Native Func Ptr”的映射，在引擎中通过“DEFINE_FUNCTION”、“IMPLEMENT_VM_FUNCTION”来定义蓝图字节码对应的C++函数，并注册到这个全局映射表中，例如本例中核心的操作是EX_LocalFinalFunction：
+
+```cpp
+DEFINE_FUNCTION(UObject::execLocalFinalFunction)
+{
+	// Call the final function.
+	ProcessLocalFunction(Context, (UFunction*)Stack.ReadObject(), Stack, RESULT_PARAM);
+}
+IMPLEMENT_VM_FUNCTION( EX_LocalFinalFunction, execLocalFinalFunction );
+```
+
+最终，通过解释执行每一个Code，找到“Print String”对应的UFunction对象，并执行它，也就完成了这个蓝图的执行。
 
 OK，罗里吧嗦说了这么多，下面让我们用简练的语言**概述一下上面的内容**：  
 1. 蓝图首先作为一种引擎的Asset对象，可以被Unreal Editor的Asset机制所管理，并且可以被Blueprint Editor来编辑；
