@@ -4,20 +4,21 @@ title: Home
 ---
 
 <div class="home">
-    <!-- 置顶文章 -->
-    {% for post in site.data.coding %}
-
-    <div class="panel panel-default">
-        <a href="{{ site.url }}{{ post.url }}"><img class="thumb" src="{{ site.url }}{{ post.image}}"></a>
-        <div class="panel-body">
-            <a class="title_link" href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
-            <span class="post-meta">
-                {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.url }}{{ post.url }}">Read
-                    more...</a>
-            </span>
+    <div class="row pack">
+        {% for post in site.data.coding %}
+        <div class="col-md-6 card">
+            <div class="panel panel-default">
+                <a href="{{ site.url }}{{ post.url }}"><img class="thumb" src="{{ site.url }}{{ post.image}}"></a>
+                <div class="panel-body">
+                    <a class="title_link" href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
+                    <span class="post-meta">
+                        {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.url }}{{ post.url }}">Read
+                            more...</a>
+                    </span>
+                </div>
+            </div>
         </div>
+        {% endfor %}
     </div>
-
-    {% endfor %}
 
 </div>
