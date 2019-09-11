@@ -34,7 +34,7 @@
             {% if post.brief != blank %}
             <div class="panel-body">
               <small>
-                {{ post.brief | markdownify | truncate: 60 }}
+                {{ post.brief | markdownify | truncate: 120 }}
               </small>
             </div>
             {% endif %}
