@@ -16,7 +16,7 @@ title: Home
     {% endif %}
     <div class="panel-body">
       <img src="{{ site.github.url }}/assets/img/ui/ui_top.png">
-      <a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
+      <b><a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a></b>
       <span class="post-meta">
         {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
       </span>
@@ -50,7 +50,7 @@ title: Home
       <img src="{{ site.github.url }}/assets/img/ui/ui_new.png">
       {% assign new_post = false  %}
       {% endif %}
-      <a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a>
+      <b><a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a></b>
       <span class="post-meta">
         {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
       </span>
