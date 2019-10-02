@@ -20,6 +20,10 @@ title: About
   
 恩，我的主要工作经历集中在3D引擎的开发上，所以这个博客的主要内容也会集中在这个领域。:smile:  
 
+## 知乎专栏
+
+* [深入Unreal蓝图开发](https://zhuanlan.zhihu.com/blueprints-in-depth)：谈谈使用C++扩展Unreal蓝图，并理解其运作机制
+
 ## 开源项目
 
 之前开发的3D引擎由于商业授权的原因，无法拿出来开源，也挺遗憾的。目前只有几个小东西放在[我的GitHub](https://github.com/neil3d)上，争取以后搞点有意义的开源项目。    
