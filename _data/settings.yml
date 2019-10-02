@@ -12,9 +12,9 @@ google-ID: 'UA-80213386-1'
 
 menu:
 - {name: 'Home', url: 'index.html', icon: 'menu-home.png'}
-- {name: 'Reading', url: 'reading/index.html', icon: 'menu-reading.png'}
 - {name: 'Writing', url: 'menu/writing.html', icon: 'menu-list.png'}
 - {name: 'Coding', url: 'menu/coding.html', icon: 'menu-code.png'}
+- {name: 'Reading', url: 'reading/index.html', icon: 'menu-reading.png'}
 - {name: 'About', url: 'menu/about.html', icon: 'menu-about.png'}
 
 # Available social icons are powered by Font Awesome, so you can use any icon that they offer
