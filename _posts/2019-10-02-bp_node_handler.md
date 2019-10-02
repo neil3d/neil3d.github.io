@@ -85,6 +85,8 @@ FNodeHandlingFunctor * UBPNode_TriGate::CreateNodeHandler(FKismetCompilerContext
 	return new FKCHandler_TriGate(CompilerContext);
 }
 ```
+在其cpp文件中创建一个自定义的FNodeHandlingFunctor派生类：`class FKCHandler_TriGate : public FNodeHandlingFunctor`，后面将主要实现这个类的几个虚函数，来完成整个节点的功能。
+
 
 ### 第二步：生成两个Terminal
 
