@@ -26,7 +26,7 @@ brief: "前面两篇博客我们都是通过ExpandNode来实现蓝图节点的�
   1. 遍历Graph的所有节点，使用一定策略（具体是啥策略，另外的文章再讲）生成一个线性的列表，保存到“`TArray<UEdGraphNode*>``FKismetFunctionContext::LinearExecutionList`”；
   1. 然后遍历每个蓝图节点，生成相应的“语句”，正确的名词是：Statement，保存到“`TMap< UEdGraphNode*, TArray<FBlueprintCompiledStatement*> > FKismetFunctionContext::StatementsPerNode`”，一个Node在编译过程中可以产生多个Statement；
 **重点来了：这就是我们开发的自定义节点能够控制字节码生成的地方。**
-  1. Statement 有很多类型，看看它的枚举，发现很接近字节码了，是类似汇编语言那种显示；需要通过“条件跳转”之类的逻辑，在线性的代码中产生分支和循环；详见下图中的：`enum EKismetCompiledStatementType`
+  1. Statement 有很多类型，看看它的枚举，发现很接近字节码了，是类似汇编语言那种；需要通过“条件跳转”之类的逻辑，在线性的代码中产生分支和循环；详见下图中的：`enum EKismetCompiledStatementType`
   - 上述过程可以算是编译器的前端，接下来就进入后端的流程，具体代码是在：`class ``FKismetCompilerVMBackend`；
   - 后端，也就是字节码的生成的核心代码是在：`FScriptBuilderBase::GenerateCodeForStatement()`，这个函数通过一个大的“`switch (Statement.Type)`”语句，把不同类型的statement生成字节码
 
@@ -63,7 +63,7 @@ brief: "前面两篇博客我们都是通过ExpandNode来实现蓝图节点的�
 
 ## 举个栗子
 
-说实话，引擎实现的蓝图节点真的很丰富了，很难想出一个有实用性的例子，只好胡诌一个了：
+下面我们就通过一个具体的例子，来看看通过Node Handler方式控制蓝图节点的编译，具体如何实现的。说实话，引擎实现的蓝图节点真的很丰富了，很难想出一个有实用性的例子，只好胡诌一个了：
 
 * 判断输入的一个整型变量，分为：正数，零，负数，三种状态，执行不同的流程；
 
@@ -99,14 +99,14 @@ FNodeHandlingFunctor * UBPNode_TriGate::CreateNodeHandler(FKismetCompilerContext
 	{
 		FNodeHandlingFunctor::RegisterNets(Context, Node);
 
-    // 存储比较结果的bool变量
+        // 存储比较结果的bool变量
 		FBPTerminal* BoolTerm = Context.CreateLocalTerminal();
 		BoolTerm->Type.PinCategory = UEdGraphSchema_K2::PC_Boolean;
 		BoolTerm->Source = Node;
 		BoolTerm->Name = Context.NetNameMap->MakeValidName(Node) + TEXT("_CmpResult");
 		BoolTermMap.Add(Node, BoolTerm);
 
-    // 字面量“0”
+        // 字面量“0”
 		LiteralZeroTerm = Context.CreateLocalTerminal(ETerminalSpecification::TS_Literal);
 		LiteralZeroTerm->bIsLiteral = true;
 		LiteralZeroTerm->Type.PinCategory = UEdGraphSchema_K2::PC_Int;
@@ -120,11 +120,11 @@ FNodeHandlingFunctor * UBPNode_TriGate::CreateNodeHandler(FKismetCompilerContext
 
 * 判断输入的一个整型变量，分为：正数，零，负数，三种状态，执行不同的流程；
 
-逻辑很简单，不过，我们需要转换一下思考方式，要使用类似汇编语言的那种思路，要把语句顺序排列，然后使用条件跳转语句控制分支逻辑。下面将要使用到的Statement类型先说明一下：
+逻辑很简单，不过，我们需要转换一下思考方式，要使用类似汇编语言的那种思路：要把语句顺序排列，然后使用条件跳转语句控制分支逻辑。下面将要使用到的Statement类型先说明一下：
 * KCST_CallFunction：调用指定的UFunction，我们需要把“输入那个整数”和零做比较，这个功能我们将通过调用 class UKismetMathLibrary 中的函数来实现，使用到两个函数：
   1. UKismetMathLibrary::Greater_IntInt()
   2. UKismetMathLibrary::EqualEqual_IntInt()
-* KCST_GotoIfNot：条件跳转，可以指定跳转到哪个Statement；
+* KCST_GotoIfNot：条件跳转，可以指定跳转到哪个Statement（或者指定的Pin）；
 * KCST_UnconditionalGoto：无条件跳转，主要用来跳转到右侧的三个Exec Pin中的一个；
 
 #### KCST_CallFunction 实例
@@ -290,6 +290,7 @@ public:
 ```
 
 * BPNode_TriGate.cpp
+
 ```cpp
 #include "BPNode_TriGate.h"
 #include "EdGraphSchema_K2.h"	// BlueprintGraph
