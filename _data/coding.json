@@ -6,6 +6,12 @@
         "brief": "在2015年，我与**CSDN学院**合作推出的系列虚幻4入门教程，希望能够帮助更多的同学克服虚幻引擎上手难度大的问题。"
     },
     {
+        "title": "虚幻4动画贴图插件",
+        "image": "/assets/img/unreal/plugins/cover-anim-texture.png",
+        "url": "/coding/anim-texture.html",
+        "brief": "支持将GIF动画文件导入到虚幻4项目中，生成一个新的AnimatedTexture资源对象，可以在材质和UMG中像Texture2D那样使用。"
+    },
+    {
         "title": "excel2json",
         "image": "/assets/img/excel2json/cover.jpg",
         "url": "/coding/excel2json.html",
