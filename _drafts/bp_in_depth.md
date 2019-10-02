@@ -11,6 +11,16 @@ image:
 brief: "这篇博客将带领你深入理解蓝图的底层机制，包括编辑、字节编译、解释执行；在理解了这些之后，我们尝试扩展蓝图的编译过程，更深入开发自定义蓝图节点。"
 ---
 
+
+修改工程里面的：DefaultEngine.ini，增加一下两行：
+[Kismet]
+CompileDisplaysBinaryBackend=true
+就可以在OutputLog窗口里看到编译出的字节码，来验证我们上述猜想。
+
+
+
+
+
 在本系列前面几篇博客，我们已经掌握了常用的蓝图扩展的编程方式，但是整个感觉讲的还不是很通透。特别是[使用NodeHandler实现蓝图节点](/unreal/bp_node_handler.html)的过程，实际上是扩展了蓝图的编译过程。如果对蓝图的整体机制没有一个很好的理解，就难说彻底掌握了蓝图的深入开发技术。这篇博客就来弥补这个不足，我将从蓝图的编辑、编译、字节码解释执行这整个过程来带你加深对Unreal蓝图技术的理解！
 
 > 前方高能：这不是一篇看实例代码，讲解操作过程的博客。要回答上面的问题，就必须理解蓝图编辑、编译以及字节码解释执行的过程，所以请做好思想准备。
@@ -60,14 +70,58 @@ brief: "这篇博客将带领你深入理解蓝图的底层机制，包括编辑
 
 ### 蓝图字节码的解释执行
 
+首先我们看一下蓝图的字节码长什么样子吧。 在CoreUObject/Public/UObject/Script.h这个文件中有一个“enum EExprToken”，这个枚举就是蓝图的字节码定义。如果学过汇编语言或者.Net CLR IL的话，对这些东西并不会陌生：
+```cpp
+//
+// Evaluatable expression item types.
+//
+enum EExprToken
+{
+  ...
+  EX_Return = 0x04,	// Return from function.
+  EX_Jump = 0x06,	// Goto a local address in code.
+  EX_JumpIfNot  = 0x07,	// Goto if not expression.
+  EX_Let  = 0x0F,	// Assign an arbitrary size value to a variable.
 
-编译完成之后，我们该看看蓝图字节码的解释执行了，这部分功能完全是由UObject这个巨大的基类来完成的，并没有一个单独的Blueprint VM之类的模块。这个不必吐槽，这是Unreal的传统，从Unreal第一代的Unreal Script就是这样的。
+  EX_LocalVirtualFunction = 0x45, // Special instructions to quickly call a virtual function that we know is going to run only locally
+  EX_LocalFinalFunction = 0x46, // Special instructions to quickly call a final function that we know is going to run only locally
+  ...
+};
+```
+
+这些字节码又是怎样被解释执行的呢？这部分功能完全是由UObject这个巨大的基类来完成的，并没有一个单独的Blueprint VM之类的模块。这个不必吐槽，这是Unreal的传统，从Unreal第一代的Unreal Script就是这样的。引擎中使用一个全局查找表，把上述字节码映射到函数指针。在运行时，从一个字节码数组中逐个取出字节码，并查找函数指针，进行调用，也就完成了所谓的“字节码解释执行”的过程。
+
+具体的说，引擎定义了一个全局变量：“FNativeFuncPtr GNatives[EX_Max]”，它保存了一个“字节码到FNativeFuncPtr”的查找表。在引擎中通过“DEFINE_FUNCTION”、“IMPLEMENT_VM_FUNCTION”来定义蓝图字节码对应的C++函数，并注册到这个全局映射表中，例如字节码“EX_Jump”对应的函数：
+
+```cpp
+DEFINE_FUNCTION(UObject::execJump)
+{
+	CHECK_RUNAWAY;
+
+	// Jump immediate.
+	CodeSkipSizeType Offset = Stack.ReadCodeSkipCount();
+	Stack.Code = &Stack.Node->Script[Offset];
+}
+IMPLEMENT_VM_FUNCTION( EX_Jump, execJump );
+```
+
+字节码解释执行的过程在“ProcessLocalScriptFunction()”函数中。它使用一个循环`	while (*Stack.Code != EX_Return)`从当前的栈上取出每个字节码，也就是UFunction对象中的那个“TArray<uint8> Script”成员中的每个元素，解释字节码的代码十分直观：
+
+```cpp
+void FFrame::Step(UObject* Context, RESULT_DECL)
+{
+	int32 B = *Code++;
+	(GNatives[B])(Context,*this,RESULT_PARAM);
+}
+```
 
 > 【相关引擎源码】
 > 1. CoreUObject/Public/UObject/Script.h
 > 1. CoreUObject/Private/Uobject/ScriptCore.h
 
-下面我们通过一个最简单的例子，来看看蓝图字节码的具体解释执行过程。我们拉一个最简单的蓝图，从Actor派生，命名为：BP_MyActor，只加一点简单的功能：
+### Case Study: BeginPlay
+
+下面我们通过一个最简单的例子，来看看上述3个步骤具体是怎样处理的。我们拉一个最简单的蓝图，从Actor派生，命名为：BP_MyActor，只加一点简单的功能：
 
 ![Blueprint Sample](/assets/img/ucookbook/custom_node/bp_in_depth_20.png){: .center-image }
 
@@ -108,71 +162,12 @@ void AActor::ReceiveBeginPlay()
 2. 调用这个UFunction::Invoke()，this就是刚才找到的那个代表“ReceiveBeginPlay”的UFunction对象；
 3. 调用“ProcessLocalScriptFunction()”函数，解释执行字节码。
 
-**那么蓝图的字节码又是怎样被解释执行的呢？** 在CoreUObject/Public/UObject/Script.h这个文件中有一个“enum EExprToken”，这个枚举就是蓝图的字节码定义。如果学过汇编语言或者.Net CLR IL的话，对这些东西并不会陌生：
-```cpp
-//
-// Evaluatable expression item types.
-//
-enum EExprToken
-{
-  ...
-  EX_Return = 0x04,	// Return from function.
-  EX_Jump = 0x06,	// Goto a local address in code.
-  EX_JumpIfNot  = 0x07,	// Goto if not expression.
-  EX_Let  = 0x0F,	// Assign an arbitrary size value to a variable.
 
-  EX_LocalVirtualFunction = 0x45, // Special instructions to quickly call a virtual function that we know is going to run only locally
-  EX_LocalFinalFunction = 0x46, // Special instructions to quickly call a final function that we know is going to run only locally
-  ...
-};
-```
 
-在“ProcessLocalScriptFunction()”函数中，使用一个循环`	while (*Stack.Code != EX_Return)`从当前的栈上取出每个字节码，也就是UFunction对象中的那个“TArray<uint8> Script”成员中的每个元素，解释字节码的代码十分直观：
-
-```cpp
-void FFrame::Step(UObject* Context, RESULT_DECL)
-{
-	int32 B = *Code++;
-	(GNatives[B])(Context,*this,RESULT_PARAM);
-}
-```
-
-引擎定义了一个全局变量：“FNativeFuncPtr GNatives[EX_Max]”，它保存了一个“字节码到Native Func Ptr”的查找表。在引擎中通过“DEFINE_FUNCTION”、“IMPLEMENT_VM_FUNCTION”来定义蓝图字节码对应的C++函数，并注册到这个全局映射表中，例如本例中核心的操作是EX_LocalFinalFunction：
-
-```cpp
-DEFINE_FUNCTION(UObject::execLocalFinalFunction)
-{
-	// Call the final function.
-	ProcessLocalFunction(Context, (UFunction*)Stack.ReadObject(), Stack, RESULT_PARAM);
-}
-IMPLEMENT_VM_FUNCTION( EX_LocalFinalFunction, execLocalFinalFunction );
-```
-
-又例如字节码:EX_Jump
-
-```cpp
-DEFINE_FUNCTION(UObject::execJump)
-{
-	CHECK_RUNAWAY;
-
-	// Jump immediate.
-	CodeSkipSizeType Offset = Stack.ReadCodeSkipCount();
-	Stack.Code = &Stack.Node->Script[Offset];
-}
-IMPLEMENT_VM_FUNCTION( EX_Jump, execJump );
-```
 
 最终，通过解释执行每一个Code，找到“Print String”对应的UFunction对象，并执行它，也就完成了这个蓝图的执行。
 
-### Case Study
 
-前文我总结过扩展蓝图的最基本的方式，就是使用C++实现一个UFunction，那么它在编辑，编译，执行这三个环节具体是一个怎样的过程呢？
-
-UK2Node_CallFunction
-
-TODO：Call Function Node
-TODO：Call Function Node Handler
-TODO：Byte Code：call final function
 
 ### 小结一下
 
