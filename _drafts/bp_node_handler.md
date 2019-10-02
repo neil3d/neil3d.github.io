@@ -73,7 +73,192 @@ brief: "前面两篇博客我们都是通过ExpandNode来实现蓝图节点的�
 
 > 完整的Demo工程可以从我的GitHub下载：[https://github.com/neil3d/UnrealCookBook](https://github.com/neil3d/UnrealCookBook)   
 
-参照完整的这个节点的源代码，以及后面的step by step讲解，实现过程不难理解：
+这个节点的完整源代码附在文末，我们先来step by step讲解一下，实现过程不难理解：
+
+### 第一步：添加一个自定义的UK2Node派生类
+
+首先就是要创建一个class UK2Node的派生类：class UBPNode_TriGate : public UK2Node，这个过程很简单，基本上和前面两篇博客介绍的一样，这里就不重复了。只有一个地方不同，那就是我们不再需要重载 ExpendNode() 函数，而是重载CreateNodeHandler()函数。它的实现也很简单，就是返回一个我们自定义的FNodeHandlingFunctor派生类对象。
+
+```cpp
+FNodeHandlingFunctor * UBPNode_TriGate::CreateNodeHandler(FKismetCompilerContext & CompilerContext) const
+{
+	return new FKCHandler_TriGate(CompilerContext);
+}
+```
+
+### 第二步：生成两个Terminal
+
+想象一下，代码执行过程中，我们需要比较输入的那个整数是否大于零，把结果保存到一个临时变量中，所以我们需要两个Terminal：
+- 一个用来用来表示字面量“0”
+- 另一个用来存储比较结果
+
+这两个Terminal就是在"FKCHandler_TriGate::RegisterNets()"函数中定义的
+
+```cpp
+	virtual void RegisterNets(FKismetFunctionContext& Context, UEdGraphNode* Node) override
+	{
+		FNodeHandlingFunctor::RegisterNets(Context, Node);
+
+    // 存储比较结果的bool变量
+		FBPTerminal* BoolTerm = Context.CreateLocalTerminal();
+		BoolTerm->Type.PinCategory = UEdGraphSchema_K2::PC_Boolean;
+		BoolTerm->Source = Node;
+		BoolTerm->Name = Context.NetNameMap->MakeValidName(Node) + TEXT("_CmpResult");
+		BoolTermMap.Add(Node, BoolTerm);
+
+    // 字面量“0”
+		LiteralZeroTerm = Context.CreateLocalTerminal(ETerminalSpecification::TS_Literal);
+		LiteralZeroTerm->bIsLiteral = true;
+		LiteralZeroTerm->Type.PinCategory = UEdGraphSchema_K2::PC_Int;
+		LiteralZeroTerm->Name = TEXT("0");
+	}
+```
+
+### 第三步：实现Compile过程，生成6个Statement
+
+做好了前面两步的准备，接下来就是关键的步骤了：定义一系列Statements来实现我们的逻辑。重复一下要实现的逻辑：
+
+* 判断输入的一个整型变量，分为：正数，零，负数，三种状态，执行不同的流程；
+
+逻辑很简单，不过，我们需要转换一下思考方式，要使用类似汇编语言的那种思路，要把语句顺序排列，然后使用条件跳转语句控制分支逻辑。下面将要使用到的Statement类型先说明一下：
+* KCST_CallFunction：调用指定的UFunction，我们需要把“输入那个整数”和零做比较，这个功能我们将通过调用 class UKismetMathLibrary 中的函数来实现，使用到两个函数：
+  1. UKismetMathLibrary::Greater_IntInt()
+  2. UKismetMathLibrary::EqualEqual_IntInt()
+* KCST_GotoIfNot：条件跳转，可以指定跳转到哪个Statement；
+* KCST_UnconditionalGoto：无条件跳转，主要用来跳转到右侧的三个Exec Pin中的一个；
+
+#### KCST_CallFunction 实例
+
+下面说一下KCST_CallFunction具体在我们这个例子中的使用。
+
+首先我们需要找到UFunction相关的信息：
+
+```cpp
+UClass* MathLibClass = UKismetMathLibrary::StaticClass();
+UFunction* CreaterFuncPtr = FindField<UFunction>(MathLibClass, "Greater_IntInt");
+UFunction* EqualFuncPtr = FindField<UFunction>(MathLibClass, "EqualEqual_IntInt");
+```
+
+下面生成的这个Statement就是比较输入变量是否大于零，并把比较结果保存到我们定义的BoolTerm变量中：
+
+```cpp
+    FBlueprintCompiledStatement& CallCreaterZero = Context.AppendStatementForNode(MyNode);
+		CallCreaterZero.Type = KCST_CallFunction;
+		CallCreaterZero.FunctionToCall = CreaterFuncPtr;
+		CallCreaterZero.LHS = BoolTerm;
+		CallCreaterZero.RHS.Add(InputTerm);
+		CallCreaterZero.RHS.Add(LiteralZeroTerm);
+```
+
+### KCST_GotoIfNot 实例
+
+下面生成的这个Statement就是通过判断BoolTerm的值为False的话，则跳转：
+
+```cpp
+		FBlueprintCompiledStatement& IfPositive = Context.AppendStatementForNode(Node);
+		IfPositive.Type = KCST_GotoIfNot;
+		IfPositive.LHS = BoolTerm;
+```
+
+那么，跳转到什么地方呢？跳转到后面的比较语句，具体代码如下：
+
+``` cpp
+    FBlueprintCompiledStatement& CallEqualZero = Context.AppendStatementForNode(MyNode);
+    ...
+		CallEqualZero.bIsJumpTarget = true;
+		IfPositive.TargetLabel = &CallEqualZero;
+```
+
+设置新的语句“bIsJumpTarget = true”，使它成为一个跳转的目标，然后把前面那个跳转的Statement的TargetLabel设置为这个新的语句。
+
+### KCST_UnconditionalGoto
+
+无条件跳转到指定的Exec Pin。注意：下面这个Statement在运行时，根据BoolTerm的值，可能被前面的条件跳转语句跳过，来实现分支的逻辑。
+
+```cpp
+  FBlueprintCompiledStatement& ExecZero = Context.AppendStatementForNode(Node);
+	ExecZero.Type = KCST_UnconditionalGoto;
+	Context.GotoFixupRequestMap.Add(&ExecZero, ZeroPin);
+```
+
+### 完整的 Statement 列表
+
+运用上面三种Statement，把他们罗列出来，即可实现我们的逻辑功能了。乍看上去可能并不直观，主要是这种类似汇编的方式并不直观，可能需要反复看几遍。
+
+``` cpp
+	virtual void Compile(FKismetFunctionContext& Context, UEdGraphNode* Node) override
+	{
+		UBPNode_TriGate* MyNode = CastChecked<UBPNode_TriGate>(Node);
+
+		// 查找输入的那个整数的Pin对应的Terminal
+		UEdGraphPin* InputPin = Context.FindRequiredPinByName(Node, TriGatePN::Input, EGPD_Input);
+
+		UEdGraphPin* PinToTry = FEdGraphUtilities::GetNetFromPin(InputPin);
+		FBPTerminal** pInputTerm = Context.NetMap.Find(PinToTry);
+		if (pInputTerm == nullptr)
+		{
+			CompilerContext.MessageLog.Error(TEXT("FKCHandler_TriGate: Failed to resolve term passed into"), InputPin);
+			return;
+		}
+
+		FBPTerminal* InputTerm = *pInputTerm;
+
+		// 查找三个输出Pin
+		UEdGraphPin* PositivePin = MyNode->FindPin(TriGatePN::Positive, EGPD_Output);
+		UEdGraphPin* ZeroPin = MyNode->FindPin(TriGatePN::Zero, EGPD_Output);
+		UEdGraphPin* NegativePin = MyNode->FindPin(TriGatePN::Negative, EGPD_Output);
+
+		// 临时bool变量的Terminal
+		FBPTerminal* BoolTerm = BoolTermMap.FindRef(MyNode);
+
+		UClass* MathLibClass = UKismetMathLibrary::StaticClass();
+		UFunction* CreaterFuncPtr = FindField<UFunction>(MathLibClass, "Greater_IntInt");
+		UFunction* EqualFuncPtr = FindField<UFunction>(MathLibClass, "EqualEqual_IntInt");
+
+		// Statement 1: 计算表达式 BoolTerm = Interger > 0
+		FBlueprintCompiledStatement& CallCreaterZero = Context.AppendStatementForNode(MyNode);
+		CallCreaterZero.Type = KCST_CallFunction;
+		CallCreaterZero.FunctionToCall = CreaterFuncPtr;
+		CallCreaterZero.LHS = BoolTerm;
+		CallCreaterZero.RHS.Add(InputTerm);
+		CallCreaterZero.RHS.Add(LiteralZeroTerm);
+
+		// Statement 2: if(BoolTerm)
+		FBlueprintCompiledStatement& IfPositive = Context.AppendStatementForNode(Node);
+		IfPositive.Type = KCST_GotoIfNot;
+		IfPositive.LHS = BoolTerm;
+
+		// Statement 3: 执行 Positive Pin
+		FBlueprintCompiledStatement& ExecPositive = Context.AppendStatementForNode(Node);
+		ExecPositive.Type = KCST_UnconditionalGoto;
+		Context.GotoFixupRequestMap.Add(&ExecPositive, PositivePin);
+
+		// Statement 4: 计算表达式 BoolTerm = Interger == 0
+		FBlueprintCompiledStatement& CallEqualZero = Context.AppendStatementForNode(MyNode);
+		CallEqualZero.Type = KCST_CallFunction;
+		CallEqualZero.FunctionToCall = EqualFuncPtr;
+		CallEqualZero.LHS = BoolTerm;
+		CallEqualZero.bIsJumpTarget = true;
+		CallEqualZero.RHS.Add(InputTerm);
+		CallEqualZero.RHS.Add(LiteralZeroTerm);
+
+		IfPositive.TargetLabel = &CallEqualZero;
+
+		// Statement 5: GotoIfNot(BoolTerm)
+		FBlueprintCompiledStatement& IfZero = Context.AppendStatementForNode(Node);
+		IfZero.Type = KCST_GotoIfNot;
+		IfZero.LHS = BoolTerm;
+		Context.GotoFixupRequestMap.Add(&IfZero, NegativePin);
+
+		// Statement 6: 执行 Zero Pin
+		FBlueprintCompiledStatement& ExecZero = Context.AppendStatementForNode(Node);
+		ExecZero.Type = KCST_UnconditionalGoto;
+		Context.GotoFixupRequestMap.Add(&ExecZero, ZeroPin);
+
+	}
+```
+
+### 附：class UBPNode_TriGate源代码
 
 * BPNode_TriGate.h
 
@@ -151,10 +336,6 @@ public:
 		LiteralZeroTerm->bIsLiteral = true;
 		LiteralZeroTerm->Type.PinCategory = UEdGraphSchema_K2::PC_Int;
 		LiteralZeroTerm->Name = TEXT("0");
-	}
-
-	virtual void RegisterNet(FKismetFunctionContext& Context, UEdGraphPin* Pin)
-	{
 	}
 
 	virtual void Compile(FKismetFunctionContext& Context, UEdGraphNode* Node) override
@@ -258,14 +439,3 @@ FNodeHandlingFunctor * UBPNode_TriGate::CreateNodeHandler(FKismetCompilerContext
 }
 
 ```
-
-### 第一步：添加一个自定义的UK2Node派生类，class UBPNode_TriGate : public UK2Node
-
-### 第二步：生成两个Terminal
-
-### 第三步：实现Compile过程，生成6个Statement
-
-
-
-
-
