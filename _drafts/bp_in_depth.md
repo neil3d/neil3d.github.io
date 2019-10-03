@@ -8,18 +8,8 @@ tags: [unreal, blueprint]
 image:
   path: ucookbook
   feature: cover3.jpg
-brief: "这篇博客将带领你深入理解蓝图的底层机制，包括编辑、字节编译、解释执行；在理解了这些之后，我们尝试扩展蓝图的编译过程，更深入开发自定义蓝图节点。"
+brief: "这篇博客主要是深入理解蓝图整个流程的的底层机制，包括节点编辑、编译、字节码解释执行。理解了这些，对前面几篇所讲的蓝图扩展，可以有一个更清晰的认识"
 ---
-
-
-修改工程里面的：DefaultEngine.ini，增加一下两行：
-[Kismet]
-CompileDisplaysBinaryBackend=true
-就可以在OutputLog窗口里看到编译出的字节码，来验证我们上述猜想。
-
-
-
-
 
 在本系列前面几篇博客，我们已经掌握了常用的蓝图扩展的编程方式，但是整个感觉讲的还不是很通透。特别是[使用NodeHandler实现蓝图节点](/unreal/bp_node_handler.html)的过程，实际上是扩展了蓝图的编译过程。如果对蓝图的整体机制没有一个很好的理解，就难说彻底掌握了蓝图的深入开发技术。这篇博客就来弥补这个不足，我将从蓝图的编辑、编译、字节码解释执行这整个过程来带你加深对Unreal蓝图技术的理解！
 
@@ -68,9 +58,16 @@ CompileDisplaysBinaryBackend=true
 - TODO：What is UBlueprintGeneratedClass
 
 
+修改工程里面的：DefaultEngine.ini，增加一下两行：
+[Kismet]
+CompileDisplaysBinaryBackend=true
+就可以在OutputLog窗口里看到编译出的字节码，来验证我们上述猜想。
+
+
 ### 蓝图字节码的解释执行
 
-首先我们看一下蓝图的字节码长什么样子吧。 在CoreUObject/Public/UObject/Script.h这个文件中有一个“enum EExprToken”，这个枚举就是蓝图的字节码定义。如果学过汇编语言或者.Net CLR IL的话，对这些东西并不会陌生：
+首先我们看一下蓝图的字节码长什么样子吧。 在*CoreUObject/Public/UObject/Script.h*这个文件中有一个“enum EExprToken”，这个枚举就是蓝图的字节码定义。如果学过汇编语言或者.Net CLR IL的话，对这些东西并不会陌生：
+
 ```cpp
 //
 // Evaluatable expression item types.
