@@ -8,14 +8,14 @@ tags: [unreal, blueprint]
 image:
   path: ucookbook
   feature: cover2.jpg
-brief: "通过派生class UK2Node和class SGraphNodeK2Base，为蓝图添加自定义节点，实现一个“动态添加输入Pin”的蓝图节点。"
+brief: "通过派生class UK2Node和class SGraphNodeK2Base，为蓝图添加自定义节点，实现一个“动态添加/删除输入Pin”的蓝图节点。"
 ---
 
 通过[本系列文章上篇](/unreal/custom_bp_node.html)的介绍，我们已经可以创建一个“没什么用”的蓝图节点了。要想让它有用，关键还是上篇中说的典型应用场景：动态添加Pin，这篇博客就来解决这个问题。
 
 ### 目标
 
-和上篇一样，我还将通过一个尽量简单的节点，来说明"可动态添加Pin的蓝图节点"的实现过程，让大家尽量聚焦在“蓝图自定义节点”这个主题上。
+和上篇一样，我还将通过一个尽量简单的节点，来说明"**可动态/删除添加Pin的蓝图节点**"的实现过程，让大家尽量聚焦在“蓝图自定义节点”这个主题上。
 
 设想这样一个节点：Say Something，把输入的N个字符串连接起来，然后打印输出。也就是说，这个节点的输入Pin是可以动态添加的。我们将在上篇的那个工程基础上实现这个自定义节点。最终实现的效果如下图所示：  
 
@@ -31,7 +31,7 @@ brief: "通过派生class UK2Node和class SGraphNodeK2Base，为蓝图添加自�
 
 ### 创建自定义的节点Widget
 
-我们要动态增加Pin的话，需要在节点上显示一个"加号按钮"，点击之后增加一个“input pin”。这就不能使用默认的Blueprint Graph Node Widget了，需要对其进行扩展。这个扩展的思路和前面一样，也是找到特定的基类，重载其虚函数即可，这个基类就是class SGraphNodeK2Base。我们要重载的两个核心的函数是：
+我们要动态增加Pin的话，需要在节点上显示一个"**加号按钮**"，点击之后增加一个“input pin”。这就不能使用默认的Blueprint Graph Node Widget了，需要对其进行扩展。这个扩展的思路和前面一样，也是找到特定的基类，重载其虚函数即可，这个基类就是class SGraphNodeK2Base。我们要重载的两个核心的函数是：
 1. CreateInputSideAddButton()，创建我们需要的添加输入Pin的按钮；
 2. OnAddPin()，响应这个按钮的操作；
 
