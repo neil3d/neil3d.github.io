@@ -129,7 +129,7 @@ TSharedPtr<SGraphNode> UBPNode_SaySomething::CreateVisualWidget() {
 完成上述代码之后，运行蓝图编辑器，添加Say Something节点，就可以看到这个Widget了：  
 ![SGraphNode](/assets/img/ucookbook/custom_node/dynamic_pin_2.png)
 
-### 动态增加输入参数变量
+### 动态增加Pin
 
 当用户点击“Add Word +”按钮时，SGraphNodeSaySomething::OnAddPin()会被调用，下面是它的实现代码：
 
@@ -166,6 +166,61 @@ void UBPNode_SaySomething::AddPinToNode()
 ```
 现在我们就可以在蓝图编辑器里面操作添加输入Pin了 ：  
 ![Add Pin](/assets/img/ucookbook/custom_node/dynamic_pin_3.png)
+
+### 动态删除Pin
+
+如果用户想要删除某个输入变量Pin，他需要在那个Pin上点击鼠标右键，呼出Context Menu，选择“删除”菜单项将其移除。下面我们就看看这个操作是如何实现的。
+
+![Add Pin](/assets/img/ucookbook/custom_node/remove_pin.gif)
+
+我们可以通过重载`void UEdGraphNode::GetContextMenuActions(const FGraphNodeContextMenuBuilder& Context) const`来定制Context Menu。
+
+```cpp
+void UBPNode_SaySomething::GetContextMenuActions(const FGraphNodeContextMenuBuilder & Context) const
+{
+	Super::GetContextMenuActions(Context);
+
+	if (Context.bIsDebugging)
+		return;
+
+	Context.MenuBuilder->BeginSection("UBPNode_SaySomething", FText::FromString(TEXT("Say Something")));
+
+	if (Context.Pin != nullptr)
+	{
+		if (Context.Pin->Direction == EGPD_Input && Context.Pin->ParentPin == nullptr)
+		{
+			Context.MenuBuilder->AddMenuEntry(
+				FText::FromString(TEXT("Remove Word")),
+				FText::FromString(TEXT("Remove Word from input")),
+				FSlateIcon(),
+				FUIAction(
+					FExecuteAction::CreateUObject(this, &UBPNode_SaySomething::RemoveInputPin, const_cast<UEdGraphPin*>(Context.Pin))
+				)
+			);
+		}
+	}// end of if
+
+	Context.MenuBuilder->EndSection();
+}
+```
+
+这个函数的实现很直白啦，就是操作MenuBuilder，添加菜单项，并绑定UIAction到成员函数`UBPNode_SaySomething::RemoveInputPin`，接下来就是实现这个函数了。
+
+```cpp
+void UBPNode_SaySomething::RemoveInputPin(UEdGraphPin * Pin)
+{
+	FScopedTransaction Transaction(FText::FromString("SaySomething_RemoveInputPin"));
+	Modify();
+
+	ArgPinNames.Remove(Pin->GetFName());
+
+	RemovePin(Pin);
+	FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(GetBlueprint());
+}
+```
+
+也很简单，就是直接调用父类的`RemovePin()`，并同步处理一下自己内部的状态变量就好了。
+
 
 ### 实现这个蓝图节点的编译
 
