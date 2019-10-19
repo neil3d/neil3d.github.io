@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "深入Unreal蓝图开发：重新理解蓝图"
+title: "深入Unreal蓝图开发：理解蓝图技术架构"
 author: "燕良"
 column: "Unreal Engine"
 categories: unreal
@@ -10,6 +10,28 @@ image:
   feature: cover3.jpg
 brief: "这篇博客主要是深入理解蓝图整个流程的的底层机制，包括节点编辑、编译、字节码解释执行。理解了这些，对前面几篇所讲的蓝图扩展，可以有一个更清晰的认识"
 ---
+
+通过前面几篇文章谈了几种常用的蓝图节点的扩展方式，其中也对蓝图的底层机制进行了部分的解析，但是还不够整体。这篇文章谈一下目前我对蓝图技术架构的整体性的理解，包括蓝图从编辑到运行时到整个过程。
+
+### 蓝图的发展历程
+
+* 蓝图的意义和价值，创新点
+* 创新是渐进式的
+* Unreal Script
+* Kismet
+* Blueprint
+
+### 蓝图技术架构概览
+
+### 蓝图编辑器
+
+### 蓝图的编译过程
+
+### 蓝图的运行时执行
+
+### Case Study：解析BeginPlay事件
+
+### 小结一下
 
 在本系列前面几篇博客，我们已经掌握了常用的蓝图扩展的编程方式，但是整个感觉讲的还不是很通透。特别是[使用NodeHandler实现蓝图节点](/unreal/bp_node_handler.html)的过程，实际上是扩展了蓝图的编译过程。如果对蓝图的整体机制没有一个很好的理解，就难说彻底掌握了蓝图的深入开发技术。这篇博客就来弥补这个不足，我将从蓝图的编辑、编译、字节码解释执行这整个过程来带你加深对Unreal蓝图技术的理解！
 
@@ -57,7 +79,7 @@ brief: "这篇博客主要是深入理解蓝图整个流程的的底层机制，
 
 - TODO：What is UBlueprintGeneratedClass
 
-
+ew
 修改工程里面的：DefaultEngine.ini，增加一下两行：
 [Kismet]
 CompileDisplaysBinaryBackend=true
