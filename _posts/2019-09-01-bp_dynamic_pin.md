@@ -8,14 +8,14 @@ tags: [unreal, blueprint]
 image:
   path: ucookbook
   feature: cover2.jpg
-brief: "通过派生class UK2Node和class SGraphNodeK2Base，为蓝图添加自定义节点，实现一个“动态添加输入Pin”的蓝图节点。"
+brief: "通过派生class UK2Node和class SGraphNodeK2Base，为蓝图添加自定义节点，实现一个“动态添加/删除输入Pin”的蓝图节点。"
 ---
 
 通过[本系列文章上篇](/unreal/custom_bp_node.html)的介绍，我们已经可以创建一个“没什么用”的蓝图节点了。要想让它有用，关键还是上篇中说的典型应用场景：动态添加Pin，这篇博客就来解决这个问题。
 
 ### 目标
 
-和上篇一样，我还将通过一个尽量简单的节点，来说明"可动态添加Pin的蓝图节点"的实现过程，让大家尽量聚焦在“蓝图自定义节点”这个主题上。
+和上篇一样，我还将通过一个尽量简单的节点，来说明"**可动态/删除添加Pin的蓝图节点**"的实现过程，让大家尽量聚焦在“蓝图自定义节点”这个主题上。
 
 设想这样一个节点：Say Something，把输入的N个字符串连接起来，然后打印输出。也就是说，这个节点的输入Pin是可以动态添加的。我们将在上篇的那个工程基础上实现这个自定义节点。最终实现的效果如下图所示：  
 
@@ -31,7 +31,7 @@ brief: "通过派生class UK2Node和class SGraphNodeK2Base，为蓝图添加自�
 
 ### 创建自定义的节点Widget
 
-我们要动态增加Pin的话，需要在节点上显示一个"加号按钮"，点击之后增加一个“input pin”。这就不能使用默认的Blueprint Graph Node Widget了，需要对其进行扩展。这个扩展的思路和前面一样，也是找到特定的基类，重载其虚函数即可，这个基类就是class SGraphNodeK2Base。我们要重载的两个核心的函数是：
+我们要动态增加Pin的话，需要在节点上显示一个"**加号按钮**"，点击之后增加一个“input pin”。这就不能使用默认的Blueprint Graph Node Widget了，需要对其进行扩展。这个扩展的思路和前面一样，也是找到特定的基类，重载其虚函数即可，这个基类就是class SGraphNodeK2Base。我们要重载的两个核心的函数是：
 1. CreateInputSideAddButton()，创建我们需要的添加输入Pin的按钮；
 2. OnAddPin()，响应这个按钮的操作；
 
@@ -129,7 +129,7 @@ TSharedPtr<SGraphNode> UBPNode_SaySomething::CreateVisualWidget() {
 完成上述代码之后，运行蓝图编辑器，添加Say Something节点，就可以看到这个Widget了：  
 ![SGraphNode](/assets/img/ucookbook/custom_node/dynamic_pin_2.png)
 
-### 动态增加输入参数变量
+### 动态增加Pin
 
 当用户点击“Add Word +”按钮时，SGraphNodeSaySomething::OnAddPin()会被调用，下面是它的实现代码：
 
@@ -166,6 +166,61 @@ void UBPNode_SaySomething::AddPinToNode()
 ```
 现在我们就可以在蓝图编辑器里面操作添加输入Pin了 ：  
 ![Add Pin](/assets/img/ucookbook/custom_node/dynamic_pin_3.png)
+
+### 动态删除Pin
+
+如果用户想要删除某个输入变量Pin，他需要在那个Pin上点击鼠标右键，呼出Context Menu，选择“删除”菜单项将其移除。下面我们就看看这个操作是如何实现的。
+
+![Add Pin](/assets/img/ucookbook/custom_node/remove_pin.gif)
+
+我们可以通过重载`void UEdGraphNode::GetContextMenuActions(const FGraphNodeContextMenuBuilder& Context) const`来定制Context Menu。
+
+```cpp
+void UBPNode_SaySomething::GetContextMenuActions(const FGraphNodeContextMenuBuilder & Context) const
+{
+	Super::GetContextMenuActions(Context);
+
+	if (Context.bIsDebugging)
+		return;
+
+	Context.MenuBuilder->BeginSection("UBPNode_SaySomething", FText::FromString(TEXT("Say Something")));
+
+	if (Context.Pin != nullptr)
+	{
+		if (Context.Pin->Direction == EGPD_Input && Context.Pin->ParentPin == nullptr)
+		{
+			Context.MenuBuilder->AddMenuEntry(
+				FText::FromString(TEXT("Remove Word")),
+				FText::FromString(TEXT("Remove Word from input")),
+				FSlateIcon(),
+				FUIAction(
+					FExecuteAction::CreateUObject(this, &UBPNode_SaySomething::RemoveInputPin, const_cast<UEdGraphPin*>(Context.Pin))
+				)
+			);
+		}
+	}// end of if
+
+	Context.MenuBuilder->EndSection();
+}
+```
+
+这个函数的实现很直白啦，就是操作MenuBuilder，添加菜单项，并绑定UIAction到成员函数`UBPNode_SaySomething::RemoveInputPin`，接下来就是实现这个函数了。
+
+```cpp
+void UBPNode_SaySomething::RemoveInputPin(UEdGraphPin * Pin)
+{
+	FScopedTransaction Transaction(FText::FromString("SaySomething_RemoveInputPin"));
+	Modify();
+
+	ArgPinNames.Remove(Pin->GetFName());
+
+	RemovePin(Pin);
+	FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(GetBlueprint());
+}
+```
+
+也很简单，就是直接调用父类的`RemovePin()`，并同步处理一下自己内部的状态变量就好了。
+
 
 ### 实现这个蓝图节点的编译
 
