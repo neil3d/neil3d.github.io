@@ -15,11 +15,17 @@ brief: "这篇博客主要是深入理解蓝图整个流程的的底层机制，
 
 ### 蓝图的发展历程
 
-* 蓝图的意义和价值，创新点
-* 创新是渐进式的
-* Unreal Script
-* Kismet
-* Blueprint
+蓝图是一个突破性的创新，它能够让游戏设计师亲手创造自己想要的“游戏体验”。使用可视化编程的方式，可以大大的加速那种“以体验为核心”的游戏开发的迭代速度，这是一次大胆的尝试，无疑也是一次成功的尝试！（如果你从事的那种“以数值成长为核心，以挖坑为目的”的游戏开发，你可能会不太同意，不认为蓝图有那么大的意义，但是请注意这两种产品的区别）
+
+就像很多其他的创新一样，它也是有一个渐进的过程的。它的萌芽就是Unreal Engine 3时代的Kismet。在Unreal Engine 3中，Unreal Script还是主要开发语言，但是可以使用Kismet为关卡添加可视化的事件处理脚本，类似于今天的Level Blueprint。
+
+![Kismet Attach Event](/assets/img/ucookbook/bp_in_depth/kismet_attach_event.jpg)
+
+> UDK官方文档：[Kismet Visual Scripting](https://docs.unrealengine.com/udk/Three/KismetHome.html)
+
+Blueprint这个名字应该是开发了一大半之后才起的，所以为啥UE4里面那么多蓝图相关的模块都以Kismet命名，连蓝图节点的基类也是class UK2Node啦，又有少量模块用的是Blueprint这个名字，其实指代的都是同一系统。
+
+![Kismet in UE4](/assets/img/ucookbook/bp_in_depth/kisment_in_ue4.png)
 
 ### 蓝图技术架构概览
 
