@@ -31,85 +31,143 @@ Blueprint这个名字很可能是UE4开发了一大半之后才定的。这就�
 
 这篇博客的目的是把蓝图的整个体系结构完整的梳理一遍，但是如果只是将框架图之类的，一来太抽象，二来和实际代码结合不够，所以我打算以“案例分析”的方式，从一个最简单的蓝图入手，讲解每一步的实际机制是怎样的。
 
+![Blueprint Case Study](/assets/img/ucookbook/bp_in_depth/case_study.png)
+
 这个案例很简单
 * 新建一个从Actor派生的蓝图
 * 在它的Event Graph中，编辑BeginPlay事件，调用PrintString，显示一个Hello World！
 
-![Blueprint Case Study](/assets/img/ucookbook/bp_in_depth/case_study.png)
+我尽量细的讲一下我这个案例涉及到的每一步的理解！
 
 #### 新建蓝图：BP_HelloWorld
 
 ![New Blueprint](/assets/img/ucookbook/bp_in_depth/new_bp.gif)
 
+这个过程的核心是创建了一个 `class UBlueprint` 对象的实例，这个对象在编辑器中可以被作为一种Asset Object来处理。`class UBlueprint`是一个UObject的派生类。理论上任何UObject都可以注册为一个Asset Object，它的创建、存储、对象引用关系等都遵循Unreal Editor的资源管理机制。
+
+具体到代码的话：当我们在编辑器中新建一个蓝图的时候，Unreal Editor会调用`UBlueprintFactory::FactoryCreateNew()`来创建一个新的`class UBlueprint`对象；
+```cpp
+UObject* UBlueprintFactory::FactoryCreateNew(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, FFeedbackContext* Warn, FName CallingContext)
+{
+    // ......
+    // 略去非主干流程代码若干
+    // ......
+
+		UClass* BlueprintClass = nullptr;
+		UClass* BlueprintGeneratedClass = nullptr;
+
+		IKismetCompilerInterface& KismetCompilerModule = FModuleManager::LoadModuleChecked<IKismetCompilerInterface>("KismetCompiler");
+		KismetCompilerModule.GetBlueprintTypesForClass(ParentClass, BlueprintClass, BlueprintGeneratedClass);
+
+		return FKismetEditorUtilities::CreateBlueprint(ParentClass, InParent, Name, BPTYPE_Normal, BlueprintClass, BlueprintGeneratedClass, CallingContext);
+}
+
+/** Create a new Blueprint and initialize it to a valid state. */
+UBlueprint* FKismetEditorUtilities::CreateBlueprint(UClass* ParentClass, UObject* Outer, const FName NewBPName, EBlueprintType BlueprintType, 
+            TSubclassOf<UBlueprint> BlueprintClassType, TSubclassOf<UBlueprintGeneratedClass> BlueprintGeneratedClassType, FName CallingContext)
+{
+	// ......
+  // 略去细节处理流程代码若干
+  // ......
+
+	// Create new UBlueprint object
+	UBlueprint* NewBP = NewObject<UBlueprint>(Outer, *BlueprintClassType, NewBPName, RF_Public | RF_Standalone | RF_Transactional | RF_LoadCompleted);
+	NewBP->Status = BS_BeingCreated;
+	NewBP->BlueprintType = BlueprintType;
+	NewBP->ParentClass = ParentClass;
+	NewBP->BlueprintSystemVersion = UBlueprint::GetCurrentBlueprintSystemVersion();
+	NewBP->bIsNewlyCreated = true;
+	NewBP->bLegacyNeedToPurgeSkelRefs = false;
+	NewBP->GenerateNewGuid();
+
+  // ......
+  // 后面还有一些其他处理
+  // . Create SimpleConstructionScript and UserConstructionScript
+	// . Create default event graph(s)
+	// . Create initial UClass
+  // ......
+}
+```
+
+详见引擎相关源代码：  
+1. **class UBlueprint**： Source/Runtime/Engine/Classes/Engine/Blueprint.h
+1. **class UBlueprintFactory**：Source/Editor/UnrealEd/Classes/Factories/BlueprintFactory.h
+1. **class FKismetEditorUtilities**: Source/Editor/UnrealEd/Public/Kismet2/KismetEditorUtilities.h
+
+另外，这个操作还创建了一个`class UPackage`对象，作为`class UBlueprint`对象的Outer，这个我在后面“保存蓝图”那一小节再展开。
+
 #### 双击打开BP_HelloWorld
 
+当我们在Content Browser中双击一个“BP_HelloWorld”这个蓝图时，Unreal Editor会启动蓝图编辑器，它是一个独立编辑器（Standalone Editor），这个操作是Asset Object的通用行为，就像Material、Texture等对象一样，它们也都是这样。
+
 ![Open Blueprint](/assets/img/ucookbook/bp_in_depth/open_bp.gif)
+
+Unreal Editor通过管理**AssetTypeAction**来实现上述功能。具体到蓝图的话，有一个`class FAssetTypeActions_Blueprint`，它实现了`class UBlueprint`所对应的**AssetTypeActions**。启动蓝图编辑器这个操作，就是通过：`FAssetTypeActions_Blueprint::OpenAssetEditor()`来实现的
+
+``` cpp
+class ASSETTOOLS_API FAssetTypeActions_Blueprint : public FAssetTypeActions_ClassTypeBase
+{
+public:
+	virtual void OpenAssetEditor(const TArray<UObject*>& InObjects, TSharedPtr<class IToolkitHost> EditWithinLevelEditor = TSharedPtr<IToolkitHost>()) override;
+};
+```
+
+这个函数它则调用“Kismet”模块，生成、初始化一个`IBlueprintEditor`实例，也就是我们天天在用的蓝图编辑器。
+
+``` cpp
+void FAssetTypeActions_Blueprint::OpenAssetEditor( const TArray<UObject*>& InObjects, TSharedPtr<IToolkitHost> EditWithinLevelEditor )
+{
+	EToolkitMode::Type Mode = EditWithinLevelEditor.IsValid() ? EToolkitMode::WorldCentric : EToolkitMode::Standalone;
+
+	for (UObject* Object : InObjects)
+	{
+		if (UBlueprint* Blueprint = Cast<UBlueprint>(Object))
+		{
+				FBlueprintEditorModule& BlueprintEditorModule = FModuleManager::LoadModuleChecked<FBlueprintEditorModule>("Kismet");
+				TSharedRef< IBlueprintEditor > NewKismetEditor = BlueprintEditorModule.CreateBlueprintEditor(Mode, EditWithinLevelEditor, Blueprint, ShouldUseDataOnlyEditor(Blueprint));
+		}
+	}
+}
+```
+
+详见引擎相关源代码：  
+1. **class FAssetTypeActions_Blueprint**：Source/Developer/AssetTools/Public/AssetTypeActions/AssetTypeActions_Blueprint.h
+1. **class FBlueprintEditorModule**: Source/Editor/Kismet/BlueprintEditorModule.h
+1. **class IBlueprintEditor**: Source/Editor/Kismet/BlueprintEditorModule.h
 
 #### 添加节点：PrintString
 
 ![Add Node](/assets/img/ucookbook/bp_in_depth/add_node.gif)
 
-#### 点击[Compile]按钮：编译蓝图
-
-![Compile Blueprint](/assets/img/ucookbook/bp_in_depth/compile_bp.gif)
-
-
-#### 点击[Save]按钮：保存蓝图
-
-![Save Blueprint](/assets/img/ucookbook/bp_in_depth/save_bp.gif)
-
-
-#### 把BP_HelloWorld拖放到关卡中
-
-![Instance Blueprint](/assets/img/ucookbook/bp_in_depth/instance_bp.gif)
-
-
-#### 点击[Play]按钮：运行蓝图
-
-![Run Blueprint](/assets/img/ucookbook/bp_in_depth/run_bp.gif)
-
-
-### Case Study：解析BeginPlay事件
-
-### 小结一下
-
-在本系列前面几篇博客，我们已经掌握了常用的蓝图扩展的编程方式，但是整个感觉讲的还不是很通透。特别是[使用NodeHandler实现蓝图节点](/unreal/bp_node_handler.html)的过程，实际上是扩展了蓝图的编译过程。如果对蓝图的整体机制没有一个很好的理解，就难说彻底掌握了蓝图的深入开发技术。这篇博客就来弥补这个不足，我将从蓝图的编辑、编译、字节码解释执行这整个过程来带你加深对Unreal蓝图技术的理解！
-
-> 前方高能：这不是一篇看实例代码，讲解操作过程的博客。要回答上面的问题，就必须理解蓝图编辑、编译以及字节码解释执行的过程，所以请做好思想准备。
-
-蓝图，Blueprint，我们大多数时候都是从一个很高层的概念的角度来说这个词：**它是一种可视化脚本，可以用Graph的方式来组织“表达式”节点，并控制执行流程，来实现游戏逻辑的开发**。
-
-如果作为一个Gameplay层面的开发者，这样理解也就够了；但是，如果作为一个引擎层的开发者，想要深度扩展蓝图，那我们就要下沉到代码的层面来理解整个蓝图系统了！
-
-蓝图是一个满复杂的系统，我也不能说对它的理解有多面全面和深入，只能说把自己开发中所理解到的一些东西来谈一下。对于这个复杂度很高的系统，我还是使用“复杂度分解”的老办法，把它拆分成编辑，编译，解释执行这三大模块，具体看看它的内部机制。
-
-### 蓝图的编辑过程
-
-让我们从头开始：从编辑流程来说，**蓝图是一种资源（Asset），它的资源属性主要是通过class UBlueprint这个类实现的**（当然，蓝图还是别的东西，后面会谈到）。`class UBlueprint`是一个UObject的派生类。理论上任何UObject都可以作为一个Asset Object，它的创建、存储、对象引用关系等都遵循Unreal Editor的资源管理机制：  
-* 当我们在编辑器中新建一个蓝图的时候，Unreal Editor会调用`UBlueprintFactory::FactoryCreateNew()`来创建一个新的`UBlueprint`对象；
-* 当我们在Content Browser中双击一个已有的蓝图时，Unreal Editor会调用`FAssetTypeActions_Blueprint::OpenAssetEditor()`来加载这个UBlueprint对象，并生成、初始化一个`IBlueprintEditor`实例，也就是我们天天在用的蓝图编辑器。
-
->【相关引擎源码】
-> 1. class UBlueprint： Source/Runtime/Engine/Classes/Engine/Blueprint.h
-> 1. class UBlueprintFactory：Source/Editor/UnrealEd/Classes/Factories/BlueprintFactory.h
-> 1. class FAssetTypeActions_Blueprint：Source/Developer/AssetTools/Public/AssetTypeActions/AssetTypeActions_Blueprint.h
-
-当一个打包好的游戏运行的时候，引擎通过UObject通用的加载机制来加载UBlueprint对象实例（会去除掉WITH_EDITOR宏所包含的部分）。
-
-
-然后，我们顺着class UBlueprint这根藤摸下去：**对于蓝图编辑器来说，蓝图是一个Graph；class UBlueprint的WITH_EDITOR部分的代码的核心是管理一系列的UEdGraph对象**。
-
-我们在蓝图编辑器里面的每放入一个蓝图节点，就会对应的生成一个`class UEdGraphNode`的派生类对象，例如[本系列的中篇](/unreal/bp_dynamic_pin.html)里面自己所实现的：`class UBPNode_SaySomething : public UK2Node`（你猜对了：`UK2Node`是从`UEdGraphNode`派生的）。`UEdGraphNode`会管理多个“针脚”，也就是`class UEdGraphPin`对象。编辑蓝图的过程，主要就是就是创建这些对象，并连接/断开这些针脚对象等。引擎中有一批核心的`class UK2Node`的派生类，也就是引擎默认提供的那些蓝图节点，具体见下图：
+我们在蓝图编辑器里面的每放入一个蓝图节点，就会对应的生成一个`class UEdGraphNode`的派生类对象，例如[前面一篇博客介绍的](/unreal/bp_dynamic_pin.html)里面自己所实现的：`class UBPNode_SaySomething : public UK2Node`（你猜对了：`UK2Node`是从`UEdGraphNode`派生的）。`UEdGraphNode`会管理多个“针脚”，也就是`class UEdGraphPin`对象。编辑蓝图的过程，主要就是就是创建这些对象，并连接/断开这些针脚对象等。引擎中有一批核心的`class UK2Node`的派生类，也就是引擎默认提供的那些蓝图节点，具体见下图：
 
 ![Blueprint Node classes](/assets/img/ucookbook/custom_node/bp_in_depth_10.png){: .center-image }
 
-> 【相关引擎源码】
-> 1. UEdGraph相关代码目录：Source/Runtime/Engine/Classes/EdGraph
-> 1. 引擎提供的蓝图节点相关代码目录：Source/Editor/BlueprintGraph/Class
+详见引擎相关源代码：  
+1. **UEdGraph相关代码目录**：Source/Runtime/Engine/Classes/EdGraph
+1. **引擎提供的蓝图节点相关代码目录**：Source/Editor/BlueprintGraph/Class
 
+对于我们这个例子来说，新添加的“PrintString”这个节点，是创建的一个`class UK2Node_CallFunction`的实例，它是`class UK2Node`。它内部保存了一个UFunction对象指针，指向下面这个函数：
+``` cpp
+void UKismetSystemLibrary::PrintString(UObject* WorldContextObject, const FString& InString, bool bPrintToScreen, bool bPrintToLog, FLinearColor TextColor, float Duration)
+```
+详见：Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h
 
-### 蓝图的编译过程
+另外还有一个比较有意思的点是：蓝图编辑器中的Event Graph编辑是如何实现的？
 
+现在我们聚焦到 Event Graph 的编辑，这是蓝图编辑的核心部分。咱们可以套用一下“Model-View-Controller”模式：
+* 它有一个管理一个`class UEdGraph`对象，这个相当于Model
+  * 其他的基于Graph的编辑器可能使用`class UEdGraph`的派生类，例如Material Editor：class UMaterialGraph : public UEdGraph
+* 它使用`class UEdGraphSchema_K2`来定义蓝图Graph的行为，相当于Controller
+  * 它是`class UEdGraphSchema`的派生类
+  * 详见：Source/Editor/BlueprintGraph/Classes/EdGraphSchema_K2.h
+* 整体的UI、Graph布局等，都是一个复用的`SGraphEditor`，相当于View
+  * Graph中的每个Node对于一个可扩展的Widget，可以从`class SGraphNode`派生之后添加的`SGraphEditor`中。对于蓝图来说，它们都是：`class SGraphNodeK2Base`的派生类
+  * 详见：Source/Editor/GraphEditor/Public/KismetNodes/SGraphNodeK2Base.h
+
+#### 点击[Compile]按钮：编译蓝图
+
+![Compile Blueprint](/assets/img/ucookbook/bp_in_depth/compile_bp.gif)
 
 上面说的这个EdGraph的对象，主要是用来可视化编辑，蓝图要执行的话，就**需要把这个EdGraph对象编译成字节码，编译的结果就是一个UBlueprintGeneratedClass对象**，这个编译出来的对象保存在UBlueprint的父类中：`UBlueprintCore::GeneratedClass`。那么，下面我们将进入深水区啦，来看看蓝图的编译过程吧！
 
@@ -125,10 +183,65 @@ ew
 CompileDisplaysBinaryBackend=true
 就可以在OutputLog窗口里看到编译出的字节码，来验证我们上述猜想。
 
+#### 点击[Save]按钮：保存蓝图
 
-### 蓝图字节码的解释执行
+![Save Blueprint](/assets/img/ucookbook/bp_in_depth/save_bp.gif)
 
-首先我们看一下蓝图的字节码长什么样子吧。 在*CoreUObject/Public/UObject/Script.h*这个文件中有一个“enum EExprToken”，这个枚举就是蓝图的字节码定义。如果学过汇编语言或者.Net CLR IL的话，对这些东西并不会陌生：
+
+#### 把BP_HelloWorld拖放到关卡中
+
+![Instance Blueprint](/assets/img/ucookbook/bp_in_depth/instance_bp.gif)
+
+
+#### 点击[Play]按钮：运行蓝图
+
+![Run Blueprint](/assets/img/ucookbook/bp_in_depth/run_bp.gif)
+
+这个Hello World在运行时的调用过来，略有点复杂，我们分两个部分来说一下：
+1. BeginPlay事件
+2. 蓝图的字节码解释执行
+
+##### BeginPlay事件：AActor::ReceiveBeginPlay()
+
+蓝图编辑器中的BeginPlay事件节点对应的并不是`AActor::BeginPlay()`，而是`AActor::ReceiveBeginPlay()`这个事件，我们看一下它的声明：
+
+```cpp
+/** Event when play begins for this actor. */
+UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "BeginPlay"))
+void ReceiveBeginPlay();
+```
+
+从这个声明可以看出：
+1. `DisplayName = "BeginPlay"`，它只是看上去叫做“BeginPlay”，但是和AActor::BeginPlay()函数是两个东西。AActor::BeginPlay()是C++的实现，并在里面调用了ReceiveBeginPlay()；
+1. ReceiveBeginPlay()是一个“用蓝图实现的事件”，这种函数我们不需要使用C++写它的函数体。
+
+ReceiveBeginPlay()的函数体由UBT生成。生成的代码如下：
+
+```cpp
+static FName NAME_AActor_ReceiveBeginPlay = FName(TEXT("ReceiveBeginPlay"));
+void AActor::ReceiveBeginPlay()
+{
+	ProcessEvent(FindFunctionChecked(NAME_AActor_ReceiveBeginPlay),NULL);
+}
+```
+
+这段自动生成的代码实际上是做了两件事：
+1. 找到名为“ReceiveBeginPlay”的UFunction对象；
+1. 执行“ProcessEvent”函数。
+
+我们先来看一下这个“FindFunctionChecked()”操作，它的调用过程如下：
+* UObject::FindFunctionChecked()，this==BP_MyActor对象实例
+  * UObject::FindFunction()，其实现为：`GetClass()->FindFunctionByName(InName)`
+    * UClass::FindFunctionByName()，this==BP_MyActor的UClass对象实例；在这个例子中，this的类型为UClass的子类：UBlueprintGeneratedClass；
+    * 上述函数就返回了“ReceiveBeginPlay”对应的一个UFunction对象指针；
+
+在这个例子中，返回的UFunction对象，对应的就是一个“Kismet callable function”（代码注释里的说法），或者是说“蓝图函数”，其字节码就定义在在它的父类UStruct上：`	TArray<uint8> UStruct::Script`。在蓝图编辑器中拉的那个Graph。
+
+接下来，这个UFunction对象作为参数，调用了“AActor::ProcessEvent()”函数，这个函数是父类：UObject::ProcessEvent()的一个简单封装。后者就是蓝图字节码解释执行的重点部分了！
+
+##### 蓝图字节码的解释执行
+
+首先我们看一下蓝图的字节码长什么样子吧。 在*CoreUObject/Public/UObject/Script.h*这个文件中有一个`enum EExprToken`，这个枚举就是蓝图的字节码定义。如果学过汇编语言、JAVA VM或者.Net CLR IL的话，对这些东西并不会陌生：
 
 ```cpp
 //
@@ -148,7 +261,7 @@ enum EExprToken
 };
 ```
 
-这些字节码又是怎样被解释执行的呢？这部分功能完全是由UObject这个巨大的基类来完成的，并没有一个单独的Blueprint VM之类的模块。这个不必吐槽，这是Unreal的传统，从Unreal第一代的Unreal Script就是这样的。引擎中使用一个全局查找表，把上述字节码映射到函数指针。在运行时，从一个字节码数组中逐个取出字节码，并查找函数指针，进行调用，也就完成了所谓的“字节码解释执行”的过程。
+这些字节码又是怎样被解释执行的呢？这部分功能完全是由UObject这个巨大的基类来完成的，引擎并没有一个单独的Blueprint VM之类的模块。这个不必吐槽，这是Unreal的传统，从Unreal第一代的Unreal Script就是这样的。引擎中使用一个全局查找表，把上述字节码映射到函数指针。在运行时，从一个字节码数组中逐个取出字节码，并查找函数指针，进行调用，也就完成了所谓的“字节码解释执行”的过程。
 
 具体的说，引擎定义了一个全局变量：“FNativeFuncPtr GNatives[EX_Max]”，它保存了一个“字节码到FNativeFuncPtr”的查找表。在引擎中通过“DEFINE_FUNCTION”、“IMPLEMENT_VM_FUNCTION”来定义蓝图字节码对应的C++函数，并注册到这个全局映射表中，例如字节码“EX_Jump”对应的函数：
 
@@ -178,61 +291,21 @@ void FFrame::Step(UObject* Context, RESULT_DECL)
 > 1. CoreUObject/Public/UObject/Script.h
 > 1. CoreUObject/Private/Uobject/ScriptCore.h
 
-### Case Study: BeginPlay
+##### Hello World的执行
 
-下面我们通过一个最简单的例子，来看看上述3个步骤具体是怎样处理的。我们拉一个最简单的蓝图，从Actor派生，命名为：BP_MyActor，只加一点简单的功能：
-
-![Blueprint Sample](/assets/img/ucookbook/custom_node/bp_in_depth_20.png){: .center-image }
-
-好，我们从头说起：蓝图编辑器中的BeginPlay()对应的并不是AActor::BeginPlay()，而是AActor::ReceiveBeginPlay()这个事件，我们看一下它的声明：
-
-```cpp
-/** Event when play begins for this actor. */
-UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "BeginPlay"))
-void ReceiveBeginPlay();
-```
-
-从这个声明可以看出：
-1. `DisplayName = "BeginPlay"`，它只是看上去叫做“BeginPlay”，但是和AActor::BeginPlay()函数是两个东西。AActor::BeginPlay()是C++的实现，并在里面调用了ReceiveBeginPlay()；
-1. ReceiveBeginPlay()是一个“用蓝图实现的事件”，这种函数我们不需要使用C++写它的函数体。它的函数体由UBT生成。生成的代码如下：
-
-```cpp
-static FName NAME_AActor_ReceiveBeginPlay = FName(TEXT("ReceiveBeginPlay"));
-void AActor::ReceiveBeginPlay()
-{
-	ProcessEvent(FindFunctionChecked(NAME_AActor_ReceiveBeginPlay),NULL);
-}
-```
-
-这段自动生成的代码实际上是做了两件事：
-1. 找到名为“ReceiveBeginPlay”的UFunction对象；
-1. 执行“ProcessEvent”函数。
-
-我们先来看一下这个“FindFunctionChecked()”操作，它的调用过程如下：
-* UObject::FindFunctionChecked()，this==BP_MyActor对象实例
-  * UObject::FindFunction()，其实现为：`GetClass()->FindFunctionByName(InName)`
-    * UClass::FindFunctionByName()，this==BP_MyActor的UClass对象实例；在这个例子中，this的类型为UClass的子类：UBlueprintGeneratedClass；
-    * 上述函数就返回了“ReceiveBeginPlay”对应的一个UFunction对象指针；
-
-在这个例子中，返回的UFunction对象，对应的就是一个“Kismet callable function”（代码注释里的说法），或者是说“蓝图函数”，其字节码就定义在在它的父类UStruct上：`	TArray<uint8> UStruct::Script`。也就是上图，我们在蓝图编辑器中拉的那个Graph。
-
-接下来，这个UFunction对象作为参数，调用了“AActor::ProcessEvent()”函数，这个函数是父类：UObject::ProcessEvent()的一个简单封装，后者就是字节码解释执行的重点部分了！在我们这个例子中，这个函数做了以下几件核心的事情：
+在我们这个例子中，这个函数做了以下几件核心的事情：
 1. 创建了一个 FFrame 对象，这个对象就是执行这个UFunction所需要的的“栈”对象，他内部保存了一个“uint8* Code”指针，相当于汇编语言的PC，指向当前需要的字节码；
 2. 调用这个UFunction::Invoke()，this就是刚才找到的那个代表“ReceiveBeginPlay”的UFunction对象；
 3. 调用“ProcessLocalScriptFunction()”函数，解释执行字节码。
 
-
-
-
 最终，通过解释执行每一个Code，找到“Print String”对应的UFunction对象，并执行它，也就完成了这个蓝图的执行。
-
-
 
 ### 小结一下
 
-OK，罗里吧嗦说了这么多，下面让我们用简练的语言**概述一下上面的内容**：  
+OK，罗里吧嗦说了这么多，下面让我们用简练的语言**概述一下上面所有内容**：  
+
 1. 蓝图首先作为一种引擎的Asset对象，可以被Unreal Editor的Asset机制所管理，并且可以被Blueprint Editor来编辑；
-1. 在Blueprint Editor中，蓝图以一种UEdGraph派生类（TODO）对象的方式被Graph Editor来编辑；
+1. 在Blueprint Editor中，蓝图的Event Graph以`class UEdGraph`对象的方式被Graph Editor来编辑；
 1. 蓝图通过编译过程，生成一个UClass的派生类对象，即UBlueprintGeneratedClass对象实例；这个实例对象就像C++的UObject派生类对应的UClass那样，拥有UProperty和UFunction；
 1. 与C++生成的UClass不同的是，这些UFunction可能会使用蓝图字节码；
 1. 在运行时，并不存在一个单独的“蓝图虚拟机”模块，蓝图字节码的解释执行完全是有UObject这个巨大的基类来完成的；
