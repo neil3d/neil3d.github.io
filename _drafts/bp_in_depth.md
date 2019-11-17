@@ -11,29 +11,63 @@ image:
 brief: "这篇博客主要是深入理解蓝图整个流程的的底层机制，包括节点编辑、编译、字节码解释执行。理解了这些，对前面几篇所讲的蓝图扩展，可以有一个更清晰的认识"
 ---
 
-通过前面几篇文章谈了几种常用的蓝图节点的扩展方式，其中也对蓝图的底层机制进行了部分的解析，但是还不够整体。这篇文章谈一下目前我对蓝图技术架构的整体性的理解，包括蓝图从编辑到运行时到整个过程。
+通过前面几篇博客谈了几种常用的蓝图节点的扩展方式，其中也对蓝图的底层机制进行了部分的解析，但是还不够整体。这篇文章谈一下目前我对蓝图技术架构的整体性的理解，包括蓝图从编辑到运行时到整个过程。
 
 ### 蓝图的发展历程
 
-蓝图是一个突破性的创新，它能够让游戏设计师亲手创造自己想要的“游戏体验”。使用可视化编程的方式，可以大大的加速那种“以体验为核心”的游戏开发的迭代速度，这是一次大胆的尝试，无疑也是一次成功的尝试！（如果你从事的那种“以数值成长为核心，以挖坑为目的”的游戏开发，你可能会不太同意，不认为蓝图有那么大的意义，但是请注意这两种产品的区别）
+蓝图是一个突破性的创新，它能够让游戏设计师亲手创造自己想要的“游戏体验”。使用可视化编程的方式，可以大大的加速那种“以体验为核心”的游戏开发的迭代速度，这是一次大胆的尝试，无疑也是一次成功的尝试！（蓝图对于国内流行的那种“以数值成长为核心，以挖坑为目的”的游戏开发，可能没有那么大的意义）
 
 就像很多其他的创新一样，它也是有一个渐进的过程的。它的萌芽就是Unreal Engine 3时代的Kismet。在Unreal Engine 3中，Unreal Script还是主要开发语言，但是可以使用Kismet为关卡添加可视化的事件处理脚本，类似于今天的Level Blueprint。
 
 ![Kismet Attach Event](/assets/img/ucookbook/bp_in_depth/kismet_attach_event.jpg)
 
-> UDK官方文档：[Kismet Visual Scripting](https://docs.unrealengine.com/udk/Three/KismetHome.html)
+> Unreal Engine 3 官方文档：[Kismet Visual Scripting](https://docs.unrealengine.com/udk/Three/KismetHome.html)
 
-Blueprint这个名字应该是开发了一大半之后才起的，所以为啥UE4里面那么多蓝图相关的模块都以Kismet命名，连蓝图节点的基类也是class UK2Node啦，又有少量模块用的是Blueprint这个名字，其实指代的都是同一系统。
+Blueprint这个名字很可能是UE4开发了一大半之后才定的。这就是为啥UE4源码里面那么多蓝图相关的模块都以Kismet命名，连蓝图节点的基类也是class UK2Node啦，又有少量模块用的是Blueprint这个名字，其实指代的都是同一系统。
 
 ![Kismet in UE4](/assets/img/ucookbook/bp_in_depth/kisment_in_ue4.png)
 
-### 蓝图技术架构概览
+### 以实例理解蓝图的整个机制
 
-### 蓝图编辑器
+这篇博客的目的是把蓝图的整个体系结构完整的梳理一遍，但是如果只是将框架图之类的，一来太抽象，二来和实际代码结合不够，所以我打算以“案例分析”的方式，从一个最简单的蓝图入手，讲解每一步的实际机制是怎样的。
 
-### 蓝图的编译过程
+这个案例很简单
+* 新建一个从Actor派生的蓝图
+* 在它的Event Graph中，编辑BeginPlay事件，调用PrintString，显示一个Hello World！
 
-### 蓝图的运行时执行
+![Blueprint Case Study](/assets/img/ucookbook/bp_in_depth/case_study.png)
+
+#### 新建蓝图：BP_HelloWorld
+
+![New Blueprint](/assets/img/ucookbook/bp_in_depth/new_bp.gif)
+
+#### 双击打开BP_HelloWorld
+
+![Open Blueprint](/assets/img/ucookbook/bp_in_depth/open_bp.gif)
+
+#### 添加节点：PrintString
+
+![Add Node](/assets/img/ucookbook/bp_in_depth/add_node.gif)
+
+#### 点击[Compile]按钮：编译蓝图
+
+![Compile Blueprint](/assets/img/ucookbook/bp_in_depth/compile_bp.gif)
+
+
+#### 点击[Save]按钮：保存蓝图
+
+![Save Blueprint](/assets/img/ucookbook/bp_in_depth/save_bp.gif)
+
+
+#### 把BP_HelloWorld拖放到关卡中
+
+![Instance Blueprint](/assets/img/ucookbook/bp_in_depth/instance_bp.gif)
+
+
+#### 点击[Play]按钮：运行蓝图
+
+![Run Blueprint](/assets/img/ucookbook/bp_in_depth/run_bp.gif)
+
 
 ### Case Study：解析BeginPlay事件
 
