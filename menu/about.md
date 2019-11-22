@@ -25,9 +25,12 @@ title: About
 * [深入Unreal蓝图开发](https://zhuanlan.zhihu.com/blueprints-in-depth)：谈谈使用C++扩展Unreal蓝图，并理解其运作机制
 * [实战Unreal编辑器扩展](https://zhuanlan.zhihu.com/extending-unreal-editor)：以实例的方式讲解Unreal编辑器扩展插件开发技术
 
-## 开源项目
+## 其他
 
-之前开发的3D引擎由于商业授权的原因，无法拿出来开源，也挺遗憾的。目前只有几个小东西放在[我的GitHub](https://github.com/neil3d)上，争取以后搞点有意义的开源项目。    
+* 关于开源项目
+    * 之前开发的3D引擎由于商业授权的原因，无法拿出来开源，也挺遗憾的。目前只有几个小东西放在[我的GitHub](https://github.com/neil3d)上，争取以后搞点有意义的开源项目。    
+* 腾讯GAD名人堂专访
+    * [http://gad.qq.com/fame/detail/10015](http://gad.qq.com/fame/detail/10015)
 
 ## 微信公众号
 
