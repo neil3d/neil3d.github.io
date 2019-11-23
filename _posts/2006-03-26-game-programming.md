@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "2006年总结的游戏程序员所需的知识体系"
-author: "燕良"
+author: "房燕良"
 column: "GameDev"
 categories: gamedev
 tags: [learning]

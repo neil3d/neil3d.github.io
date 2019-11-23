@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "在Unity3D的Legacy动画系统中应用Root Motion"
-author: "燕良"
+author: "房燕良"
 column: "Unity3D"
 categories: unity3d
 tags: [unity3d]

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "《炉石传说》架构设计赏析(4)：Asset管理"
-author: "燕良"
+author: "房燕良"
 column: "Unity3D"
 categories: gamedev
 tags: [Hearthstone, Game]

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "理解PBR：从原理到实现（上）"
-author: "燕良"
+author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
 tags: [PBR, unreal]

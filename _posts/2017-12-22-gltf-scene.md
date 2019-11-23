@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "3D引擎数据结构与glTF(2): Scene Graph"
-author: "燕良"
+author: "房燕良"
 column: "Graphics"
 categories: 3dengine
 tags: [glTF, WebGL, SceneGraph]

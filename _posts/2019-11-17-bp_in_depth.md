@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "深入Unreal蓝图开发：理解蓝图技术架构"
-author: "燕良"
+author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
 tags: [unreal, blueprint]
