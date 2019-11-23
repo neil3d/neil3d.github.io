@@ -28,7 +28,8 @@
 
   <script src="{{site.baseurl}}/assets/js/jquery.min.js"></script>
   <script src="{{site.baseurl}}/assets/js/bootstrap.min.js"></script>
-  
+  <script src="{{site.baseurl}}/assets/js/toc.js"></script>
+
   <script>
     var _hmt = _hmt || [];
     (function () {
@@ -41,15 +42,15 @@
 
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#toc">
 
   <header class="site-header">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-            aria-expanded="false">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -68,72 +69,99 @@
     </nav>
   </header>
 
+  <div class="container bs-docs-container">
+    <div class="row">
+      <div class="col-md-9" role="main">
+          <div class="post-container">
+              <blockquote>
+                <p>
+                  <strong>内容概要</strong><br>
+                  {{ page.brief }}
+                </p>
+              </blockquote>
+      
+              <p>
+                【欢迎转载，请注明作者：燕良，原文出处：<a href="https://neil3d.github.io">游戏程序员的自我修养</a>】
+              </p>
+      
+              {{ content }}
+      
+              <span class="post-date">
+                Written on
+                {% assign d = page.date | date: "%-d" %}
+                {{ page.date | date: "%B" }}
+                {% case d %}
+                {% when '1' or '21' or '31' %}{{ d }}st
+                {% when '2' or '22' %}{{ d }}nd
+                {% when '3' or '23' %}{{ d }}rd
+                {% else %}{{ d }}th{% endcase %},
+                {{ page.date | date: "%Y" }}
+                by
+                {% if page.author %}
+                {{ page.author }}
+                {% else %}
+                {{ site.data.authors.primary.name }}
+                {% endif %}
+              </span>
+      
+              {% include related-posts.html %}
+      
+              {% if site.data.settings.disqus.comments %}
+              {% include disqus.html %}
+              {% endif %}
+      
+          </div>
+      </div>
 
-  <div class="container">
-    <div class="post-container-big">
-
-      <blockquote>
-        <p>
-          <strong>内容概要</strong><br>
-          {{ page.brief }}
-        </p>
-      </blockquote>
-
-      <p>
-        【欢迎转载，请注明作者：燕良，原文出处：<a href="https://neil3d.github.io">游戏程序员的自我修养</a>】
-      </p>
-      {{ content }}
-
-      <span class="post-date">
-        Written on
-        {% assign d = page.date | date: "%-d" %}
-        {{ page.date | date: "%B" }}
-        {% case d %}
-        {% when '1' or '21' or '31' %}{{ d }}st
-        {% when '2' or '22' %}{{ d }}nd
-        {% when '3' or '23' %}{{ d }}rd
-        {% else %}{{ d }}th{% endcase %},
-        {{ page.date | date: "%Y" }}
-        by
-        {% if page.author %}
-        {{ page.author }}
-        {% else %}
-        {{ site.data.authors.primary.name }}
-        {% endif %}
-      </span>
-
-      {% include related-posts.html %}
-
-      {% if site.data.settings.disqus.comments %}
-      {% include disqus.html %}
-      {% endif %}
+      <div class="col-md-3" role="complementary">
+        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+          <div id="toc"></div>
+        </nav>
+      </div>
 
     </div>
-
-
+    
+    <div class="post-container" style="max-width:80vw;">
+        <!-- 来必力City版安装代码 -->
+        <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjMzNS84ODk2">
+          <script type="text/javascript">
+            (function (d, s) {
+              var j, e = d.getElementsByTagName(s)[0];
+    
+              if (typeof LivereTower === 'function') { return; }
+    
+              j = d.createElement(s);
+              j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+              j.async = true;
+    
+              e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+          </script>
+          <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+      </div>
   </div>
 
-  <div class="post-container" style="max-width:80vw;">
-    <!-- 来必力City版安装代码 -->
-    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjMzNS84ODk2">
-      <script type="text/javascript">
-        (function (d, s) {
-          var j, e = d.getElementsByTagName(s)[0];
-  
-          if (typeof LivereTower === 'function') { return; }
-  
-          j = d.createElement(s);
-          j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-          j.async = true;
-  
-          e.parentNode.insertBefore(j, e);
-        })(document, 'script');
-      </script>
-      <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-    </div>
-    <!-- City版安装代码已完成 -->
-  </div>
   {% include footer.html %}
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#toc').toc({
+        title: '',
+        classes:{
+          list:'list-group',
+          item:'list-group-item'
+        }
+      });
+
+      $("#toc").affix({
+        offset: {
+          top: 16
+        }
+      });
+
+    }); </script>
 
 </body>
 
