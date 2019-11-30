@@ -31,7 +31,7 @@ brief: "虚幻4的一些常用功能、技巧的例子。"
 
 ### 创建Dynamic Material Instance
 
-接下来就要创建Dynamic Material Instance对象，一般可以在对象的Construction Script中完成，如下图所示，我们创建了一个Dynamic Material Instance Object，并把它保存到了“MyMaterial”变量中：
+接下来就要创建Dynamic Material Instance对象，一般可以在对象的Construction Script中完成，如下图所示，我们创建了一个Dynamic Material Instance Object，并把它保存到了“MyMaterial”变量中。MyMaterial的类型是：Material Instance Dynamic（Object Reference）：
 
 ![mtl_d2](/assets/img/ucookbook/mtl_d2.jpg)
 
