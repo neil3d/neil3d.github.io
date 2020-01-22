@@ -65,7 +65,9 @@ MyString MakeXXXString() {
 MyString str = MakeXXXString();
 ```
 
-为了获得最佳的性能，比较理想的方式是*把那个临时对象所管理的内部资源的所有权转移给新的对象*。那么，怎么转移呢？你需要依C++ 11标准，来实现自己的*转移构造函数和转移赋值函数*。具体代码如下：
+## 如何实现转移语义？
+
+为了避免上面那种笨拙的操作，从而获得最佳的性能，理想的方式是*把那个临时对象所管理的内部资源的所有权转移给新的对象*。那么，怎么转移呢？你需要依C++ 11标准，来实现自己的*转移构造函数和转移赋值函数*。具体代码如下：
 ``` c++
 class MyString {
   char* mData;
@@ -74,34 +76,40 @@ class MyString {
  public:
     ... ...
 
-  // Move Constructor
   MyString(MyString&& other) {
+    moveFrom(other);
+  }
+
+  MyString& operator=(MyString&& other) {
+    moveFrom(other);
+    return *this;
+  }
+
+private:
+  void moveFrom(MyString&& right){
     mData = other.mData;
     mSize = other.mSize;
     other.mData = nullptr;
     other.mSize = 0;
   }
 
-  // Move Assignment
-  MyString& operator=(MyString&& other) {
-    mData = other.mData;
-    mSize = other.mSize;
-    other.mData = nullptr;
-    other.mSize = 0;
-  }
 };
 ```
 
+在上面这段代码中，我们实现了一个转移构造函数（Move Constructor）和一个转移赋值操作（Move Assignment），它们的核心操作都由`moveFrom()`函数实现。这个函数很简单，就是把原来那个对象中的内存指针和状态值复制到这个对象内，然后把原来那个对象的指针置空，这样那个对象在析构的时候就不会释放这块内存了。于是，也就完成了*内部资源的所有权转移*。
+
+上面的描述不精确，但确是“转移语义”的一个最典型的场景，通过这个简单例子，我们先不谈艰涩的语言标准，先把问题搞清楚。顺带说明一下，Move Semantics，很多人也译作“移动语义”，但是我认为“转移语义”更为贴切：它实现的对象内部资源的所有权转移！
+
+## 右值引用和MoveTemp
+
 你需要注意这两个函数的参数类型是：`MyString&&`，有两个&符合，这个就是“右值引用”啦！因为编译器要明确区分参数类型，才能确定为你调用哪个构造函数或赋值操作符，也就是进行“拷贝”还是“转移”。上面那个`MakeXXXString()`函数的返回值，就是典型的“右值”。当`class MyString`具备在转移构造函数之后，`MyString str = MakeXXXString();`这一句就不会再调用拷贝构造函数了，而是调用转移构造函数，而其内部实现只是内存指针的所有权转移。
 
-上面的描述非常的不精确，但确是“转移语义”的一个最典型的场景，通过这个简单例子，我们先不谈艰涩的语言标准，先把问题搞清楚。顺带说明一下，Move Semantics，很多人也译作“移动语义”，但是我认为“转移语义”更为贴切：它实现的对象内部资源的所有权转移！
-
 说的这里，问题其实就说明白了，本小节可以结束了。嗯，不过，C++11标准库里面还提供了一个`std::move()`，它不是用来实现移动语义的吗？是的，你没说错，std::move()真的什么都没有移动。那它是用来干啥的呢？
-
 
 ## 在Unreal C++编程中运用转移语义
 
 ## 参考资料
 
+- [UE4 Coding Standard](https://docs.unrealengine.com/en-US/Programming/Development/CodingStandard/index.html)
 - [Modern C++: What You Need to Know](https://channel9.msdn.com/Events/Build/2014/2-661),Herb Sutter, MS Build 2014
 - [右值引用与转移语义](https://www.ibm.com/developerworks/cn/aix/library/1307_lisl_c11/index.html),李胜利, IBM Developer
