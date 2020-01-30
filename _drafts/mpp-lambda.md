@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "虚幻引擎与现代C++：基于Task的并行"
+title: "虚幻引擎与现代C++：不简单的lambda表达式"
 author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
@@ -14,3 +14,7 @@ brief: "TODO"
 ---
 
 TODO
+
+## 参考资料
+
+- [C++ FAQ]
