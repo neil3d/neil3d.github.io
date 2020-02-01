@@ -45,7 +45,7 @@ C++11中加入了lambda表达式，C++14补充了。。。。？？？？
 
 
 ### 按引用捕获 & 悬空引用
-
+Dangling references
 我们先来看一段代码：
 
 ```c++
@@ -99,3 +99,5 @@ public:
 ## 参考资料
 
 - [C++ FAQ]
+https://en.cppreference.com/w/cpp/language/lambda
+https://arne-mertz.de/2015/10/new-c-features-lambdas/
