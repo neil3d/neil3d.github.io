@@ -15,11 +15,39 @@ brief: "TODO"
 
 ## C++ Lambda 基础知识
 
-Lambda，就是希腊字母“**λ**”，代表这“λ演算（lambda calculus）”。λ演算由阿隆佐·邱奇（Alonzo Church）引入，1958年有MIT的约翰·麦肯锡（John McCarthy）设计了基于λ演算的LISP语言。
+Lambda，就是希腊字母“**λ**”，据说是代表着“λ演算（lambda calculus）”。C++11开始支持Lambda，可以说它只是一个便利机制。Lambda能做的事情，本质上都可以手写代码完成，但是它确实太方便了！怎么说呢，还好，我没有仔细学std::bind各种绕法，现在用lambda方便多了。
 
-C++11中加入了lambda表达式，C++14补充了。。。。？？？？
+我们可以通过简单的例子初步认识一下。假设我们需要对一个字符串数组进行按长度排序：
 
-一般情况下，lambda函数的语法是这样的：
+- 使用虚幻引擎提供的TArray
+
+```c++
+	TArray<FString> StrArray = { TEXT("Hello"), TEXT("Unreal"), TEXT("Engine")};
+	StrArray.Sort(
+		[](const FString& A, const FString& B) {
+		return A.Len() < B.Len();
+		}
+	);
+```
+
+- 使用C++标准库
+```c++
+	std::vector<std::string> str_array = { "hello","modern","c++" };
+	std::sort(std::begin(str_array), std::end(str_array), 
+		[](const auto& str1, const auto& str2) {
+		return str1.length() < str2.length();
+		}
+	);
+```
+
+上面代码中由`[]`开头的那一串就是lambda了。在大多数情况下我们就使用“lambda”这个名词就够了，但其实仔细想想，上述代码涉及到三个概念：
+- lambda表达式（lambda expression）
+- 闭包（closure）
+- 闭包类（closure class）  
+
+下面我们就挨个看一下。
+
+### lambda 表达式（lambda expression）
 ```
 [capture] (parameters) mutable ->return_type {statements}
 ```
@@ -29,8 +57,12 @@ C++11中加入了lambda表达式，C++14补充了。。。。？？？？
 - `->return_type`：返回值类型定义；在大多数情况下可以连同`->`一起省略，由编译器对返回类型进行推导；
 - `{statements}`：函数体；写法和普通函数一样，不过除了参数以外，还可以使用捕捉列表中的变量。
 
+### 闭包（closure）和闭包类（closure class）
 
-## 理解捕捉列表
+闭包是一个对象。
+
+
+## 捕捉列表有坑
 
 如果是在C#中使用Lambda就简单很多了，它有自动垃圾回收、class对象全部是引用类型这些特性，而对于C++来说，对象的生命周期、内存管理这根弦始终要绷紧。在定义Lambda的时候，我们可以捕获当前的作用域的变量，而C++的对象可能在栈（stack）上，也可以在堆（heap）上，所以Capture是Lambda编写最需要注意的地方了。编译器是如何实现这个“捕获”魔法的呢？对于C++来说，真的没什么魔法，必须完全理解编译器的行为，否则它往往就是Crash给你看！
 
