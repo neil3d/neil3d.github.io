@@ -40,12 +40,68 @@ std::sort(std::begin(str_array), std::end(str_array),
 );
 ```
 
-上面代码中由`[]`开头的那一串就是lambda了。在大多数情况下我们就使用“lambda”这个名词就够了，但其实仔细想想，上述代码涉及到三个概念：
+上面代码中由`[]`开头的那一串就是lambda了。在大多数情况下我们就使用“lambda”这个名词就够了，但其实仔细想想，其中代码涉及到三个概念：
 - lambda表达式（lambda expression）
 - 闭包（closure）
 - 闭包类（closure class）  
 
-下面我们就挨个看一下。
+我们通过下面这个例子来看一下：
+- 下面这段代码定义了一个变量：myLambda，它就是“闭包”
+- myLambda 的类型是一个编译器生成的匿名的类，也就是“闭包类”；
+- 这个闭包类是有等号右边的"lambda表达式"生成的，这个lambda表达式：
+	* 按值捕获了var1；按引用捕获了var2;
+	* 并且接受一个int型参数；
+	* 返回一个std::string对象
+
+```c++
+int var1 = 100;
+std::string var2 = "hello";
+
+auto myLambda = [var1, &var2](int param) -> std::string {
+    var2.append(std::to_string(var1));
+    var2.append(std::to_string(param));
+    return var2;
+ };
+
+std::cout << "fistLambda typeid = " << typeid(myLambda).name() << std::endl;
+```
+
+我们可以尝试把编译器自动生成的"闭包类"写出来，把“闭包”对象的构造也写出来，就应该能说明问题了。下面这段代码大体上和上面的代码等效：
+
+```
+int var1 = 100;
+std::string var2 = "hello";
+
+class MyClosureClass {
+  int var1;
+  std::string& var2;
+
+public:
+    MyClosureClass(int inVar1, std::string& inVar2)
+        : var1(inVar1), var2(inVar2) {}
+
+    // not default constructible
+    MyClosureClass() = delete;
+
+    MyClosureClass(const MyClosureClass&) = default;
+    MyClosureClass(MyClosureClass&&) = default;
+    ~MyClosureClass() = default;
+
+    // not copy assignable
+    MyClosureClass& operator=(const MyClosureClass&) = delete;
+
+    // function-call operator
+    std::string operator()(int param) {
+      var2.append(std::to_string(var1));
+      var2.append(std::to_string(param));
+      return var2;
+    }
+    };
+
+    auto myLambda = MyClosureClass(var1, var2);
+    std::cout << "myLambda: " << myLambda(2233) << std::endl;
+```
+> class MyClosureClass 还可能包含一个自定义的类型转换操作符，用来把闭包对象转换成函数指针。
 
 ### lambda 表达式（lambda expression）
 
