@@ -76,6 +76,20 @@ std::sort(std::begin(str_array), std::end(str_array),
 
 ### 按值捕获 & 捕获时机
 
+按值捕获就是在创建闭包的时候，将当前作用域内的变量赋值到闭包类的成员变量中，这个比较好理解，但是也有一个小小的坑。请看下面代码：
+
+``` c++
+FString LocalStr = TEXT("First string");
+
+auto TestLambda = [LocalStr]()  {
+	UE_LOG(LogTemp, Error, TEXT("String = %s ."), *LocalStr);
+};
+
+LocalStr = TEXT("Second string");
+TestLambda();
+```
+
+当调用`TestLambda()`的时候，也许会有点surprise，因为输出的还是：String = First string。这就是要注意的地方，当闭包生成的那一刻，被捕获的变量已经按值赋值的方式进行了捕获，后面那个`LocalStr`对象再怎么变化，已经和闭包对象里面的值没有关系了。
 
 ### 按引用捕获 & 悬空引用
 
