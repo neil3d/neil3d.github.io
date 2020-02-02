@@ -119,14 +119,20 @@ public:
 - `TestLambda()`直接调用那一句，`FString LocalStr`这个对象还在作用域内，所以可以执行；
 - 而在Timer执行的时候，`LocalStr`这个对象已经出了作用域，被析构了，这个时候Lambda中捕获的那个引用就变成了**悬空引用**啦，所以会导致Crash！
 
-### 捕获this
+### 捕获UObject指针
 
-如果this是一个UObject，那么又要操心了！UObject不是具备自动垃圾回收嘛，那还操心啥？  
+虚幻的UObject的垃圾回收，但它是基于对象之间的引用关系的（ AddToRoot、 FGCObject 也可以）。也就是说一个UObject指针被捕获之后，也是可能被垃圾回收的。一般情况下，我们不喜欢lambda影响对象的生命周期，所以建议使用 FWeakObjectPtr ，例如这样：
 
-虚幻的UObject的垃圾回收和C#等语言层面支持的垃圾回收还是两码事，一个UObject对象必须是通过
+```c++
+	TWeakObjectPtr<AActor> ActorPtr(TargetActor);
+	auto ObjectLambda = [ActorPtr](const FVector& Offset) {
+		if (ActorPtr.IsValid()) {
+			AActor* TargetActor = ActorPtr.Get();
+			TargetActor->AddActorWorldOffset(Offset);
+		}
+	};
 
-- 使用FWeakObjectPtr
-
+```
 
 ## 参考资料
 
