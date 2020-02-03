@@ -7,10 +7,10 @@ categories: unreal
 tags: [unreal, c++]
 image:
   path: mcpp
-  feature: cover_task.png
+  feature: cover3.png
   credit: ""
   creditlink: ""
-brief: "TODO"
+brief: "Lambda可以让代码简化很多，可维护性也能提高很多，但是它也有一些小细节，不小心的话，可能程序Crash了还不知道是哪里的问题。"
 ---
 
 ## C++ lambda 基础知识
