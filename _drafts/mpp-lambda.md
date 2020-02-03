@@ -15,7 +15,7 @@ brief: "TODO"
 
 ## C++ lambda 基础知识
 
-lambda ，就是希腊字母“**λ**”，据说是代表着“λ演算（lambda calculus）”。C++11开始支持Lambda，可以说它只是一个便利机制。Lambda能做的事情，本质上都可以手写代码完成，但是它确实太方便了！怎么说呢，还好以前我没有好好学std::bind各种绕法，现在用lambda方便多了。
+lambda ，就是希腊字母“**λ**”，据说是代表着“λ演算（lambda calculus）”。C++11开始支持Lambda，可以说它只是一个便利机制。Lambda能做的事情，本质上都可以手写代码完成，但是它确实太方便了！怎么说呢，还好以前没有好好学std::bind各种绕法，现在用lambda方便多了。
 
 我们可以通过简单的例子初步认识一下。假设我们需要对一个字符串数组进行按长度排序：
 
@@ -68,7 +68,7 @@ std::cout << "fistLambda typeid = " << typeid(myLambda).name() << std::endl;
 
 我们可以尝试把编译器自动生成的"闭包类"写出来，把“闭包”对象的构造也写出来，就应该能说明问题了。下面这段代码大体上和上面的代码等效：
 
-```
+```c++
 int var1 = 100;
 std::string var2 = "hello";
 
@@ -113,7 +113,12 @@ lambda表达式的常用语法格式如下：
 
 其中比较值得一说的就是`[captures]`：捕获列表了！
 
-如果是在C#中使用 lambda 就简单很多了，它有自动垃圾回收、class对象全部是引用类型这些特性，而对于C++来说，对象的生命周期、内存管理这根弦始终要绷紧。通过前面例子中的 `class MyClosureClass` 我们已经大体上明白，C++的闭包、捕获列表并没有什么“魔法”。
+`[captures]`支持多种写法，首先就是个人不推荐使用的两种默认捕获模式（default capture modes）：
+
+- `[=]`: 按值捕获当前作用域所有变量
+- `[&]`: 按引用捕获当前作用域所有变量
+
+从性能、代码可维护性等方面都不建议使用这两种方式。比较常用的写法就是明确列出需要捕获的变量，例如：`[var1, &var2]`, 其中`var1`使用了“按值捕获”模式，`var2`前面加了一个`&`代表着它使用“按引用捕获”的模式。下面就分别讨论一下“按值捕获”和“按引用捕获”有什么坑。
 
 ### 按值捕获 & 捕获时机
 
@@ -130,11 +135,15 @@ LocalStr = TEXT("Second string");
 TestLambda();
 ```
 
-当调用`TestLambda()`的时候，也许会有点surprise，因为输出的还是：String = First string。这就是要注意的地方，当闭包生成的那一刻，被捕获的变量已经按值赋值的方式进行了捕获，后面那个`LocalStr`对象再怎么变化，已经和闭包对象里面的值没有关系了。
+当调用`TestLambda()`的时候，也许会觉得意外，输出的还是：String = First string。这就是要注意的地方，当闭包生成的那一刻，被捕获的变量已经按值赋值的方式进行了捕获，后面那个`LocalStr`对象再怎么变化，已经和闭包对象里面的值没有关系了。
+
+如果按引用捕获，则可以跟踪`LocalStr`的更新了，但是按引用捕获的坑更深。
 
 ### 按引用捕获 & 悬空引用
 
-悬空引用（ dangling references ）就是说我们创建了一个对象的引用类型的变量，但是被引用的对象被析构了、无效了。一般情况下，引用类型的变量必须在初始化的时候复制，较少遇到这种情况，但是如果lambda被延迟调用，在调用时，已经脱离了当前的作用域，那么按引用捕获的对象很可能会出现悬空引用。  
+如果是在C#中使用 lambda 就简单很多了，它有自动垃圾回收、class对象全部是引用类型这些特性，而对于C++来说，对象的生命周期、内存管理这根弦始终要绷紧。在C++编程中，**程序员有责任保证Lambda调用的时候，保证被捕获的变量仍然存在**--是的，责任在你，而不在编译器。如果不能很好理解这点，就会遇到悬空引用的问题！
+
+悬空引用（ dangling references ）就是说我们创建了一个对象的引用类型的变量，但是被引用的对象被析构了、无效了。一般情况下，引用类型的变量必须在初始化的时候赋值，很少遇到这种情况，但是如果lambda被延迟调用，在调用时，已经脱离了当前的作用域，那么按引用捕获的对象就是悬空引用。  
 
 我们先来看一段代码：
 
@@ -159,7 +168,7 @@ GetWorldTimerManager().SetTimer(TestTimer, Delegate, 1.0f, true);
 
 上面这段的代码，在定义lambda之后立即调用则可以运行，同样一个labmda放入timer则会crash！这是为什么呢？  
 
-我们要从编译器如何帮我们生成这个`TestLambda`说起。在MS VC环境下，如果你使用代码`typeid(TestLambda).name()`将得到类似这样的一个类型名称：**class <lambda_ab028d6eb4807ccdb45b6cdecd1489f2>**，也就是说TestLambda的类型是一个class，那么如果我们自己写这个class的话，能写成什么样子呢？下面是我的尝试：
+前面基本概念那一部分讲到了`TestLambda`是一个闭包对象，它的类型是编译器生成的一个匿名的class。对于这个例子，我尝试把这个闭包类的核心部分写出来：
 
 ``` c++
 class MyLambdaClass {
@@ -174,18 +183,13 @@ public:
 	}
 };
 ```
-
-> 实际上编译器生成的闭包类（closure class）要比这个更复杂一些，主要是增加拷贝构造啊，赋值操作符啊等等，还包括一个自定义的类型转换操作符，用来转换成函数指针。这里只列出了最核心的点相关的代码。
-
-看到上面这个class，应该就很清晰了。C++的闭包对象与C#、Javascript的闭包对象有着本质的差别：对于C++来说，如果你按引用捕获了某个变量，你有责任在调用Lambda的时候保证那个变量仍然存在--责任在你，而不在编译器。在前面的例子中：
+看到上面这个class，应该就很清晰了：
 - `TestLambda()`直接调用那一句，`FString LocalStr`这个对象还在作用域内，所以可以执行；
 - 而在Timer执行的时候，`LocalStr`这个对象已经出了作用域，被析构了，这个时候Lambda中捕获的那个引用就变成了**悬空引用**啦，所以会导致Crash！
 
 ### 捕获UObject指针
 
-虚幻的UObject具备自动垃圾回收机制，但这个机制是基于对象之间的引用关系的（ FGCObject 也可以），也就是说一个 UObject 指针被捕获之后，是可能被垃圾回收的。
-
-一般情况下，我们不希望lambda影响对象的生命周期，所以建议使用 FWeakObjectPtr ，例如这样：
+虚幻的UObject具备自动垃圾回收机制，但这个机制是基于对象之间的引用关系的，也就是说一个 UObject 指针被捕获之后，还是可能被垃圾回收的。所以，对于延迟调用的lambda是不建议捕获UObject的；如果实在需要的话建议使用 FWeakObjectPtr ，例如这样：
 
 ```c++
 TWeakObjectPtr<AActor> ActorPtr(TargetActor);
@@ -197,7 +201,11 @@ auto ObjectLambda = [ActorPtr](const FVector& Offset) {
 };
 ```
 
+通过 FWeakObjectPtr 引用 UObject 指针不会影响对象的生命周期，在 `FWeakObjectPtr::IsValid()` 方法中默认会判断当前对象是不是 “Pending Kill” 状态。
+
+如果希望持有某个UObject的强引用，保证它不被垃圾回收，那么建议不要用lambda，而是用 `UObject` 或者 `FGCObject` 的派生类来处理。
+
 ## 参考资料
 
+- [Unreal Engine Coding Standard](https://docs.unrealengine.com/en-US/Programming/Development/CodingStandard/#lambdasandanonymousfunctions)
 - [Lambda expressions (since C++11)](https://en.cppreference.com/w/cpp/language/lambda), cppreference.com
-https://arne-mertz.de/2015/10/new-c-features-lambdas/
