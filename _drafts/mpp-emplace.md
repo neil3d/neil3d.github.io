@@ -13,3 +13,6 @@ image:
 brief: "UE4和C++11的容器都具备emplace API，它和push/insert有什么差别呢？它又是如何实现的呢？"
 ---
 
+## 参考资料
+
+- Effective Modern C++, Scott Meyers
