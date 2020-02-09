@@ -14,8 +14,8 @@ GIF使用最多256色调色板，感觉和虚幻4的高大上定位颇为违和�
 
 #### 版本更新
 
-* 最新版：0.3.0
-* 更新日期：2019年11月
+* 最新版：0.4.2
+* 更新日期：2019年12月
 * EPIC Marketplace：[https://www.unrealengine.com/marketplace/zh-CN/slug/animated-texture-with-gif-importer](https://www.unrealengine.com/marketplace/zh-CN/slug/animated-texture-with-gif-importer)
 * GitHub下载：[https://github.com/neil3d/UnrealAnimatedTexturePlugin/releases](https://github.com/neil3d/UnrealAnimatedTexturePlugin/releases)
 * Demo工程：[https://github.com/neil3d/UnrealAnimatedTextureDemo](https://github.com/neil3d/UnrealAnimatedTextureDemo)
@@ -26,5 +26,6 @@ GIF使用最多256色调色板，感觉和虚幻4的高大上定位颇为违和�
 * 支持GIF透明、interlace等特性
 * AnimatedTexture用法和Texture2D几乎一致，支持材质、UMG，可以在Texture Editor中编辑属性
 * AnimatedTexture具有完整的播放控制API
+* 支持引擎版本：4.21至4.24
 
 ![anim texture demo](/assets/img/unreal/plugins/demo-anim-texture.gif)  
