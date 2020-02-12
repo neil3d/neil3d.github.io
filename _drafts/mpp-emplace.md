@@ -7,7 +7,7 @@ categories: unreal
 tags: [unreal, c++]
 image:
   path: mcpp
-  feature: cover_task.png
+  feature: cover3.png
   credit: ""
   creditlink: ""
 brief: "UE4和C++11的容器都具备emplace API，它和push/insert有什么差别呢？它又是如何实现的呢？"
@@ -52,7 +52,7 @@ StrArray.Emplace(TEXT("Unreal"));
 
 下面就是引擎中`TArray::Emplace()`的源代码：
 
-``` cpp
+```cpp
 template <typename... ArgsType>
 	FORCEINLINE SizeType Emplace(ArgsType&&... Args)
 	{
@@ -84,6 +84,44 @@ template <typename... ArgsType>
 
 ### 完美转发(Perfect Forwarding)
 
+所谓“完美转发”，就是在写函数**模板**的时候，把任意类型的实参完全不变的转发到其他函数；这里的完全不变，除了参数的类型外还包括一些其他属性：**是左值还是右值，常量性（即const修饰符）等**。
+
+下面还是通过一个简短的例子来看一下，其中核心的部分是`testProcess()`这个函数模板：
+> 其中使用了特殊的宏: __FUNCSIG__，打印出函数的完整签名（例如：`void __cdecl testProcess<int&>(int &)`） , 在Visual C++环境下可编译运行
+
+```cpp
+#include <iostream>
+
+void processMyObject(int& l) {
+	std::cout << "Func 1. processing LValue" << std::endl;
+}
+
+void processMyObject(int&& r) {
+	std::cout << "Func 2. processing RValue" << std::endl;
+}
+
+template<typename T>
+void testProcess(T&& a) {
+	std::cout << __FUNCSIG__ << std::endl;
+	processMyObject(std::forward<T>(a));
+}
+
+int main() {
+	int a;
+	testProcess(a);
+	testProcess(std::move(a));
+	return 0;
+}
+```
+
+### 万能引用（Universal References）
+
+也有人称之为“转发引用（forwarding references）”
+
+### std::forward/UE4 Forward 函数模板
+
+`Forward` 并不做任何转发的工作，就像`MoveTemp`不做任何的移动操作一样，它们本质上都是一个强制类型转换，其源代码如下：
+
 ```cpp
 template <typename T>
 T&& Forward(typename TRemoveReference<T>::Type&& Obj)
@@ -92,7 +130,11 @@ T&& Forward(typename TRemoveReference<T>::Type&& Obj)
 }
 ```
 
-``` cpp
+这里用到了`TRemoveReference`这个模板，顺带提一下吧：
+- 它的作用就是**去掉`&`或者`&&`，保证获得一个引用类型**
+- 它是通过模板的偏特化来实现的：
+
+```cpp
 /* TRemoveReference<type> will remove any references from a type. */
 template <typename T> struct TRemoveReference      { typedef T Type; };
 template <typename T> struct TRemoveReference<T& > { typedef T Type; };
