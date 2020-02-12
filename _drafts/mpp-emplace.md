@@ -48,7 +48,7 @@ StrArray.Emplace(TEXT("Unreal"));
 
 这么说感觉还不够透彻，下面我们就来看一下`TArray::Emplace()`是如何实现的。
 
-## TArray::Emplace() 实现
+## TArray::Emplace() 实现解析
 
 下面就是引擎中`TArray::Emplace()`的源代码：
 
@@ -73,20 +73,20 @@ template <typename... ArgsType>
 - `template <typename... ArgsType>`：可变模板参数
 - `Forward<ArgsType>(Args)`：完美转发
 
-### 可变模板参数(Variadic Templates)
+### 可变参数模板(Variadic Templates)
 
 这个其实我们已经在天天使用啦，例如STL的`std::make_shared()`he 引擎提供的`MakeShared()`，它们都是基于这个特性实现的。它的基本语法就是这样的：
 
-- 模板参数可以这样写：`typename... ArgsType`，这个叫做 **template parameter pack**
-- 函数参数则这样写： `ArgsType... args`，这个叫做 **function parameter pack**
+- 模板参数可以这样写：`typename... ArgsType`，这个叫做 **模板参数包（template parameter pack)**
+- 函数参数则这样写： `ArgsType... args`，这个叫做 **函数参数包（function parameter pack）**
 
-在上面的 Emplace() 函数中，它是通过`Forward`模板函数，将`Args`转发到了`ElementType`的构造函数。那么这个`Forward`又是何方神圣呢？
+在上面的 `Emplace()` 函数中，它是通过`Forward`模板函数，将`Args`转发到了`ElementType`的构造函数。那么这个`Forward`又是何方神圣呢？
 
 ### 完美转发(Perfect Forwarding)
 
 所谓“完美转发”，就是在写函数**模板**的时候，把任意类型的实参完全不变的转发到其他函数；这里的完全不变，除了参数的类型外还包括一些其他属性：**是左值还是右值，常量性（即const修饰符）等**。
 
-下面还是通过一个简短的例子来看一下，其中核心的部分是`testProcess()`这个函数模板：
+下面还是通过一个简短的例子来看一下：
 > 其中使用了特殊的宏: __FUNCSIG__，打印出函数的完整签名（例如：`void __cdecl testProcess<int&>(int &)`） , 在Visual C++环境下可编译运行
 
 ```cpp
@@ -114,11 +114,16 @@ int main() {
 }
 ```
 
-### 万能引用（Universal References）
+上面这段代码核心的部分是`testProcess()`这个函数模板，它的要点有两个：
+* 参数类型为：`T&&`，这里也用了两个`&`，单它并不是我们前面所说的“右值引用”，而被称为“万能引用”；
+* 使用了`std::forward()`这个函数模板。如果不加这个*forwad*的话，则`testProcess(std::move(a))`也会运行到“Func 1”那个函数。这是因为函数的实参全都是左值（它的类型可以是右值引用，但它仍然是一个左值）。
+
+
+#### 万能引用（Universal References）
 
 也有人称之为“转发引用（forwarding references）”
 
-### std::forward/UE4 Forward 函数模板
+#### Forward 函数模板
 
 `Forward` 并不做任何转发的工作，就像`MoveTemp`不做任何的移动操作一样，它们本质上都是一个强制类型转换，其源代码如下：
 
