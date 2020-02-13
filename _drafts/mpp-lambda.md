@@ -205,7 +205,7 @@ auto ObjectLambda = [ActorPtr](const FVector& Offset) {
 
 如果希望持有某个UObject的强引用，保证它不被垃圾回收，那么建议不要用lambda，而是用 `UObject` 或者 `FGCObject` 的派生类来处理。
 
-## 参考资料
+## 延伸阅读
 
 - [Unreal Engine Coding Standard](https://docs.unrealengine.com/en-US/Programming/Development/CodingStandard/#lambdasandanonymousfunctions)
 - [Lambda expressions (since C++11)](https://en.cppreference.com/w/cpp/language/lambda), cppreference.com
