@@ -15,13 +15,13 @@ brief: "Lambda可以让代码简化很多，可维护性也能提高很多，但
 
 ## C++ lambda 基础知识
 
-lambda ，就是希腊字母“**λ**”，据说是代表着“λ演算（lambda calculus）”。C++11开始支持Lambda，可以说它只是一个便利机制。Lambda能做的事情，本质上都可以手写代码完成，但是它确实太方便了！怎么说呢，还好以前没有好好学std::bind各种绕法，现在用lambda方便多了。
+lambda ，就是希腊字母“**λ**”，据说是代表着“λ演算（lambda calculus）”。C++11开始支持Lambda，可以说它只是一个便利机制。Lambda能做的事情，本质上都可以手写代码完成，但是它确实太方便了！怎么说呢，还好以前没有认真学std::bind各种绕法，现在用lambda方便多了。
 
 我们可以通过简单的例子初步认识一下。假设我们需要对一个字符串数组进行按长度排序：
 
 - 使用虚幻引擎的TArray
 
-```c++
+```cpp
 TArray<FString> StrArray = { TEXT("Hello"), TEXT("Unreal"), TEXT("Engine")};
 StrArray.Sort(
 	[](const FString& A, const FString& B) {
@@ -31,7 +31,7 @@ StrArray.Sort(
 ```
 
 - 使用C++标准库
-```c++
+```cpp
 std::vector<std::string> str_array = { "hello","modern","c++" };
 std::sort(std::begin(str_array), std::end(str_array), 
 	[](const auto& str1, const auto& str2) {
@@ -45,15 +45,9 @@ std::sort(std::begin(str_array), std::end(str_array),
 - 闭包（closure）
 - 闭包类（closure class）  
 
-我们通过下面这个例子来看一下：
-- 下面这段代码定义了一个变量：myLambda，它就是“闭包”
-- myLambda 的类型是一个编译器生成的匿名的类，也就是“闭包类”；
-- 这个闭包类是有等号右边的"lambda表达式"生成的，这个lambda表达式：
-	* 按值捕获了var1；按引用捕获了var2;
-	* 并且接受一个int型参数；
-	* 返回一个std::string对象
+我们再通过下面这个例子来看一下：
 
-```c++
+```cpp
 int var1 = 100;
 std::string var2 = "hello";
 
@@ -66,9 +60,17 @@ auto myLambda = [var1, &var2](int param) -> std::string {
 std::cout << "fistLambda typeid = " << typeid(myLambda).name() << std::endl;
 ```
 
+上面这段代码：
+- 定义了一个变量：myLambda，它就是“闭包”
+- myLambda 的类型是一个编译器生成的匿名的类，也就是“闭包类”；
+- 这个闭包类是有等号右边的"lambda表达式"生成的，这个lambda表达式：
+	* 按值捕获了var1；按引用捕获了var2;
+	* 并且接受一个int型参数；
+	* 返回一个std::string对象
+
 我们可以尝试把编译器自动生成的"闭包类"写出来，把“闭包”对象的构造也写出来，就应该能说明问题了。下面这段代码大体上和上面的代码等效：
 
-```c++
+```cpp
 int var1 = 100;
 std::string var2 = "hello";
 
@@ -124,7 +126,7 @@ lambda表达式的常用语法格式如下：
 
 按值捕获就是在创建闭包的时候，将当前作用域内的变量赋值到闭包类的成员变量中，这个比较好理解，但是也有一个小小的坑。请看下面代码：
 
-``` c++
+``` cpp
 FString LocalStr = TEXT("First string");
 
 auto TestLambda = [LocalStr]()  {
@@ -141,13 +143,13 @@ TestLambda();
 
 ### 按引用捕获 & 悬空引用
 
-如果是在C#中使用 lambda 就简单很多了，它有自动垃圾回收、class对象全部是引用类型这些特性，而对于C++来说，对象的生命周期、内存管理这根弦始终要绷紧。在C++编程中，**程序员有责任保证Lambda调用的时候，保证被捕获的变量仍然存在**--是的，责任在你，而不在编译器。如果不能很好理解这点，就会遇到悬空引用的问题！
+如果是在C#中使用 lambda 就简单很多了，它有自动垃圾回收、class对象全部是引用类型这些特性，而对于C++来说，对象的生命周期、内存管理这根弦始终要绷紧。在C++编程中，**程序员有责任保证Lambda调用的时候，保证被捕获的变量仍然有效**~！是的，责任在你，而不在编译器。如果不能很好理解这点，就会遇到悬空引用的问题！
 
 悬空引用（ dangling references ）就是说我们创建了一个对象的引用类型的变量，但是被引用的对象被析构了、无效了。一般情况下，引用类型的变量必须在初始化的时候赋值，很少遇到这种情况，但是如果lambda被延迟调用，在调用时，已经脱离了当前的作用域，那么按引用捕获的对象就是悬空引用。  
 
 我们先来看一段代码：
 
-```c++
+```cpp
 FString LocalStr = TEXT("Local string");
 
 auto TestLambda = [&LocalStr]() {
@@ -170,7 +172,7 @@ GetWorldTimerManager().SetTimer(TestTimer, Delegate, 1.0f, true);
 
 前面基本概念那一部分讲到了`TestLambda`是一个闭包对象，它的类型是编译器生成的一个匿名的class。对于这个例子，我尝试把这个闭包类的核心部分写出来：
 
-``` c++
+``` cpp
 class MyLambdaClass {
 	FString& LocalStr;
 public:
@@ -191,7 +193,7 @@ public:
 
 虚幻的UObject具备自动垃圾回收机制，但这个机制是基于对象之间的引用关系的，也就是说一个 UObject 指针被捕获之后，还是可能被垃圾回收的。所以，对于延迟调用的lambda是不建议捕获UObject的；如果实在需要的话建议使用 FWeakObjectPtr ，例如这样：
 
-```c++
+```cpp
 TWeakObjectPtr<AActor> ActorPtr(TargetActor);
 auto ObjectLambda = [ActorPtr](const FVector& Offset) {
 	if (ActorPtr.IsValid()) {
