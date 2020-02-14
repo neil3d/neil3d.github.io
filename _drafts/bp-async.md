@@ -6,26 +6,30 @@ column: "Unreal Engine"
 categories: unreal
 tags: [unreal, blueprint]
 image:
-  path: ucookbook
-  feature: cover2.jpg
+  path: unreal
+  feature: cover_bp.png
 brief: "引擎中提供两种蓝图异步节点的实现方式，这里我们主要介绍 Blueprint Async Action 的实现方式。"
 ---
 
-在蓝图中我们可以使用一下异步节点，典型的就是“Delay”，它并不会阻塞当前的游戏逻辑，而是在指定的时间之后，再执行后面的操作。
+​	在蓝图中我们可以使用一些异步节点，典型的就是“Delay”：它并不会阻塞当前的游戏逻辑，而是在指定的时间之后，再执行后面的操作。
 
 ![latent](/assets/img/unreal/bp_async/latent.png)
 
-"Delay"的实现是在`class UKismetSystemLibrary`中的`static void	Delay(UObject* WorldContextObject, float Duration, struct FLatentActionInfo LatentInfo )`函数，详见：*EngineDir\Source\Runtime\Engine\Classes\Kismet\KismetSystemLibrary.h* 。这种实现方式就是 **Latent Function**，这个东西在虚幻3的Unreal Script中就有了。具体实现方式这里就不细说了。这是因为这种方式应该属于历史遗产啦，有另外一种更方便的实现方式：**Blueprint Async Action**。
+​	"Delay"的实现是在`class UKismetSystemLibrary`中的 `static void	Delay(UObject* WorldContextObject, float Duration, struct FLatentActionInfo LatentInfo )`函数，详见：*EngineDir\Source\Runtime\Engine\Classes\Kismet\KismetSystemLibrary.h* 。这种实现方式叫做 **Latent Function**，这个东西在虚幻3的Unreal Script中就有了。具体实现方式这里就不细说了。这是因为这种方式应该属于历史遗产啦，有另外一种更方便的实现方式：**Blueprint Async Action**。
+
+> 在周期很长的大型项目中，会出现一个问题有不止一种解决方案或者处理手法，这个很好理解：团队在发展，技术在发展，一些东西做着做着有了新想法，老代码跑的很稳定，也懒得改了。虚幻4就是这样一个超长周期的项目，所以也不用迷信引擎源代码，有些也是历史包袱。
 
 ## Blueprint Async Action
 
-引擎提供了一个基类：`class UBlueprintAsyncActionBase`，只要从它派生，并按照一定的约定来实现这个派生类，在蓝图编辑器中就可以自动产生相应的异步节点啦。下面就通过一个最简单的例子，来看看这个派生类的写法。这个例子很简单，就是发送一个Http请求，根据结果调用“成功”和“失败”两个分支。
+​	引擎提供了一个基类：`class UBlueprintAsyncActionBase`，只要从它派生，并按照一定的约定来实现这个派生类，在蓝图编辑器中就可以自动产生相应的异步节点啦。下面就通过一个最简单的例子，来看看这个派生类的写法。
+
+​	这个例子很简单，就是发送一个Http请求，根据结果调用“成功”和“失败”两个分支。
 
 ![my async node](/assets/img/unreal/bp_async/my_http.png)
 
-### 举例：把HTTP请求封装成一个蓝图的异步节点
+### 实例：把HTTP请求封装成一个蓝图的异步节点
 
-首先需要建立一个 `class UBlueprintAsyncActionBase` 的派生类：
+首先，需要建立一个 `class UBlueprintAsyncActionBase` 的派生类：
 ```cpp
 UCLASS()
 class UBlueprintAsyncHttpRequest : public UBlueprintAsyncActionBase
@@ -34,7 +38,7 @@ class UBlueprintAsyncHttpRequest : public UBlueprintAsyncActionBase
 };
 ```
 
-然后要为这个类建立一个工厂方法：
+然后，要为这个类建立一个工厂方法：
 1. 这个方法必须设置为*BlueprintCallable*，并标记*BlueprintInternalUseOnly*：`UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))`
 1. 这个工厂方法的名称，就会是我们的蓝图节点的名称了；这个函数的参数会变为节点的输入参数；
 1. 定义一个 *Multicast Delegate*，作为异步操作的完成通知；这个类可以有多个完成通知，但是签名只能有一个。例如，在这个类里面我定义了*OnSuccess*和*OnFail*两个Delegate，单他们的类型都是`FHttpResponseDelegatge`；
@@ -69,15 +73,16 @@ public:
 
 ### 稍微挖掘一下
 
-那位可能说了：这些又没有官方文档，你说这些有什么依据吗？
+​	这些又没有官方文档，我是咋知道的呢？
 
-是这样的，我稍微挖掘了一下引擎的源代码，上面说的那些规则是从源代码中的两个类来的：
+​	是这样的，我稍微挖掘了一下引擎的源代码，上面说的那些规则是从源代码中的两个类来的：
 
 - class UK2Node_AsyncAction : public UK2Node_BaseAsyncTask
-  *EngineDir\Source\Editor\Kismet\Public\Nodes\K2Node_AsyncAction.h(15)
+  * EngineDir\Source\Editor\Kismet\Public\Nodes\K2Node_AsyncAction.h
 - class UK2Node_BaseAsyncTask : public UK2Node
-  * EngineDir\Source\Editor\BlueprintGraph\Classes\K2Node_BaseAsyncTask.h(34)
+  * EngineDir\Source\Editor\BlueprintGraph\Classes\K2Node_BaseAsyncTask.h
   
+
 这两个类实现的功能大致如下：
 - `class UK2Node_AsyncAction` 从 `class UK2Node_BaseAsyncTask` 派生
 - `class UK2Node_AsyncAction` 这个类主要负责绑定`class UBlueprintAsyncActionBase`派生类的工厂方法，也就是上例中的：`UBlueprintAsyncHttpRequest* HttpRequest(const FString& URL);`
@@ -124,7 +129,7 @@ private:
 
 	void SendRequest(const FString& URL);
 };
-```  
+```
 
 #### BlueprintAsyncHttpRequest.cpp
 
