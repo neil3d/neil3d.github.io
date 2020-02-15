@@ -23,7 +23,7 @@ title: About
 ## 知乎专栏
 
 * [深入Unreal蓝图开发](https://zhuanlan.zhihu.com/blueprints-in-depth)：谈谈使用C++扩展Unreal蓝图，并理解其运作机制
-* [实战Unreal编辑器扩展](https://zhuanlan.zhihu.com/extending-unreal-editor)：以实例的方式讲解Unreal编辑器扩展插件开发技术
+* [虚幻4与现代C++](https://zhuanlan.zhihu.com/ue4-modern-cpp)：以实例的方式讲解在虚幻4中运用现代C++的各种特性
 
 ## 其他
 
