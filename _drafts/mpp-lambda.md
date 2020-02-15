@@ -194,18 +194,35 @@ public:
 虚幻的UObject具备自动垃圾回收机制，但这个机制是基于对象之间的引用关系的，也就是说一个 UObject 指针被捕获之后，还是可能被垃圾回收的。所以，对于延迟调用的lambda是不建议捕获UObject的；如果实在需要的话建议使用 FWeakObjectPtr ，例如这样：
 
 ```cpp
-TWeakObjectPtr<AActor> ActorPtr(TargetActor);
-auto ObjectLambda = [ActorPtr](const FVector& Offset) {
+AActor* TargetActor = FindMyTargetActor();
+
+auto ObjectLambda = [ActorPtr = TWeakObjectPtr<AActor>(TargetActor)](const FVector& Offset) {
 	if (ActorPtr.IsValid()) {
 		AActor* TargetActor = ActorPtr.Get();
 		TargetActor->AddActorWorldOffset(Offset);
 	}
 };
 ```
-
 通过 FWeakObjectPtr 引用 UObject 指针不会影响对象的生命周期，在 `FWeakObjectPtr::IsValid()` 方法中默认会判断当前对象是不是 “Pending Kill” 状态。
 
 如果希望持有某个UObject的强引用，保证它不被垃圾回收，那么建议不要用lambda，而是用 `UObject` 或者 `FGCObject` 的派生类来处理。
+
+### C++14的初始化捕获（init capture）
+
+在上面UObject指针的例子中，捕获列表是这样写的：`ActorPtr = TWeakObjectPtr<AActor>(TargetActor)`，这种写法就是C++14引入的新特性“初始化捕获”，也被称为广义捕获（generalized capture）。这个的语法是这样的：
+
+- 等号左边的变量是声明在“闭包类” 里面的，它的类型由编译器自动推导；
+- 等号右边的表达式，其作用域就是当前定义lambda的作用域，可以引用局部变量或者实参。
+
+这个语法更有用的地方是：它可以把使用“移动语义”把局部变量移动到闭包中，类似这样：
+
+```cpp
+FString SomeBigString;
+// ...
+auto MyLambda = [MyStr = MoveTemp(SomeBigString)] {
+  //....
+};
+```
 
 ## 延伸阅读
 
