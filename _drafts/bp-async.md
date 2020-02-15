@@ -15,9 +15,9 @@ brief: "引擎中提供两种蓝图异步节点的实现方式，这里我们主
 
 ![latent](/assets/img/unreal/bp_async/latent.png)
 
-​	"Delay"的实现是在`class UKismetSystemLibrary`中的 `static void	Delay(UObject* WorldContextObject, float Duration, struct FLatentActionInfo LatentInfo )`函数，详见：*EngineDir\Source\Runtime\Engine\Classes\Kismet\KismetSystemLibrary.h* 。这种实现方式叫做 **Latent Function**，这个东西在虚幻3的Unreal Script中就有了。具体实现方式这里就不细说了。这是因为这种方式应该属于历史遗产啦，有另外一种更方便的实现方式：**Blueprint Async Action**。
+​	"Delay"的实现是在`class UKismetSystemLibrary`中的 `static void	Delay(UObject* WorldContextObject, float Duration, struct FLatentActionInfo LatentInfo )`函数，详见：*EngineDir\Source\Runtime\Engine\Classes\Kismet\KismetSystemLibrary.h* 。这种实现方式叫做 **Latent Function**，这个东西在虚幻3的Unreal Script中就有了。具体实现方式这里就不细说了。因为这种方式应该属于历史遗产啦，现在有另外一种更方便的实现方式：**Blueprint Async Action**。
 
-> 在周期很长的大型项目中，会出现一个问题有不止一种解决方案或者处理手法，这个很好理解：团队在发展，技术在发展，一些东西做着做着有了新想法，老代码跑的很稳定，也懒得改了。虚幻4就是这样一个超长周期的项目，所以也不用迷信引擎源代码，有些也是历史包袱。
+> 在周期很长的大型项目中，会出现一个问题有不止一种解决方案或者处理手法，这个很好理解：团队在发展，技术在发展，一些东西做着做着有了新想法，老代码跑的很稳定，也懒得改了。虚幻4就是这样一个超长周期的项目，所以也不用迷信引擎源代码，要用历史的、发展的眼光看得它。
 
 ## Blueprint Async Action
 
@@ -41,7 +41,8 @@ class UBlueprintAsyncHttpRequest : public UBlueprintAsyncActionBase
 然后，要为这个类建立一个工厂方法：
 1. 这个方法必须设置为*BlueprintCallable*，并标记*BlueprintInternalUseOnly*：`UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))`
 1. 这个工厂方法的名称，就会是我们的蓝图节点的名称了；这个函数的参数会变为节点的输入参数；
-1. 定义一个 *Multicast Delegate*，作为异步操作的完成通知；这个类可以有多个完成通知，但是签名只能有一个。例如，在这个类里面我定义了*OnSuccess*和*OnFail*两个Delegate，单他们的类型都是`FHttpResponseDelegatge`；
+1. 定义一个 *Multicast Delegate* 类型，作为异步操作的完成通知；这个类可以有多个完成通知，但是签名只能有一个；
+1. 使用这个 delegate 类型为类添加成员变量，作为完成通知，这个可以有多个；例如，在这个类里面我定义了*OnSuccess*和*OnFail*两个Delegate，单他们的类型都是`FHttpResponseDelegatge`；
 
 下面就是这个类的核心定义了：
 
@@ -70,21 +71,17 @@ public:
 
 这是因为引擎默认有一个*Then*针脚，可以通过为这个UClass设置meta来关闭它：`UCLASS(meta=(HideThen=true))`
 
-
 ### 稍微挖掘一下
 
-​	这些又没有官方文档，我是咋知道的呢？
-
-​	是这样的，我稍微挖掘了一下引擎的源代码，上面说的那些规则是从源代码中的两个类来的：
+​	这些又没有官方文档，我是咋知道的呢？ 是这样的，我稍微挖掘了一下引擎的源代码，上面说的那些规则是从源代码中的两个类来的：
 
 - class UK2Node_AsyncAction : public UK2Node_BaseAsyncTask
   * EngineDir\Source\Editor\Kismet\Public\Nodes\K2Node_AsyncAction.h
 - class UK2Node_BaseAsyncTask : public UK2Node
   * EngineDir\Source\Editor\BlueprintGraph\Classes\K2Node_BaseAsyncTask.h
-  
 
-这两个类实现的功能大致如下：
-- `class UK2Node_AsyncAction` 从 `class UK2Node_BaseAsyncTask` 派生
+`class UK2Node_AsyncAction` 从 `class UK2Node_BaseAsyncTask` 派生，它们实现的功能大致如下：
+
 - `class UK2Node_AsyncAction` 这个类主要负责绑定`class UBlueprintAsyncActionBase`派生类的工厂方法，也就是上例中的：`UBlueprintAsyncHttpRequest* HttpRequest(const FString& URL);`
 - `class UK2Node_BaseAsyncTask` 负责创建节点的基本属性：
   * 使用反射，读取工厂方法的输入参数，作为节点的输入变量
