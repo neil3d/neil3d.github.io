@@ -159,5 +159,6 @@ template <typename T> struct TRemoveReference<T&&> { typedef T Type; };
 
 ## 延伸阅读
 
+- [Universal References in C++11](https://isocpp.org/blog/2012/11/universal-references-in-c11-scott-meyers), Scott Meyers
 - [Variadic templates in C++](https://eli.thegreenplace.net/2014/variadic-templates-in-c/), Eli Bendersky
 - 条款42: 考虑置入而非插入（Consider emplacement instead of insertion），*Effective Modern C++*, Scott Meyers

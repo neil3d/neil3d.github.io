@@ -189,6 +189,8 @@ public:
 - `TestLambda()`直接调用那一句，`FString LocalStr`这个对象还在作用域内，所以可以执行；
 - 而在Timer执行的时候，`LocalStr`这个对象已经出了作用域，被析构了，这个时候Lambda中捕获的那个引用就变成了**悬空引用**啦，所以会导致Crash！
 
+总之，**使用各种 Delegate 的 “BindLambda” 的时候，要格外小心悬空引用的风险**。
+
 ### 捕获UObject指针
 
 虚幻的UObject具备自动垃圾回收机制，但这个机制是基于对象之间的引用关系的，也就是说一个 UObject 指针被捕获之后，还是可能被垃圾回收的。所以，对于延迟调用的lambda是不建议捕获UObject的；如果实在需要的话建议使用 FWeakObjectPtr ，例如这样：
