@@ -17,34 +17,7 @@ brief: "Lambda可以让代码简化很多，可维护性也能提高很多，但
 
 Lambda ，就是希腊字母“**λ**”，据说是代表着“λ演算（lambda calculus）”。C++11开始支持Lambda，可以说它只是一个便利机制。Lambda能做的事情，本质上都可以手写代码完成，但是它确实太方便了！怎么说呢，还好以前没有认真学std::bind各种绕法，现在用lambda方便多了。
 
-我们可以通过简单的例子初步认识一下。假设我们需要对一个字符串数组进行按长度排序：
-
-- 使用虚幻引擎的TArray
-```cpp
-TArray<FString> StrArray = { TEXT("Hello"), TEXT("Unreal"), TEXT("Engine")};
-StrArray.Sort(
-	[](const FString& A, const FString& B) {
-	return A.Len() < B.Len();
-	}
-);
-```
-
-- 使用C++标准库
-```cpp
-std::vector<std::string> str_array = { "hello","modern","c++" };
-std::sort(std::begin(str_array), std::end(str_array), 
-	[](const auto& str1, const auto& str2) {
-	return str1.length() < str2.length();
-	}
-);
-```
-
-上面代码中由`[]`开头的那一串就是lambda了。在大多数情况下我们就使用“lambda”这个名词就够了，但其实仔细想想，其中代码涉及到三个概念：
-- lambda表达式（lambda expression）
-- 闭包（closure）
-- 闭包类（closure class）  
-
-我们再通过下面这个例子来看一下：
+我们可以通过简单的例子初步认识一下：
 
 ```cpp
 int var1 = 100;
@@ -59,7 +32,12 @@ auto myLambda = [var1, &var2](int param) -> std::string {
 std::cout << "fistLambda typeid = " << typeid(myLambda).name() << std::endl;
 ```
 
-上面这段代码：
+上面代码中由`[]`开头的那一串就是lambda了。在大多数情况下我们就使用“lambda”这个名词就够了，但其实仔细想想，其中代码涉及到三个概念：
+- lambda表达式（lambda expression）
+- 闭包（closure）
+- 闭包类（closure class）  
+
+例如，在上面这段代码中：
 - 定义了一个变量：myLambda，它就是“闭包”
 - myLambda 的类型是一个编译器生成的匿名的类，也就是“闭包类”；
 - 这个闭包类是有等号右边的"lambda表达式"生成的，这个lambda表达式：
