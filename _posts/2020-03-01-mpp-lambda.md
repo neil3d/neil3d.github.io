@@ -20,7 +20,6 @@ Lambda ，就是希腊字母“**λ**”，据说是代表着“λ演算（lambd
 我们可以通过简单的例子初步认识一下。假设我们需要对一个字符串数组进行按长度排序：
 
 - 使用虚幻引擎的TArray
-
 ```cpp
 TArray<FString> StrArray = { TEXT("Hello"), TEXT("Unreal"), TEXT("Engine")};
 StrArray.Sort(
