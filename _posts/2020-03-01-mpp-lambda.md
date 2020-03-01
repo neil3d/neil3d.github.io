@@ -40,7 +40,7 @@ std::cout << "fistLambda typeid = " << typeid(myLambda).name() << std::endl;
 例如，在上面这段代码中：
 - 定义了一个变量：myLambda，它就是“闭包”
 - myLambda 的类型是一个编译器生成的匿名的类，也就是“闭包类”；
-- 这个闭包类是有等号右边的"lambda表达式"生成的，这个lambda表达式：
+- 这个闭包类是由等号右边的"lambda表达式"生成的，这个lambda表达式：
 	* 按值捕获了var1；按引用捕获了var2;
 	* 并且接受一个int型参数；
 	* 返回一个std::string对象
