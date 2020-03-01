@@ -12,3 +12,5 @@ image:
   creditlink: ""
 brief: ""
 ---
+
+![task-blocks](/assets/img/mcpp/fork_join.png)
