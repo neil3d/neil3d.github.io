@@ -1,21 +1,21 @@
 ---
 layout: post
-title: "虚幻4与现代C++：不简单的lambda表达式"
+title: "虚幻4与现代C++：Lambda好用也有坑"
 author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
 tags: [unreal, c++]
 image:
   path: mcpp
-  feature: cover_task.png
+  feature: cover3.png
   credit: ""
   creditlink: ""
 brief: "Lambda可以让代码简化很多，可维护性也能提高很多，但是它也有一些小细节，不小心的话，可能程序Crash了还不知道是哪里的问题。"
 ---
 
-## C++ lambda 基础知识
+## C++ Lambda 基础知识
 
-lambda ，就是希腊字母“**λ**”，据说是代表着“λ演算（lambda calculus）”。C++11开始支持Lambda，可以说它只是一个便利机制。Lambda能做的事情，本质上都可以手写代码完成，但是它确实太方便了！怎么说呢，还好以前没有认真学std::bind各种绕法，现在用lambda方便多了。
+Lambda ，就是希腊字母“**λ**”，据说是代表着“λ演算（lambda calculus）”。C++11开始支持Lambda，可以说它只是一个便利机制。Lambda能做的事情，本质上都可以手写代码完成，但是它确实太方便了！怎么说呢，还好以前没有认真学std::bind各种绕法，现在用lambda方便多了。
 
 我们可以通过简单的例子初步认识一下。假设我们需要对一个字符串数组进行按长度排序：
 
@@ -207,7 +207,9 @@ auto ObjectLambda = [ActorPtr = TWeakObjectPtr<AActor>(TargetActor)](const FVect
 ```
 通过 FWeakObjectPtr 引用 UObject 指针不会影响对象的生命周期，在 `FWeakObjectPtr::IsValid()` 方法中默认会判断当前对象是不是 “Pending Kill” 状态。
 
-如果希望持有某个UObject的强引用，保证它不被垃圾回收，那么建议不要用lambda，而是用 `UObject` 或者 `FGCObject` 的派生类来处理。
+如果希望持有某个UObject的强引用，保证它不被垃圾回收，那么建议不要用lambda，建议使用其他写法：
+1. 使用 Delegate 的 BindUObject 或者 BindUFunction 来处理；
+2. 如果是很复杂的代码，也可以用 `UObject` 或者 `FGCObject` 的派生类来处理。
 
 ### C++14的初始化捕获（init capture）
 
@@ -222,7 +224,7 @@ auto ObjectLambda = [ActorPtr = TWeakObjectPtr<AActor>(TargetActor)](const FVect
 FString SomeBigString;
 // ...
 auto MyLambda = [MyStr = MoveTemp(SomeBigString)] {
-  //....
+//....
 };
 ```
 
