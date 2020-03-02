@@ -96,15 +96,14 @@ public:
 		TaskDelegate(InTaskDelegate), FilePath(MoveTemp(InFilePath))
 	{}
 
-	FORCEINLINE TStatId GetStatId() const {
+	FORCEINLINE TStatId GetStatId() const	{
 		RETURN_QUICK_DECLARE_CYCLE_STAT(FTask_LoadFileToString, STATGROUP_TaskGraphTasks);
 	}
 
 	static ENamedThreads::Type GetDesiredThread() { return CPrio_LoadFileToString.Get(); }
 	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
 
-	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
-	{
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)	{
 		// load file from Content folder
 		FString FullPath = FPaths::Combine(FPaths::ProjectContentDir(), FilePath);
 		if (FPaths::FileExists(FullPath))
@@ -113,8 +112,9 @@ public:
 		}
 
 		// create completion task
-		FGraphEventRef ChildTask = TGraphTask<FTaskCompletion_LoadFileToString>::CreateTask(nullptr, ENamedThreads::GameThread).
-			ConstructAndDispatchWhenReady(TaskDelegate, MoveTemp(FileContent));
+		FGraphEventRef ChildTask = TGraphTask<FTaskCompletion_LoadFileToString>::CreateTask(nullptr, CurrentThread).
+			ConstructAndDispatchWhenReady(TaskDelegate, FileContent);
+		MyCompletionGraphEvent->SetGatherThreadForDontCompleteUntil(ENamedThreads::GameThread);
 		MyCompletionGraphEvent->DontCompleteUntil(ChildTask);
 	}
 };
@@ -149,7 +149,7 @@ class FTaskCompletion_LoadFileToString
 	FString FileContent;
 public:
 	FTaskCompletion_LoadFileToString(FTaskDelegate_FileLoaded InTaskDelegate, FString InFileContent) :
-		TaskDelegate(InTaskDelegate), FileContent(MoveTemp(InFileContent))
+		TaskDelegate(InTaskDelegate), FileContent(InFileContent)
 	{}
 
 	FORCEINLINE TStatId GetStatId() const	{
@@ -159,8 +159,7 @@ public:
 	static ENamedThreads::Type GetDesiredThread() { return ENamedThreads::GameThread; }
 	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
 
-	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
-	{
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent){
 		check(IsInGameThread());
 		TaskDelegate.ExecuteIfBound(MoveTemp(FileContent));
 	}
