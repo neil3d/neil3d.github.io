@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "虚幻4与现代C++：基于任务的并行编程与TaskGraph"
+title: "虚幻4与现代C++：TaskGraph 很容易上手"
 author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
@@ -43,10 +43,11 @@ TaskGraph 应该是虚幻4引擎中后期才加入的一个机制，但越来越
 
 我还是通过一个最简单的例子来说明 TaskGraph 的基本用法：假定我们需要异步加载一个文本文件。
 
-下面是这个例子的接口定义：  
+下面是这个例子的测试接口定义：  
 - 建立了一个 Actor 的派生类
 - 提供一个接口，用来发起异步加载的操作：`void AsyncLoadTextFile(const FString& FilePath)`
 - 提供一个蓝图事件，供上层来接受加载的文件内容：`void OnFileLoaded(const FString& FileContent)`
+
 - 完整代码如下：FirstAsyncTask.h
 ``` cpp
 UCLASS()
@@ -67,6 +68,7 @@ public:
 - 在 `AsyncLoadTextFile()` 函数中发起一个异步操作
 - `OnFileLoaded()` 将在蓝图中实现，C++这里没有代码
 - 任务代码是通过自定义的一个class实现的：`FTask_LoadFileToString`，这个后面细说
+
 - 完整代码如下：FirstAsyncTask.cpp
 ``` cpp
 void AFirstAsyncTask::AsyncLoadTextFile(const FString& FilePath)
@@ -78,7 +80,7 @@ void AFirstAsyncTask::AsyncLoadTextFile(const FString& FilePath)
 }
 ```
 
-主线程的代码就是这么简单！看到这几行代码，你可能想要拍砖了：我在一个异步任务里面调用蓝图 `OnFileLoaded` ，这个不是找死吗？！且慢，砖再举一会儿，容我慢慢解释！其关键就在于这个异步任务是如何定义的。
+主线程的代码就是这么简单！看到这几行代码，你可能想要拍砖了：我在一个异步任务里面调用蓝图 `OnFileLoaded` ，这个不是找死吗？！且慢，砖可以先举着，容我慢慢解释！其关键就在于这个异步任务是如何定义的。
 
 ### 定义任务
 
@@ -169,11 +171,6 @@ public:
 这个任务的代码就很直接了当了，有两个小点稍微说一下：
 1. 你看，我在 DoTask() 里面写了 `check(IsInGameThread())`，确定是**Game Thread**。:)
 1. 我通过引擎提供的 `MoveTemp` 模板，实现了`FString FileContent`的**转移拷贝**，减少了内存拷贝；[关于转移语义可以看我之前的博客](https://neil3d.gitee.io/unreal/mcpp-move.html)。
-
-## TaskGraph 框架
-
-- FGraphEvent
-- TGraphTask
 
 ## To be continued
 
