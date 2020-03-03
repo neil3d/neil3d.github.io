@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "虚幻4与现代C++：TaskGraph 很容易上手"
+title: "虚幻4与现代C++：基于任务的并行编程与TaskGraph"
 author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
@@ -10,7 +10,7 @@ image:
   feature: cover3.png
   credit: ""
   creditlink: ""
-brief: "基于任务的并行编程是现代C++的一个趋势，虚幻4中的TaskGraph也是这样一个方向。这个博客分享一下 TaskGraph 的基本用法。"
+brief: "基于任务的并行编程是现代C++的一个趋势，虚幻4中的TaskGraph也是这样一个方向。这个帖子就分享一下 TaskGraph 的基本用法。"
 ---
 
 ## 基于任务的并行程序设计
@@ -26,11 +26,13 @@ brief: "基于任务的并行编程是现代C++的一个趋势，虚幻4中的Ta
 - 微软的 [PPL(Parallel Patterns Library)](https://docs.microsoft.com/en-us/cpp/parallel/concrt/parallel-patterns-library-ppl?view=vs-2019)
 - Intel 的 [TBB(Threading Building Blocks)](https://github.com/intel/tbb)  
 
-并且两家已经在2015年一起发起了C++标准提案：[N4411 | Task Block](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4411.pdf)，Herb Sutter 也是发起人之一。
+并且两家已经在2015年一起发起了C++标准提案：[N4411-Task Block](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4411.pdf)，Herb Sutter 也是发起人之一。
 
 ## 虚幻4的 TaskGraph 简介
 
-TaskGraph 应该是虚幻4引擎中后期才加入的一个机制，但越来越多的系统开始使用它。它不是一个标准的基于任务的并行编程框架，而一个专门针对虚幻4定制的。它的底层实现代码还蛮复杂的，咱们就先不分析它，而是着重说说**怎么用好它**。
+虚幻4的 TaskGraph 就是“基于任务的并行编程”设计思想下的产物。
+
+TaskGraph 应该是虚幻4引擎中后期才加入的一个机制，但越来越多的系统开始使用它。它不是一个标准的并行编程框架，而一个专门针对虚幻4定制的。它的底层实现代码有点绕，咱们就先不分析它，而是着重说说**怎么用好它**。
 
 虚幻4的 TaskGraph 有以下常用特性：
 
@@ -49,6 +51,7 @@ TaskGraph 应该是虚幻4引擎中后期才加入的一个机制，但越来越
 - 提供一个蓝图事件，供上层来接受加载的文件内容：`void OnFileLoaded(const FString& FileContent)`
 
 - 完整代码如下：FirstAsyncTask.h
+
 ``` cpp
 UCLASS()
 class MAKINGUSEOFTASKGRAPH_API AFirstAsyncTask : public AActor
@@ -70,6 +73,7 @@ public:
 - 任务代码是通过自定义的一个class实现的：`FTask_LoadFileToString`，这个后面细说
 
 - 完整代码如下：FirstAsyncTask.cpp
+
 ``` cpp
 void AFirstAsyncTask::AsyncLoadTextFile(const FString& FilePath)
 {
@@ -80,7 +84,12 @@ void AFirstAsyncTask::AsyncLoadTextFile(const FString& FilePath)
 }
 ```
 
-主线程的代码就是这么简单！看到这几行代码，你可能想要拍砖了：我在一个异步任务里面调用蓝图 `OnFileLoaded` ，这个不是找死吗？！且慢，砖可以先举着，容我慢慢解释！其关键就在于这个异步任务是如何定义的。
+主线程的代码就是这么简单！然后，我建立一个 `class AFirstAsyncTask` 的蓝图派生类，来测试它：
+
+![first task test](/assets/img/mcpp/first_task.png)
+
+
+看到这里，你可能想要拍砖了：你在一个异步任务里面调用蓝图 `OnFileLoaded` ，这个不是找死吗？！且慢，砖可以先举着，容我慢慢解释！其关键就在于这个异步任务是如何定义的。
 
 ### 定义任务
 
@@ -127,21 +136,18 @@ public:
 - 构造函数是完全自定义的，有多少参数都可以；底层会通过“可变参数模板(Variadic Templates)”把所有参数全都转发过来；
 	* 引擎中有一句注释说不支持引用类型的参数：CAUTION!: Must not use references in the constructor args; use pointers instead if you need by reference
 	* 不过，我在引擎的代码中发现了有使用引用类型参数的任务，目前还不确定；使用引用类型的话，确实是有很大的“悬空引用(dangling references)”的风险，建议还是不用；
-- GetStatId()：返回一个 StatId，一般就按照这种固定写法就好了；
-- GetDesiredThread()：返回这个任务希望运行的线程；常用的写法有：
-	* 通过一个 FAutoConsoleTaskPriority 对象来获得一个当前合适的线程；
-	* 指定某个线程，例如：ENamedThreads::GameThread ；
-- GetSubsequentsMode()：有两个可选值，TrackSubsequents 和 FireAndForget ；
-- DoTask()：这个就是写我们这个任务实际的工作的代码了；
+- `GetStatId()`：返回一个 StatId，一般就按照这种固定写法就好了；
+- `GetDesiredThread()`：返回这个任务希望运行的线程；常用的写法有：
+	* 通过一个 `class FAutoConsoleTaskPriority` 对象来获得一个当前合适的线程；
+	* 指定某个线程，例如：`ENamedThreads::GameThread `；
+- `GetSubsequentsMode()`：有两个可选值，TrackSubsequents 和 FireAndForget ；
+- `DoTask()`：这个就是写我们这个任务实际的工作的代码了；
 
 下面就着重看一下这个任务的实现代码：`FTask_LoadFileToString::DoTask()`，这个函数干了两件事：
 
 1. 首先就是加载那个文本文件了；
-2. 创建了一个子任务，这个子任务负责执行“完成通知”！
-
-OK！砖举累了的话，可以放下了：
-- 我是通过这个完成通知任务`class FTaskCompletion_LoadFileToString`来调用`AFirstAsyncTask::OnFileLoaded`那个蓝图事件的；
-- 我指定 `FTaskCompletion_LoadFileToString::DoTask()` 需要在 Game Thread 执行！
+2. 创建了一个`FTaskCompletion_LoadFileToString`子任务，这个子任务负责执行“完成通知”；
+3. 重点来了：我指定了`FTaskCompletion_LoadFileToString`必须在 GameThread 执行！
 
 下面看一下`class FTaskCompletion_LoadFileToString`的完整代码：
 ```cpp
@@ -167,13 +173,35 @@ public:
 	}
 };
 ```
+OK！砖举累了吧，可以放下了：
+- 我是通过这个完成通知任务`class FTaskCompletion_LoadFileToString`来调用`AFirstAsyncTask::OnFileLoaded`那个蓝图事件的；
+-  `FTaskCompletion_LoadFileToString::GetDesiredThread()` 返回值为：`ENamedThreads::GameThread`，也就是要求它在 GameThread 执行！
 
-这个任务的代码就很直接了当了，有两个小点稍微说一下：
+这个任务的`DoTask()`代码就很直接了当了，有两个小点稍微说一下：
 1. 你看，我在 DoTask() 里面写了 `check(IsInGameThread())`，确定是**Game Thread**。:)
 1. 我通过引擎提供的 `MoveTemp` 模板，实现了`FString FileContent`的**转移拷贝**，减少了内存拷贝；[关于转移语义可以看我之前的博客](https://neil3d.gitee.io/unreal/mcpp-move.html)。
 
-## To be continued
+### 派发任务
 
-TaskGraph 这么好用的模块，EPIC竟然没有文档，难道是舍不得给大家用吗？哈哈！
+就像上面那样，定义好 “Task 类”之后就需要调用 TaskGraph 来派发这个任务了，就像下面这样：
+```cpp
+TGraphTask<FTask_LoadFileToString>::CreateTask().ConstructAndDispatchWhenReady(FilePath, TaskDelegate);
+```
 
-这个例子相当于 Hello World 啦，真正在项目中使用的话，还有些问题要理清。后续我会继续分享 TaskGraph 的实战经验。相关的样例工程在我的 GitHub ：https://github.com/neil3d/UnrealCookBook/tree/master/MakingUseOfTaskGraph
+解释一下上面这一行代码：
+1. `TGraphTask` 是一个模板类，它接收一个类型参数，就是我们前面定义的 “Task 类”
+1. 首先是调用 `TGraphTask::CreateTask()` 函数，这个函数有两个参数：
+	* `FGraphEventArray* Prerequisites`：前置任务列表，默认值为NULL；这个非常有用，后面我单独讲
+	* `ENamedThreads::Type CurrentThreadIfKnown`：当前线程，默认值为ENamedThreads::AnyThread
+	* 一般情况下我们使用函数参数的默认值就好
+1. `TGraphTask::CreateTask()` 返回一个对象，它的类型是：`class TGraphTask::FConstructor`
+	* `FConstructor` 有两个主要的方法：`ConstructAndDispatchWhenReady()`、`ConstructAndHold()`，名字就说明它的作用了
+	* 这两个方法主要就是构造我们定义的 “Task 类”的实例，并且使用"可变参数模板(Variadic Templates)"把构造函数的参数转发到 “Task 类的构造函数”
+
+可以说这就是 TaskGraph 系统的常用 API 啦！非常非常的简单易用！这么好用的系统，EPIC竟然没有文档，难道是舍不得给大家用吗？哈哈！
+
+## 小结
+
+这个例子相当于 Hello World 啦！在这个例子中，我使用“父子任务”的结构，来执行异步操作，并在 GameThread 中发送完成通知。这算是 TaskGraph 的用法之一，后续我会继续分享 TaskGraph 的实战经验。TaskGraph 运用过程中的一些问题，也会逐步澄清。
+
+相关的样例工程在我的 GitHub ：https://github.com/neil3d/UnrealCookBook/tree/master/MakingUseOfTaskGraph
