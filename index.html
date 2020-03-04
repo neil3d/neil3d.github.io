@@ -11,29 +11,30 @@ title: Home
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
-    {% increment post_count %}
+    {% assign post_count = 0 %}
+
     {% for post in site.posts %}
     {% if post.top==true %}
-    {% if post_count==1 %}
+    {% if post_count==0 %}
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     {% endif %}
 
-    {% if post_count==2 %}
+    {% if post_count==1 %}
     <li data-target="#myCarousel" data-slide-to="1"></li>
     {% endif %}
 
-    {% if post_count==3 %}
+    {% if post_count==2 %}
     <li data-target="#myCarousel" data-slide-to="2"></li>
     {% endif %}
 
-    {% increment post_count %}
+    {% assign post_count = post_count | plus: 1 %}
 
     {% endif %}
     {% endfor %}
   </ol>
 
   <div class="carousel-inner" role="listbox">
-    {% increment post_count2 %}
+    {% assign post_count2 = 1 %}
 
     {% for post in site.posts %}
     {% if post.top==true %}
@@ -53,7 +54,9 @@ title: Home
         {% if post_count2==3 %}
           <img class="third-slide" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
         {% endif %}
-        {% increment post_count2 %}
+        
+    {% assign post_count2 = post_count2 | plus: 1 %}
+        
 
         <div class="container">
           <div class="carousel-caption">
