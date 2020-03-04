@@ -1,95 +1,153 @@
 ---
-layout: default
+layout: home
 title: Home
 ---
 
-<div class="home">
-  <!-- 置顶文章 -->
-  {% if 1 == paginator.page %}
+<!-- 置顶文章 -->
+<!-- Carousel 
+    ================================================== -->
 
-  {% for post in site.posts %}
-  {% if post.top==true %}
 
-  <div class="panel panel-default">
-    {% if post.image.feature %}
-    <a href="{{ site.github.url }}{{ post.url }}"><img class="thumb" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}"></a>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    {% increment post_count %}
+    {% for post in site.posts %}
+    {% if post.top==true %}
+    {% if post_count==1 %}
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     {% endif %}
-    <div class="panel-body">
-      <img src="{{ site.github.url }}/assets/img/ui/ui_top.png">
-      <b><a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a></b>
-      <span class="post-meta">
-        {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
-      </span>
-      <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>
-        Written on {{ post.date | date_to_string }}
-      </span>
-    </div>
 
+    {% if post_count==2 %}
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    {% endif %}
+
+    {% if post_count==3 %}
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    {% endif %}
+
+    {% increment post_count %}
 
     {% endif %}
     {% endfor %}
+  </ol>
 
-    {% endif %}
-  </div>
+  <div class="carousel-inner" role="listbox">
+    {% increment post_count2 %}
 
-  <!-- 非置顶文章 -->
-  {% assign new_post = true  %}
-  {% if paginator.page > 1%}
-    {% assign new_post = false  %}
-  {% endif %}
-  
-  {% for post in paginator.posts %}
-  {% if post.top!=true %}
+    {% for post in site.posts %}
+    {% if post.top==true %}
 
-  <div class="panel panel-default">
-    {% if post.image.feature %}
-    <a href="{{ site.github.url }}{{ post.url }}"><img class="thumb" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}"></a>
-    {% endif %}
-    <div class="panel-body">
-      {% if new_post %}
-      <img src="{{ site.github.url }}/assets/img/ui/ui_new.png">
-      {% assign new_post = false  %}
+        {% if post_count2==1 %}
+            <div class="item active">
+          {% else %}
+            <div class="item">
+        {% endif %}
+
+        {% if post_count2==1 %}
+          <img class="first-slide" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
+        {% endif %}
+        {% if post_count2==2 %}
+          <img class="second-slide" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
+        {% endif %}
+        {% if post_count2==3 %}
+          <img class="third-slide" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
+        {% endif %}
+        {% increment post_count2 %}
+
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.brief | markdownify }} </p>
+          </div>
+        </div>
+      </div>
       {% endif %}
-      <b><a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a></b>
-      <span class="post-meta">
-        {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read more...</a>
-      </span>
-      <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>
-        Written on {{ post.date | date_to_string }}
-      </span>
+      {% endfor %}
     </div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div><!-- /.carousel -->
+
+
+
+  <div class="container">
+
+    <div class="post-container">
+
+
+      <div class="home">
+        <!-- 非置顶文章 -->
+        {% assign new_post = true  %}
+        {% if paginator.page > 1%}
+        {% assign new_post = false  %}
+        {% endif %}
+
+        {% for post in paginator.posts %}
+        {% if post.top!=true %}
+
+        <div class="panel panel-default">
+          {% if post.image.feature %}
+          <a href="{{ site.github.url }}{{ post.url }}"><img class="thumb"
+              src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}"></a>
+          {% endif %}
+          <div class="panel-body">
+            {% if new_post %}
+            <img src="{{ site.github.url }}/assets/img/ui/ui_new.png">
+            {% assign new_post = false  %}
+            {% endif %}
+            <b><a class="title_link" href="{{ site.github.url }}{{ post.url }}">{{ post.title }}</a></b>
+            <span class="post-meta">
+              {{ post.brief | markdownify | truncate: 128 }} <a href="{{ site.github.url }}{{ post.url }}">Read
+                more...</a>
+            </span>
+            <span class="post-date"><i class="fa fa-calendar" aria-hidden="true"></i>
+              Written on {{ post.date | date_to_string }}
+            </span>
+          </div>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <center>
+      <!-- pagination -->
+      {% if paginator.total_pages > 1 %}
+      <div class="pagination">
+        {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
+        {% else %}
+        <span>&laquo; Prev</span>
+        {% endif %}
+
+        {% for page in (1..paginator.total_pages) %}
+        {% if page == paginator.page %}
+        <span>{{ page }}</span>
+        {% elsif page == 1 %}
+        <a href="/">{{ page }}</a>
+        {% else %}
+        <a
+          href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
+        {% else %}
+        <span>Next &raquo;</span>
+        {% endif %}
+      </div>
+      {% endif %}
+    </center>
+
   </div>
 
-  {% endif %}
-  {% endfor %}
 </div>
-</div>
-
-<center>
-  <!-- pagination -->
-  {% if paginator.total_pages > 1 %}
-  <div class="pagination">
-    {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
-    {% else %}
-    <span>&laquo; Prev</span>
-    {% endif %}
-
-    {% for page in (1..paginator.total_pages) %}
-    {% if page == paginator.page %}
-    <span>{{ page }}</span>
-    {% elsif page == 1 %}
-    <a href="/">{{ page }}</a>
-    {% else %}
-    <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
-    {% endif %}
-    {% endfor %}
-
-    {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
-    {% else %}
-    <span>Next &raquo;</span>
-    {% endif %}
-  </div>
-  {% endif %}
-</center>
