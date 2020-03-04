@@ -30,6 +30,10 @@
   left: 0;
   width: 1324px;
   height: 500px;
+  -webkit-filter: saturate(60%) contrast(60%);
+  -moz-filter: saturate(60%) contrast(60%);
+  -ms-filter: saturate(60%) contrast(60%);
+  filter: saturate(60%) contrast(60%);
 }
 
 
