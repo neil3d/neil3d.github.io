@@ -13,8 +13,8 @@
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
   color:whitesmoke;
-  left: 10%;
-  right: 10%;
+  left: 12%;
+  right: 12%;
   text-align: left;
   z-index: 10;
   text-shadow:4px 2px 4px #000;
