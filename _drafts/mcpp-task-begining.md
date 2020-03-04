@@ -7,7 +7,7 @@ categories: unreal
 tags: [unreal, c++]
 image:
   path: mcpp
-  feature: cover3.png
+  feature: cover_graph.png
   credit: ""
   creditlink: ""
 brief: "基于任务的并行编程是现代C++的一个趋势，虚幻4中的TaskGraph也是这样一个方向。这个帖子就分享一下 TaskGraph 的基本用法。"
