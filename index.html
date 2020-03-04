@@ -60,7 +60,13 @@ title: Home
 
         <div class="container">
           <div class="carousel-caption">
-            <h1 style="color:whitesmoke;">{{ post.title }}</h1>
+            <a class="title_link" href="{{ site.github.url }}{{ post.url }}">
+            <h1 style="color:whitesmoke;">
+              <img src="{{ site.github.url }}/assets/img/ui/ui_top.png">
+              {{ post.title }}
+            </h1>
+          </a>
+
             <p>{{ post.brief | markdownify }} </p>
           </div>
         </div>
