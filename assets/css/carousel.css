@@ -4,7 +4,7 @@
 
 /* Carousel base class */
 .carousel {
-  width: 900px;
+  max-width: 900px;
   height: 324px;
   margin:0 auto;
   margin-top: 0px;
@@ -22,7 +22,7 @@
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
-  width: 900px;
+  max-width: 900px;
   height: 324px;
   background-color: #777;
 }
@@ -30,7 +30,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 900px;
+  max-width: 900px;
   height: 324px;
   -webkit-filter: saturate(40%) contrast(40%);
   -moz-filter: saturate(40%) contrast(40%);

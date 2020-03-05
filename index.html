@@ -3,90 +3,86 @@ layout: home
 title: Home
 ---
 
-<!-- 置顶文章 -->
-<!-- Carousel 
-    ================================================== -->
+<div class="container">
 
+  <!-- 置顶文章 -->
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      {% assign post_count = 0 %}
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-    {% assign post_count = 0 %}
+      {% for post in site.posts %}
+      {% if post.top==true %}
+      {% if post_count==0 %}
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      {% endif %}
 
-    {% for post in site.posts %}
-    {% if post.top==true %}
-    {% if post_count==0 %}
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    {% endif %}
+      {% if post_count==1 %}
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      {% endif %}
 
-    {% if post_count==1 %}
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    {% endif %}
+      {% if post_count==2 %}
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      {% endif %}
 
-    {% if post_count==2 %}
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-    {% endif %}
+      {% assign post_count = post_count | plus: 1 %}
 
-    {% assign post_count = post_count | plus: 1 %}
-
-    {% endif %}
-    {% endfor %}
-  </ol>
-
-  <div class="carousel-inner" role="listbox">
-    {% assign post_count2 = 1 %}
-
-    {% for post in site.posts %}
-    {% if post.top==true %}
-
-        {% if post_count2==1 %}
-            <div class="item active">
-          {% else %}
-            <div class="item">
-        {% endif %}
-
-        {% if post_count2==1 %}
-          <img class="first-slide" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
-        {% endif %}
-        {% if post_count2==2 %}
-          <img class="second-slide" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
-        {% endif %}
-        {% if post_count2==3 %}
-          <img class="third-slide" src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
-        {% endif %}
-        
-    {% assign post_count2 = post_count2 | plus: 1 %}
-        
-
-        <div class="container">
-          <div class="carousel-caption">
-            <a class="title_link"  style="color:whitesmoke;" href="{{ site.github.url }}{{ post.url }}">
-            <h1 style="color:whitesmoke;">
-              <img src="{{ site.github.url }}/assets/img/ui/ui_top.png">
-              {{ post.title }}
-            </h1>
-            <p  style="color:whitesmoke;">{{ post.brief | markdownify }} </p>
-          </a>
-
-          </div>
-        </div>
-      </div>
       {% endif %}
       {% endfor %}
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div><!-- /.carousel -->
+    </ol>
 
+    <div class="carousel-inner" role="listbox">
+      {% assign post_count2 = 1 %}
 
+      {% for post in site.posts %}
+      {% if post.top==true %}
 
-  <div class="container">
+      {% if post_count2==1 %}
+      <div class="item active">
+        {% else %}
+        <div class="item">
+          {% endif %}
+
+          {% if post_count2==1 %}
+          <img class="first-slide"
+            src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
+          {% endif %}
+          {% if post_count2==2 %}
+          <img class="second-slide"
+            src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
+          {% endif %}
+          {% if post_count2==3 %}
+          <img class="third-slide"
+            src="{{ site.github.url }}/assets/img/{{ post.image.path }}/{{ post.image.feature }}">
+          {% endif %}
+
+          {% assign post_count2 = post_count2 | plus: 1 %}
+
+          <div class="container">
+            <div class="carousel-caption">
+              <a class="title_link" style="color:whitesmoke;" href="{{ site.github.url }}{{ post.url }}">
+                <h1 style="color:whitesmoke;">
+                  <img src="{{ site.github.url }}/assets/img/ui/ui_top.png">
+                  {{ post.title }}
+                </h1>
+                <p style="color:whitesmoke;">{{ post.brief | markdownify }} </p>
+              </a>
+
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div><!-- /.carousel -->
 
     <div class="post-container">
 
