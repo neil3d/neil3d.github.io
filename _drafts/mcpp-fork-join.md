@@ -7,10 +7,10 @@ categories: unreal
 tags: [unreal, c++]
 image:
   path: mcpp
-  feature: cover3.png
+  feature: cover_graph.png
   credit: ""
-  creditlink: "Fork-Join是一种常用的设计模式，这个博客用一个实例来演示使用TaskGraph来实现它。"
-brief: ""
+  creditlink: ""
+brief: "Fork-Join是并行编程中常用的设计模式，这个博客用一个实例来演示通过虚幻4TaskGraph来实现这种模式。"
 ---
 
 ## Fork-Join 模型简介
@@ -37,9 +37,7 @@ Fork-Join 是一种并行编程的设计模式，通过下面这个图片可以�
 
 假定我们需要从一个 Json 格式的文本文件中读取过去 20 年的*上证指数*数据，然后需要统计出：
 
-- 最大值
-- 最小值
-- 平均值
+- 最大值，最小值，平均值
 
 最后把这个三个值显示到一个 UMG 的界面上！
 
@@ -53,27 +51,30 @@ Fork-Join 是一种并行编程的设计模式，通过下面这个图片可以�
 | - | - | - |
 | 加载并解析 Json | Any Thread | 加载和解析这两个动作就放在一起了 |
 | 计算最大值 | Any Thread | 加载之后即可执行 |
-| 计算最小值 | Any Thread | 加载之后即可执行 |
-| 计算平均值 | Any Thread | 加载之后即可执行 |
+| 计算最小值 | Any Thread | 同上 |
+| 计算平均值 | Any Thread | 同上 |
 | 完成通知 | Game Thread | 通知界面更新 |
 
 看下面这个图可能更直观一点：
 
 ![task graph - fork jon](/assets/img/mcpp/taskgraph-forkjoin.svg)
 
-### 使用 Context 对象在任务之间传递/共享数据
+### Task Context 对象
 
-在正式开始编写任务之前，我们需要先解决数据在任务之间“传递”和“共享”的问题。在这里，我打算使用一个 Context 对象存储所有数据的方式，这也是引擎中很多 TaskGraph 所使用的方式。
+在正式开始编写任务之前，我们需要先解决数据在任务之间“传递”和“共享”的问题。
+
+在这里，我打算使用一个 Context 对象存储所有数据，这种方式也是引擎中很多 TaskGraph 所使用的。
 
 下面是一个任务数据的详细分析：
 
-| 数据项	| 主线程：任务发起 |	异步任务：加载并解析 |	异步任务：计算X3 |	主线程：UI更新 |
-| - | - | - | - | - |
-| 数据文件路径 | 写入 |	只读 |	NA |	NA |
-| Json 数据对象 |	NA |	写入 |	只读 |	NA |
-| 计算结果X3 |	NA |	NA | 写入 |	只读 |
+| 数据项	| 主线程：任务发起 |	异步任务：加载并解析 |	异步任务：计算X3 |	主线程：UI更新 |	完成通知 |
+| - | - | - | - | - | - |
+| 数据文件路径 | 写入 |	只读 |	NA |	NA |	NA |
+| 完成回调 | 写入 |	NA |	NA |	NA |	只读 |
+| Json 数据对象 |	NA |	写入 |	只读 |	NA |	NA |
+| 计算结果X3 |	NA |	NA | 写入 |	只读 |	只读 |
 
-经过上面的分析之后，我设计了下面的数据结构，这个对象将在主线程和几个异步任务之间共享，并且决定：**不需要加锁**！
+经过上面的分析之后，我设计了下面的数据结构，这个对象将在主线程和几个异步任务之间共享。结合前面那个图片中的执行序列分析，我决定：**不用给Context对象加锁**！
 
 ```cpp
 struct FStockAnalyzeContext
@@ -86,13 +87,13 @@ struct FStockAnalyzeContext
 };
 ```
 
-> 那个 Json 对象，使用“	TSharedPtr<FJsonObject, ESPMode::ThreadSafe> StockData”感觉更好一点，不过，引擎中的 JSON 序列化代码的参数写死了，只支持上面那个指针类型。我只能非常谨慎的编码，保证这些Json智能指针在访问的时候，不产生指针的复制。:(  如果你有更好的写法，请留言告诉我！
+> 那个 Json 对象，使用“	TSharedPtr<FJsonObject, ESPMode::ThreadSafe> StockData”感觉更好一点，不过，引擎中的 JSON 代码的参数写死了，只支持上面那个指针类型。我只能非常谨慎的编码，保证这些Json智能指针在访问的时候，不产生指针的复制。:(  如果你有更好的写法，请留言告诉我！
 
 我们将在一个测试用的 Actor 对象里面存储一个 FStockAnalyzeContext 实例，然后在不同的 Task 之间共享它。
 
 决定了这个 Context 数据结构之后，下面就是挨个实现每个 Task 了！
 
-### 任务实现：异步加载/解析 JSON
+### 任务实现：异步加载 JSON
 
 这个 Task 很简单，基本上就是把前一篇博客：[基于任务的并行编程与TaskGraph](https://neil3d.github.io/unreal/mcpp-task-begining.html) 中的 `FTask_LoadFileToString` 稍加改造，在 `DoTask()` 中加上 Json 解析，并去掉派发子任务逻辑即可：
 
@@ -137,7 +138,7 @@ public:
 
 > 为了代码简单，我没有做什么错误处理啊~
 
-### 任务实现：数据处理
+### 任务实现：数据统计计算
 
 对“上证指数”求最大值、最小值、平均值，就是从 Context 中读取数据， 进行个简单的计算啦：
 
@@ -206,7 +207,12 @@ public:
 
 ### 派发所有任务
 
-重点来了！
+重点来了！我们需要把任务的执行组织成下面这个图片所示：
+
+![task graph - fork jon](/assets/img/mcpp/taskgraph-forkjoin2.svg)
+
+这个重点就是使用：`TGraphTask::CreateTask()` 函数的第一个个参数。
+
 
 ```cpp
 void AForkJoinDemo::AsyncAnalyzeStockData(const FString& FilePath)
