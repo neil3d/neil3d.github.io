@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "虚幻4与现代C++：TaskGraph易学易用(下)"
+title: "虚幻4与现代C++：使用TaskGraph实现Fork-Join模型"
 author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
@@ -9,7 +9,7 @@ image:
   path: mcpp
   feature: cover3.png
   credit: ""
-  creditlink: ""
+  creditlink: "Fork-Join是一种常用的设计模式，这个博客用一个实例来演示使用TaskGraph来实现它。"
 brief: ""
 ---
 
@@ -78,15 +78,15 @@ Fork-Join 是一种并行编程的设计模式，通过下面这个图片可以�
 ```cpp
 struct FStockAnalyzeContext
 {
+	bool bRunning = false;
 	FString DataFilePath;
-	TSharedPtr<FJsonObject> StockData;
-	float MaxValue = 0;
-	float MinValue = 0;
-	float AverageValue = 0;
+	FTaskDelegate_StockAnalyzeComplete CompletionDelegate;
+	TArray<TSharedPtr<FJsonValue>> StockData;
+	FVector Result;	// {X:max, Y:min, Z:average}
 };
 ```
 
-> 那个 Json 对象，使用“	TSharedPtr<FJsonObject, ESPMode::ThreadSafe> StockData”感觉更好一点，不过，引擎中的 JSON 序列化代码的参数写死了，只支持上面那个指针类型。:(
+> 那个 Json 对象，使用“	TSharedPtr<FJsonObject, ESPMode::ThreadSafe> StockData”感觉更好一点，不过，引擎中的 JSON 序列化代码的参数写死了，只支持上面那个指针类型。我只能非常谨慎的编码，保证这些Json智能指针在访问的时候，不产生指针的复制。:(  如果你有更好的写法，请留言告诉我！
 
 我们将在一个测试用的 Actor 对象里面存储一个 FStockAnalyzeContext 实例，然后在不同的 Task 之间共享它。
 
@@ -94,20 +94,451 @@ struct FStockAnalyzeContext
 
 ### 任务实现：异步加载/解析 JSON
 
-这个 Task 很简单，基本上就是把前一篇博客：[]() 中的 `FTask_LoadFileToString` 稍加改造，在 `DoTask()` 中加上 Json 解析，并去掉派发子任务逻辑即可：
+这个 Task 很简单，基本上就是把前一篇博客：[基于任务的并行编程与TaskGraph](https://neil3d.github.io/unreal/mcpp-task-begining.html) 中的 `FTask_LoadFileToString` 稍加改造，在 `DoTask()` 中加上 Json 解析，并去掉派发子任务逻辑即可：
 
 ```cpp
+class FTask_LoadFileToJson
+{
+	FStockAnalyzeContext* Context;
+public:
+	FTask_LoadFileToJson(FStockAnalyzeContext* InContext) : Context(InContext)
+	{}
+
+	TStatId GetStatId() const {
+		RETURN_QUICK_DECLARE_CYCLE_STAT(FTask_LoadFileToJson, STATGROUP_TaskGraphTasks);
+	}
+
+	static ENamedThreads::Type GetDesiredThread() { return CPrio_StockTasks.Get(); }
+	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
+
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+	{
+		TSharedPtr<FJsonObject> JsonObject;
+
+		// load file from Content folder
+		FString FilePath = Context->DataFilePath;
+		FString FileContent;
+		FString FullPath = FPaths::Combine(FPaths::ProjectContentDir(), FilePath);
+		if (FPaths::FileExists(FullPath))
+		{
+			if (FFileHelper::LoadFileToString(FileContent, *FullPath))
+			{
+				TSharedRef< TJsonReader<> > Reader = TJsonReaderFactory<>::Create(FileContent);
+				FJsonSerializer::Deserialize(Reader, JsonObject);
+			}
+		}
+
+		// write resut to context
+		if (JsonObject)
+			Context->StockData = JsonObject->GetArrayField(TEXT("stock"));
+	}
+};
 ```
 
-### 任务实现：计算平均值
+> 为了代码简单，我没有做什么错误处理啊~
+
+### 任务实现：数据处理
+
+对“上证指数”求最大值、最小值、平均值，就是从 Context 中读取数据， 进行个简单的计算啦：
+
+``` cpp
+class FTask_StockMax
+{
+	FStockAnalyzeContext* Context;
+
+public:
+	FTask_StockMax(FStockAnalyzeContext* InContext) : Context(InContext)
+	{}
+
+	TStatId GetStatId() const {
+		RETURN_QUICK_DECLARE_CYCLE_STAT(FTask_StockMax, STATGROUP_TaskGraphTasks);
+	}
+
+	static ENamedThreads::Type GetDesiredThread() { return CPrio_StockTasks.Get(); }
+	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
+
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+	{
+		// process data 
+		float Result = TNumericLimits<float>::Min();
+		int32 Count = Context->GetStockDataCount();
+		for (int32 i = 0; i < Count; i++)
+		{
+			float Value = Context->GetStockData(i);
+			if (Value > Result)
+				Result = Value;
+		}
+
+		// write resut to context
+		Context->Result.X = Result;
+	}
+};
+```
 
 ### 任务实现：完成通知
 
+和前一篇博客一样：[基于任务的并行编程与TaskGraph](https://neil3d.github.io/unreal/mcpp-task-begining.html) 我还是使用一个指定在 Game Thread 执行的 Task 来调用蓝图实现的事件：
+
+``` cpp
+class FTaskCompletion_StockAnalyze
+{
+	FStockAnalyzeContext* Context;
+public:
+	FTaskCompletion_StockAnalyze(FStockAnalyzeContext* InContext) : Context(InContext)
+	{}
+
+	FORCEINLINE TStatId GetStatId() const	{
+		RETURN_QUICK_DECLARE_CYCLE_STAT(FTaskCompletion_StockAnalyze, STATGROUP_TaskGraphTasks);
+	}
+
+	static ENamedThreads::Type GetDesiredThread() { return ENamedThreads::GameThread; }
+	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
+
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+	{
+		check(IsInGameThread());
+
+		Context->CompletionDelegate.ExecuteIfBound(Context->Result);
+		Context->bRunning = false;
+	}
+};
+```
+
 ### 派发所有任务
+
+重点来了！
+
+```cpp
+void AForkJoinDemo::AsyncAnalyzeStockData(const FString& FilePath)
+{
+	if (TaskContext.bRunning)
+		return;
+
+	FTaskDelegate_StockAnalyzeComplete CompletionDelegate;
+	CompletionDelegate.BindUFunction(this, "OnAnalyzeComplete");
+
+	TaskContext = {};
+	TaskContext.bRunning = true;
+	TaskContext.CompletionDelegate = CompletionDelegate;
+	TaskContext.DataFilePath = FilePath;
+
+	FGraphEventRef LoadJson = TGraphTask<FTask_LoadFileToJson>::CreateTask().
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+	// data process tasks
+	FGraphEventArray RootTasks = { LoadJson };
+	FGraphEventRef CalMax = TGraphTask<FTask_StockMax>::CreateTask(&RootTasks, ENamedThreads::AnyThread).
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+	FGraphEventRef CalMin = TGraphTask<FTask_StockMin>::CreateTask(&RootTasks, ENamedThreads::AnyThread).
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+	FGraphEventRef CalAverage = TGraphTask<FTask_StockAverage>::CreateTask(&RootTasks, ENamedThreads::AnyThread).
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+	// compeletion
+	FGraphEventArray CalTasks = { CalMax, CalMin, CalAverage };
+	TGraphTask<FTaskCompletion_StockAnalyze>::CreateTask(&CalTasks, ENamedThreads::AnyThread).
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+}
+```
 
 ## 小结
 
-## 完整源代码
+通过指定任务的依赖关系，可以很方便的使用 TaskGraph 实现 Fork-Join 模型。
+
+相关的样例工程在我的 GitHub ：https://github.com/neil3d/UnrealCookBook/tree/master/MakingUseOfTaskGraph 。
+本文相关的 Demo 完整源代码也附上：
+
+### ForkJoinDemo.h
+
+```cpp
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "Dom/JsonObject.h"	// Json
+#include "Dom/JsonValue.h"	// Json
+#include "ForkJoinDemo.generated.h"
+
+DECLARE_DELEGATE_OneParam(FTaskDelegate_StockAnalyzeComplete, FVector);
+
+struct FStockAnalyzeContext
+{
+	bool bRunning = false;
+	FString DataFilePath;
+	FTaskDelegate_StockAnalyzeComplete CompletionDelegate;
+
+	TArray<TSharedPtr<FJsonValue>> StockData;
+	FVector Result;	// {X:max, Y:min, Z:average}
+
+	int32 GetStockDataCount() const;
+	float GetStockData(int32 Index) const;
+};
+
+UCLASS()
+class MAKINGUSEOFTASKGRAPH_API AForkJoinDemo : public AActor
+{
+	GENERATED_BODY()
+	
+public:	
+	// Sets default values for this actor's properties
+	AForkJoinDemo();
+
+	UFUNCTION(BlueprintCallable)
+		void AsyncAnalyzeStockData(const FString& FilePath);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnAnalyzeComplete(FVector Result);
+
+protected:
+	FStockAnalyzeContext TaskContext;
+};
+```
+
+### ForkJoinDemo.cpp
+
+> FStockAnalyzeContext::GetStockData() 的效率有很大优化空间，这里请忽略，咱们是谈 TaskGraph 为主。
+
+```cpp
+#include "ForkJoinDemo.h"
+#include "Misc/Paths.h"
+#include "Misc/FileHelper.h"
+#include "Math/NumericLimits.h"
+#include "Async/TaskGraphInterfaces.h"	// Core
+#include "Serialization/JsonReader.h"	// Json
+#include "Serialization/JsonSerializer.h" // Json
+
+int32 FStockAnalyzeContext::GetStockDataCount() const
+{
+	return StockData.Num();
+}
+
+float FStockAnalyzeContext::GetStockData(int32 Index) const
+{
+	const TSharedPtr<FJsonValue>& Element = StockData[Index];
+	const TSharedPtr<FJsonObject>& Stock = Element->AsObject();
+	const TSharedPtr<FJsonValue>* FieldPtr = Stock->Values.Find(TEXT("close"));
+
+	if (!FieldPtr)
+		return 0.0f;
+
+	const TSharedPtr<FJsonValue>& Field = *FieldPtr;
+
+	check(Field && !Field->IsNull());
+	return FCString::Atof(*(Field->AsString()));
+}
+
+FAutoConsoleTaskPriority CPrio_StockTasks(
+	TEXT("TaskGraph.TaskPriorities.StockTasks"),
+	TEXT("Task and thread priority for stock analyzation."),
+	ENamedThreads::HighThreadPriority,
+	ENamedThreads::NormalTaskPriority,
+	ENamedThreads::HighTaskPriority
+);
+
+class FTaskCompletion_StockAnalyze
+{
+	FStockAnalyzeContext* Context;
+
+public:
+	FTaskCompletion_StockAnalyze(FStockAnalyzeContext* InContext) : Context(InContext)
+	{}
+
+	FORCEINLINE TStatId GetStatId() const
+	{
+		RETURN_QUICK_DECLARE_CYCLE_STAT(FTaskCompletion_StockAnalyze, STATGROUP_TaskGraphTasks);
+	}
+
+	static ENamedThreads::Type GetDesiredThread() { return ENamedThreads::GameThread; }
+
+	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
+
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+	{
+		check(IsInGameThread());
+
+		Context->CompletionDelegate.ExecuteIfBound(Context->Result);
+		Context->bRunning = false;
+	}
+};
+
+class FTask_StockMax
+{
+	FStockAnalyzeContext* Context;
+
+public:
+	FTask_StockMax(FStockAnalyzeContext* InContext) : Context(InContext)
+	{}
+
+	TStatId GetStatId() const {
+		RETURN_QUICK_DECLARE_CYCLE_STAT(FTask_StockMax, STATGROUP_TaskGraphTasks);
+	}
+
+	static ENamedThreads::Type GetDesiredThread() { return CPrio_StockTasks.Get(); }
+	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
+
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+	{
+		// process data 
+		float Result = TNumericLimits<float>::Min();
+		int32 Count = Context->GetStockDataCount();
+		for (int32 i = 0; i < Count; i++)
+		{
+			float Value = Context->GetStockData(i);
+			if (Value > Result)
+				Result = Value;
+		}
+
+		// write resut to context
+		Context->Result.X = Result;
+	}
+};
+
+
+class FTask_StockMin
+{
+	FStockAnalyzeContext* Context;
+
+public:
+	FTask_StockMin(FStockAnalyzeContext* InContext) : Context(InContext)
+	{}
+
+	TStatId GetStatId() const {
+		RETURN_QUICK_DECLARE_CYCLE_STAT(FTask_StockMin, STATGROUP_TaskGraphTasks);
+	}
+
+	static ENamedThreads::Type GetDesiredThread() { return CPrio_StockTasks.Get(); }
+	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
+
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+	{
+		// process data 
+		float Result = TNumericLimits<float>::Max();
+		int32 Count = Context->GetStockDataCount();
+		for (int32 i = 0; i < Count; i++)
+		{
+			float Value = Context->GetStockData(i);
+			if (Value < Result)
+				Result = Value;
+		}
+
+		// write resut to context
+		Context->Result.Y = Result;
+	}
+};
+
+
+class FTask_StockAverage
+{
+	FStockAnalyzeContext* Context;
+
+public:
+	FTask_StockAverage(FStockAnalyzeContext* InContext) : Context(InContext)
+	{}
+
+	TStatId GetStatId() const {
+		RETURN_QUICK_DECLARE_CYCLE_STAT(FTask_StockAverage, STATGROUP_TaskGraphTasks);
+	}
+
+	static ENamedThreads::Type GetDesiredThread() { return CPrio_StockTasks.Get(); }
+	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
+
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+	{
+		// process data 
+		float Result = 0;
+		int32 Count = Context->GetStockDataCount();
+		for (int32 i = 0; i < Count; i++)
+		{
+			float Value = Context->GetStockData(i);
+			Result += Value;
+		}
+
+		// write resut to context
+		Context->Result.Z = Result / Count;
+	}
+};
+
+class FTask_LoadFileToJson
+{
+	FStockAnalyzeContext* Context;
+
+public:
+	FTask_LoadFileToJson(FStockAnalyzeContext* InContext) : Context(InContext)
+	{}
+
+	TStatId GetStatId() const {
+		RETURN_QUICK_DECLARE_CYCLE_STAT(FTask_LoadFileToJson, STATGROUP_TaskGraphTasks);
+	}
+
+	static ENamedThreads::Type GetDesiredThread() { return CPrio_StockTasks.Get(); }
+	static ESubsequentsMode::Type GetSubsequentsMode() { return ESubsequentsMode::TrackSubsequents; }
+
+	void DoTask(ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+	{
+		TSharedPtr<FJsonObject> JsonObject;
+
+		// load file from Content folder
+		FString FilePath = Context->DataFilePath;
+		FString FileContent;
+		FString FullPath = FPaths::Combine(FPaths::ProjectContentDir(), FilePath);
+		if (FPaths::FileExists(FullPath))
+		{
+			if (FFileHelper::LoadFileToString(FileContent, *FullPath))
+			{
+				TSharedRef< TJsonReader<> > Reader = TJsonReaderFactory<>::Create(FileContent);
+				FJsonSerializer::Deserialize(Reader, JsonObject);
+			}
+		}
+
+		// write resut to context
+		if (JsonObject)
+			Context->StockData = JsonObject->GetArrayField(TEXT("stock"));
+	}
+};
+
+// Sets default values
+AForkJoinDemo::AForkJoinDemo()
+{
+}
+
+void AForkJoinDemo::AsyncAnalyzeStockData(const FString& FilePath)
+{
+	if (TaskContext.bRunning)
+		return;
+
+	FTaskDelegate_StockAnalyzeComplete CompletionDelegate;
+	CompletionDelegate.BindUFunction(this, "OnAnalyzeComplete");
+
+	TaskContext = {};
+	TaskContext.bRunning = true;
+	TaskContext.CompletionDelegate = CompletionDelegate;
+	TaskContext.DataFilePath = FilePath;
+
+	FGraphEventRef LoadJson = TGraphTask<FTask_LoadFileToJson>::CreateTask().
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+	// data process tasks
+	FGraphEventArray RootTasks = { LoadJson };
+	FGraphEventRef CalMax = TGraphTask<FTask_StockMax>::CreateTask(&RootTasks, ENamedThreads::AnyThread).
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+	FGraphEventRef CalMin = TGraphTask<FTask_StockMin>::CreateTask(&RootTasks, ENamedThreads::AnyThread).
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+	FGraphEventRef CalAverage = TGraphTask<FTask_StockAverage>::CreateTask(&RootTasks, ENamedThreads::AnyThread).
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+	// compeletion
+	FGraphEventArray CalTasks = { CalMax, CalMin, CalAverage };
+	TGraphTask<FTaskCompletion_StockAnalyze>::CreateTask(&CalTasks, ENamedThreads::AnyThread).
+		ConstructAndDispatchWhenReady(&TaskContext);
+
+}
+```
+
 
 ## 延伸阅读
 

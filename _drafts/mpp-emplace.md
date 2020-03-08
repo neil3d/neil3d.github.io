@@ -16,7 +16,7 @@ brief: "UE4和C++11的容器都具备emplace API，它和push/insert有什么差
 这篇属于那种“并没有卵用”的博客，有用的也就一句话：
 * 对于UE4内置的容器来或者STL容器来说，优先使用 emplace 系列 API 吧，因为大多数时候它都比 push_back 之流效率要高；  
 
-剩下的内容主要是为了满足好奇心~，顺便把[前面一篇](http://neil3d.gitee.io/unreal/mcpp-move.html)中没有留下没说的“完美转发”一起说一下。
+剩下的内容主要是为了满足好奇心~，顺便把[前面一篇](http://neil3d.github.io/unreal/mcpp-move.html)中没有留下没说的“完美转发”一起说一下。
 
 ## 容器的 Emplace 和 Add 的差别
 
