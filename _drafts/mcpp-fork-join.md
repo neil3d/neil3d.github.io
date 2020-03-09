@@ -23,12 +23,6 @@ Fork-Join 是一种并行编程的设计模式，通过下面这个图片可以�
 
 在上图中，不同颜色的方块代表着可并行执行的“任务”，它们可以根据需要从主线程中“分叉(fork)”出来执行，在需要顺序执行的点上又“合并(join)”到主线程。
 
-我们还可以使用嵌套的 Fork-Join 模型，来实现更复杂的并行任务。
-
-![graph-loop-execution](/assets/img/mcpp/graph-loop-execution.png) 
-
-> 图片来自 Intel TBB 文档
-
 ## 使用 TaskGraph 实现 Fork-Join 模型
 
 虚幻4的 TaskGraph 可以为每个“任务”指定“一个或多个前置任务”，也就是组成所谓的 Graph 啦！在这种框架下，Fork-Join 也是一种常用的任务组织的手法。
