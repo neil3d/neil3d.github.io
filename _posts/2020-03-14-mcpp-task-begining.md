@@ -161,7 +161,7 @@ class FTaskCompletion_LoadFileToString
 	FString FileContent;
 public:
 	FTaskCompletion_LoadFileToString(FTaskDelegate_FileLoaded InTaskDelegate, FString InFileContent) :
-		TaskDelegate(InTaskDelegate), FileContent(InFileContent)
+		TaskDelegate(InTaskDelegate), FileContent(MoveTemp(InFileContent))
 	{}
 
 	FORCEINLINE TStatId GetStatId() const	{
