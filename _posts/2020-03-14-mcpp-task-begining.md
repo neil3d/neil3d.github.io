@@ -150,7 +150,7 @@ public:
 下面就着重看一下这个任务的实现代码：`FTask_LoadFileToString::DoTask()`，这个函数干了两件事：
 
 1. 首先就是加载那个文本文件了；
-2. 创建了一个`FTaskCompletion_LoadFileToString`子任务，这个子任务负责执行“完成通知”；
+2. 然后，创建了一个`FTaskCompletion_LoadFileToString`子任务，这个子任务负责执行“**完成通知**”；
 3. 重点来了：**我指定了`FTaskCompletion_LoadFileToString`必须在 GameThread 执行**！
 
 下面看一下`class FTaskCompletion_LoadFileToString`的完整代码：
