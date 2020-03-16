@@ -70,7 +70,7 @@ brief: "前面两篇博客我们都是通过ExpandNode来实现蓝图节点的�
 
 ![TriGate Node](/assets/img/ucookbook/node_handler/trigate.png)
 
-> 完整的Demo工程可以从我的GitHub下载：[https://github.com/neil3d/UnrealCookBook](https://github.com/neil3d/UnrealCookBook)   
+> 完整的Demo工程可以从我的GitHub下载：[https://github.com/neil3d/UnrealCookBook/tree/master/MyBlueprintNode](https://github.com/neil3d/UnrealCookBook/tree/master/MyBlueprintNode)   
 
 这个节点的完整源代码附在文末，我们先来step by step讲解一下，实现过程不难理解：
 
