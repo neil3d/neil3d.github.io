@@ -248,7 +248,7 @@ void AForkJoinDemo::AsyncAnalyzeStockData(const FString& FilePath)
 
 通过指定任务的依赖关系，可以很方便的使用 TaskGraph 实现 Fork-Join 模型。
 
-相关的样例工程在我的 GitHub ：https://github.com/neil3d/UnrealCookBook/tree/master/MakingUseOfTaskGraph 。
+相关的样例工程在我的 GitHub ：[https://github.com/neil3d/UnrealCookBook/tree/master/MakingUseOfTaskGraph](https://github.com/neil3d/UnrealCookBook/tree/master/MakingUseOfTaskGraph) 。
 本文相关的 Demo 完整源代码也附上：
 
 ### ForkJoinDemo.h
