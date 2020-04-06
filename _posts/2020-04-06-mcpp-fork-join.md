@@ -203,7 +203,7 @@ public:
 
 重点来了！我们需要把任务的执行组织成下面这个图片所示：
 
-![task graph - fork jon](/assets/img/mcpp/taskgraph-forkjoin2.svg)
+![task graph - fork jon](/assets/img/mcpp/taskgraph-forkjoin-2.svg)
 
 这个重点就是使用：`TGraphTask::CreateTask()` 函数的第一个个参数。
 
