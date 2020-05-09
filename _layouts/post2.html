@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>
+    {{ site.data.settings.title }}
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="{{site.baseurl}}/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/reading.css">
+  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/main.css">
+  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/syntax.css">
+  <!-- RSS-v2.0
+      <link href="{{ site.github.url }}/feed.xml" type="application/rss+xml" rel="alternate" title="{{ site.data.settings.title }}"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+      //-->
+
+  <!-- Use Atom -->
+  {% feed_meta %}
+
+  <!-- Use Jekyll SEO plugin -->
+  {% seo %}
+
+  {% include mathjax.html %}
+
+  <script src="{{site.baseurl}}/assets/js/jquery.min.js"></script>
+  <script src="{{site.baseurl}}/assets/js/bootstrap.min.js"></script>
+  <script src="{{site.baseurl}}/assets/js/toc.js"></script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c3709a8b8c6b1e793f1d1ba9e08289e7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+  <header class="site-header">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand" style="color:#03a9f4;">{{page.title}}</span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            {% include menu.html %}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+  </header>
+
+  <div class="container bs-docs-container">
+    <div class="row">
+      <div class="col-md-9" role="main">
+          <div class="post-container">
+
+            {{ content }}
+      
+              <span class="post-date">
+                Written on 2020年05月
+                by
+                {% if page.author %}
+                {{ page.author }}
+                {% else %}
+                {{ site.data.authors.primary.name }}
+                {% endif %}
+              </span>
+      
+              {% if site.data.settings.disqus.comments %}
+              {% include disqus.html %}
+              {% endif %}
+      
+          </div>
+      </div>
+
+      <div class="col-md-3" role="complementary">
+        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+          <div id="toc"></div>
+        </nav>
+      </div>
+
+    </div>
+    
+    <div class="post-container" style="max-width:80vw;">
+        <!-- 来必力City版安装代码 -->
+        <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjMzNS84ODk2">
+          <script type="text/javascript">
+            (function (d, s) {
+              var j, e = d.getElementsByTagName(s)[0];
+    
+              if (typeof LivereTower === 'function') { return; }
+    
+              j = d.createElement(s);
+              j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+              j.async = true;
+    
+              e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+          </script>
+          <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+      </div>
+  </div>
+
+  {% include footer.html %}
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#toc').toc({
+        title: '',
+        classes:{
+          list:'list-group',
+          item:'list-group-item'
+        }
+      });
+
+      $("#toc").affix({
+        offset: {
+          top: 16
+        }
+      });
+
+    }); </script>
+
+</body>
+
+</html>

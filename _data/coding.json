@@ -1,5 +1,11 @@
 [
     {
+        "title": "光线追踪简史",
+        "image": "/assets/raytracing/cover_01.jpg",
+        "url": "/coding/ray-tracing-history.html",
+        "brief": "用代码叙述光线追踪技术对发展历程。"
+    },
+    {
         "title": "虚幻4视频教程",
         "image": "/assets/img/unreal/my_vtm.png",
         "url": "/unreal/unreal_vtm.html",
