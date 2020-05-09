@@ -76,20 +76,6 @@
 
             {{ content }}
       
-              <span class="post-date">
-                Written on 2020年05月
-                by
-                {% if page.author %}
-                {{ page.author }}
-                {% else %}
-                {{ site.data.authors.primary.name }}
-                {% endif %}
-              </span>
-      
-              {% if site.data.settings.disqus.comments %}
-              {% include disqus.html %}
-              {% endif %}
-      
           </div>
       </div>
 
