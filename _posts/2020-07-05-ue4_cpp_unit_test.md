@@ -7,7 +7,7 @@ categories: unreal
 tags: [unreal, c++]
 image:
   path: mcpp
-  feature: cover3.png
+  feature: cover5.png
   credit: ""
   creditlink: ""
 brief: "在虚幻4项目开发中，利用 Automation 系统进行代码单元测试。"
