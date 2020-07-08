@@ -74,6 +74,9 @@ bool FMySimpleTest::RunTest(const FString& Parameters) {
 - 完成了测试用例代码之后，编译项目，并启动编辑器。在编辑器的 Window 菜单中，就可以打开最开始那个窗口了：
 ![open test window](/assets/img/ucookbook/cpp_unit/03_open_window.png)
 
+- 如果有测试用例没有通过的话，可以打开 Message Log 窗口来查看详情，包括错误信息、测试用例的代码位置都有清晰的呈现：
+![error log](/assets/img/ucookbook/cpp_unit/06_error_log.png)
+
 ## 测试 Actor 派生类的 C++ 代码
 
 上面这种 Simple Automation Test 测试纯逻辑、数据计算之类的代码很方便，但是我还有大量的代码是需要在关卡中测试的，也就是需要使用 Actor 的派生类来写单元测试，这个能支持吗？答案当时是：可以的！
