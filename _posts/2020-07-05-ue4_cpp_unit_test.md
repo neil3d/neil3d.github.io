@@ -77,6 +77,8 @@ bool FMySimpleTest::RunTest(const FString& Parameters) {
 - 如果有测试用例没有通过的话，可以打开 Message Log 窗口来查看详情，包括错误信息、测试用例的代码位置都有清晰的呈现：
 ![error log](/assets/img/ucookbook/cpp_unit/06_error_log.png)
 
+- 另外，除了上述的 Test 族函数的测试之外，UE_LOG 产生 Error 级别以上的 log 的话，测试用例也同样会失败。
+
 ## 测试 Actor 派生类的 C++ 代码
 
 上面这种 Simple Automation Test 测试纯逻辑、数据计算之类的代码很方便，但是我还有大量的代码是需要在关卡中测试的，也就是需要使用 Actor 的派生类来写单元测试，这个能支持吗？答案当时是：可以的！
