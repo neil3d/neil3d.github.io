@@ -1,0 +1,54 @@
+[
+    {
+        "algorithm": "Ray Casting",
+        "author": "Arthur Appel",
+        "photo": "/assets/img/RTH/unknown.png",
+        "info": [
+            "1968, Arthur Appel, <i><b>Some techniques for shading machine renderings of solids"
+        ],
+        "screenshots": [
+            "/assets/img/RTH/appel/Screen-Shot-2020-06-30b.png",
+            "/assets/img/RTH/appel/Screen-Shot-2020-05-08.png",
+            "/assets/img/RTH/blank.png"
+        ]
+    },
+    {
+        "algorithm": "Recursive Ray Tracing",
+        "author": "Turner Whitted",
+        "photo": "/assets/img/RTH/whitted/Turner-Whitted.png",
+        "info": [
+            "1979, Turner Whitted, <i><b>An improved illumination model for shaded display</b></i>"
+        ],
+        "screenshots": [
+            "/assets/img/RTH/whitted/ScreenShot-2020-07-10b.png",
+            "/assets/img/RTH/whitted/ScreenShot-2020-07-10a.png",
+            "/assets/img/RTH/whitted/ScreenShot-2020-07-10c.png"
+        ]
+    },
+    {
+        "algorithm": "Distributed Ray Tracing",
+        "author": "Robert Cook et al.",
+        "photo": "/assets/img/RTH/cook/cook.png",
+        "info": [
+            "1984, Robert Cook et al., <i><b>Distributed ray tracing</b></i>"
+        ],
+        "screenshots": [
+            "/assets/img/RTH/cook/ScreenShot-2020-07-05b.png",
+            "/assets/img/RTH/cook/ScreenShot-2020-07-05a.png",
+            "/assets/img/RTH/cook/ScreenShot-2020-05-29.png"
+        ]
+    },
+    {
+        "algorithm": "Path Tracing",
+        "author": "Robert Cook et al.",
+        "photo": "/assets/img/RTH/kajiya/kajiya.png",
+        "info": [
+            "1986, James Kajiya, <i><b>The rendering equation</b></i>"
+        ],
+        "screenshots": [
+            "/assets/img/RTH/kajiya/ScreenShot-2020-06-13a.png",
+            "/assets/img/RTH/blank.png",
+            "/assets/img/RTH/blank.png"
+        ]
+    }
+]
