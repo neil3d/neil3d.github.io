@@ -11,8 +11,8 @@ title: excel2json
 
 ### 版本更新
 
-* 最新版：  **1.3.0**
-* 更新日期：**2020年7月11日**
+* 最新版：  **1.4.1**
+* 更新日期：**2020年7月25日**
 * 最新版下载：[https://github.com/neil3d/excel2json/releases](https://github.com/neil3d/excel2json/releases)
 * 源代码Github地址：[https://github.com/neil3d/excel2json](https://github.com/neil3d/excel2json)
 
@@ -23,6 +23,9 @@ title: excel2json
 * 支持多个表单导出；
 * 把Excel表单转换成Json对象，并保存到一个文本文件中。支持将表中内容转换成**Array**，或者以第一列为ID的**字典对象**；
 * 将表头信息生成 C# 结构体定义代码；
+* 进阶特性
+    * 通过特定的前缀排除掉表单或者列
+    * 自动识别和转换单元格内的 Json 格式字符串，并转换成为 Json Array 或者 Json Object
 
 ### 支持GUI模式和命令行模式
 
@@ -52,7 +55,9 @@ for /f "delims=" %%i in ('dir /b /a-d /s %EXCEL_FOLDER%\*.xlsx') do (
 -  -l, --lowcase     (Default: false) 自动把字段名称转换成小写格式.
 -  -a 序列化成数组
 -  -d, --date:指定日期格式化字符串，例如：dd / MM / yyy hh: mm:ss
-
+- -s 序列化时强制带上sheet name，即使只有一个sheet
+- -exclude_prefix： 导出时，排除掉包含指定前缀的表单和列，例如：-exclude_prefix #
+- -cell_json：自动识别单元格中的Json对象和Json数组，Default：false
 
 例如：**excel2json --excel test.xlsx --json test.json --header 3 --array true**，其中的输入和输出文件，都在当前目录下；
 
@@ -71,5 +76,4 @@ for /f "delims=" %%i in ('dir /b /a-d /s %EXCEL_FOLDER%\*.xlsx') do (
 
 这个小工具使用C#编写，编译出来的.exe通过Mono即可在Mac或者Linux上运行。
 * Mono下载地址：[http://www.mono-project.com/download](http://www.mono-project.com/download/)
-* 运行GUI模式：mono ./excel2json.exe
-* 运行命令行模式： mono ./excel2json.exe 命令行参数
+* Mac目前只能运行命令行模式： mono ./excel2json.exe 命令行参数
