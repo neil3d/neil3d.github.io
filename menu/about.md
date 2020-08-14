@@ -28,7 +28,10 @@ title: About
 ## 其他
 
 * 关于开源项目
-    * 之前开发的3D引擎由于商业授权的原因，无法拿出来开源，也挺遗憾的。目前只有几个小东西放在[我的GitHub](https://github.com/neil3d)上，争取以后搞点有意义的开源项目。    
+    * 之前开发的3D引擎由于商业授权的原因，无法拿出来开源，也挺遗憾的。
+    * 不过，我从2008年8月开始，花了两年业余时间搞的一个3D引擎的原型，我想是可以拿出来的：[My3DEngine](https://github.com/neil3d/My3DEngine2008)
+    * 还有几个小东西放在[我的GitHub](https://github.com/neil3d)上；
+    * 争取以后搞点有意义的开源项目。    
 * 腾讯GAD名人堂专访
     * [http://gad.qq.com/fame/detail/10015](http://gad.qq.com/fame/detail/10015)
 
