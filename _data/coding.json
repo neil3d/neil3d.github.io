@@ -1,8 +1,8 @@
 [
     {
-        "title": "光线追踪简史",
+        "title": "光线追踪50年",
         "image": "/assets/img/raytracing/cover_01.jpg",
-        "url": "/coding/ray-tracing-history.html",
+        "url": "/coding/50-years-rt.html",
         "brief": "用代码叙述光线追踪技术对发展历程。"
     },
     {
