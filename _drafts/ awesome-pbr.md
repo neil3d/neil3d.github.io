@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "用历史的发展的眼光看 PBR"
+title: "用\"历史的发展的\"眼光看 PBR"
 author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
@@ -16,11 +16,12 @@ brief: "PBR 流行了这么久了，网上各种帖子也非常多，那么从�
 
 **到底什么是 PBR ？** 
 - 能量守恒就是“基于物理”了吗？
-- “Metallic, Roughness”就是 PBR 了吗？
+- PBR 就是迪斯尼那套金属工作流吗？
+- “Metallic, Roughness...”就是 PBR 了吗？
 
 **到底什么是 PBR ？** 这个问题我问了自己好多次，我不知道你是否也像我一样。不过，在这里我并不想正面回答这个问题，因为我的理解还不够。
 
-我整理了一些资料放到我的 GitHub 上，看看这些内容，相信你会有自己的答案：
+我整理了一些资料放到我的 GitHub 上，看完这些内容你会有自己的答案 :joy:
 - **[Awesome Physically Based Rendering](https://github.com/neil3d/awesome-pbr)** 
 
 另外，我还在做一个业余的小项目，还没有完成，但也可参考：
