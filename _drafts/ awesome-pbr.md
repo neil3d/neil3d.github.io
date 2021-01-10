@@ -4,14 +4,19 @@ title: "用历史的发展的眼光看 PBR"
 author: "房燕良"
 column: "Unreal Engine"
 categories: unreal
+mathjax: true
 tags: [PBR, unreal]
 image:
   path: raytracing
-  feature: cover_01.jpg
+  feature: cover_02.jpg
   credit: ""
   creditlink: ""
 brief: "PBR 流行了这么久了，网上各种帖子也非常多，那么从技术角度说，到底什么是 PBR 呢？"
 ---
+
+**到底什么是 PBR ？** 
+- 能量守恒就是“基于物理”了吗？
+- “Metallic, Roughness”就是 PBR 了吗？
 
 **到底什么是 PBR ？** 这个问题我问了自己好多次，我不知道你是否也像我一样。不过，在这里我并不想正面回答这个问题，因为我的理解还不够。
 
@@ -20,8 +25,6 @@ brief: "PBR 流行了这么久了，网上各种帖子也非常多，那么从�
 
 另外，我还在做一个业余的小项目，还没有完成，但也可参考：
 - **[光线追踪50年](https://github.com/neil3d/50YearsOfRayTracing)**。
-
-这篇帖子在这里其实就可以结束了，不过，还是想“水”一下吧。
 
 我个人一直对“技术发展史”兴趣浓厚，我尝试沿着《Physically Based Rendering》一书中的 *[A Brief History of Physically Based Rendering](http://www.pbr-book.org/3ed-2018/Introduction/A_Brief_History_of_Physically_Based_Rendering.html)* 小节来理一下 PBR 的发展历程。
 
@@ -42,7 +45,7 @@ brief: "PBR 流行了这么久了，网上各种帖子也非常多，那么从�
 
 ![Simple Path Tracer](/assets/img/RTH/kajiya/simple-path-tracer.png)
 
-另外一个有趣的事情是，在 1984 年Robert Cook就发表了《Distributed Ray Tracing》一文。和《The rendering equation》对照的话，会发现这两篇文章的前面一半很像。Cook 也是把之前的所有渲染方法归纳为一个 Reflection Equation，不同的是，后面 Cook 基本还是走回了类似于“经验模型”的老路，而 Kajiya 则转向了严谨的数学。以至于，现在“渲染也有了正确与否”：理论上说，只有“Unbiased”和“Biased but consistent”这两种情况是正确的。
+另外一个有趣的事情是，在 1984 (也就是在 Kajiya 那篇文章发表的前两年)年Robert Cook就发表了《Distributed Ray Tracing》一文。和《The rendering equation》对照的话，会发现这两篇文章的前面一半很像。Cook 率先把之前的所有渲染方法归纳为一个 Reflection Equation，不同的是，后面 Cook 基本还是走回了类似于“经验模型”的老路，而 Kajiya 则转向了严谨的数学。以至于，现在“渲染也有了正确与否”：理论上说，只有“Unbiased”和“Biased but consistent”这两种情况是正确的。
 
 我尝试复现了 Cook 这篇文章中的算法，渲染效果很不错，而且非常非常简洁：渲染核心代码150行，加上其他通用模块可能也就2K行左右，就实现了“Soft shadow”、“Depth of field”、“Glossy reflection”、“Motion blur”这么多效果。有兴趣的同学，可以看一下我的代码：[Distributed Ray Tracing - Robert Cook et al., 1984](https://github.com/neil3d/50YearsOfRayTracing/tree/master/1984.Cook) 。
 
@@ -50,14 +53,14 @@ brief: "PBR 流行了这么久了，网上各种帖子也非常多，那么从�
 
 在 1990 年代，有一批牛人开始沿着蒙特卡洛的路子不断推进，经常出现的名字包括 Arvo、Kirk、Shirley，还有 Veach 。整个过程也是渐进的，包括将经典的 Phong Reflection Model 修改为“能量守恒”的方式、蒙特卡洛方法计算直接光照等，其中一个主线就是 variance reduction。在 1997 年 Veach 的 “multiple importance sampling”是一个关键性进展。
 
-下面就是 Modified Phong reflection model，大家可以直观的感受一下：  
+下面就是修改后的 Phong reflection model，大家可以直观的感受一下：  
 
 $$
-f(\bm \omega_i, \bm \omega_o) = \frac{k_d}{\pi} + k_s \frac{s + 2}{2\pi} (\bm r \cdot \bm \omega_i)^s
+f(\omega_i, \omega_o) = \frac{k_d}{\pi} + k_s \frac{s + 2}{2\pi} (r \cdot \omega_i)^s
 $$
-
+  
 在 2001 年的 SIGGRAPH 大会上，有一个《State of the Art in Monte Carlo Ray Tracing for Realistic Image Synthesis》的 Course。在这里 Marcos Fajardo 展示了 Arnold 渲染器早期版本生成的图片.
 
 ![Vehicles](/assets/img/RTH/vehicles.png)
 
-后面 PBR 开始真正流行起来，从 2010 年至今，几乎每年 SIGGRAPH 都有相关的 Course，我已经将相关资料的链接整理到了这个库中，大家可以去看吧：[Awesome Physically Based Rendering](https://github.com/neil3d/awesome-pbr) 。
+后面 PBR 开始真正流行起来，从 2010 年至今，几乎每年 SIGGRAPH 都有相关的 Course，我已经将相关资料的链接整理到了这个库中，大家可以去看看：[Awesome Physically Based Rendering](https://github.com/neil3d/awesome-pbr) 。
