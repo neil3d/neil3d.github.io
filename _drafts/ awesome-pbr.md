@@ -58,9 +58,16 @@ brief: "PBR 流行了这么久了，网上各种帖子也非常多，那么从�
 $$
 f(\omega_i, \omega_o) = \frac{k_d}{\pi} + k_s \frac{s + 2}{2\pi} (r \cdot \omega_i)^s
 $$
+
+ 我把这些早期工作画成了一个时间线：
+
+![research timeline](/assets/img/RTH/research.png)
   
 在 2001 年的 SIGGRAPH 大会上，有一个《State of the Art in Monte Carlo Ray Tracing for Realistic Image Synthesis》的 Course。在这里 Marcos Fajardo 展示了 Arnold 渲染器早期版本生成的图片.
 
 ![Vehicles](/assets/img/RTH/vehicles.png)
+
+
+
 
 后面 PBR 开始真正流行起来，从 2010 年至今，几乎每年 SIGGRAPH 都有相关的 Course，我已经将相关资料的链接整理到了这个库中，大家可以去看看：[Awesome Physically Based Rendering](https://github.com/neil3d/awesome-pbr) 。
