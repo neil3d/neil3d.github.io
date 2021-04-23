@@ -4,3 +4,5 @@ Gemfile.lock
 .jekyll-metadata
 .DS_Store
 .vscode
+.ipynb_checkpoints
+
