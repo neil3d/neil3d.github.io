@@ -30,6 +30,8 @@ brief: "中国传媒大学动画学院虚幻4课程第七周+第八周：蓝图�
 - [B站课程录播](https://www.bilibili.com/video/BV1xK4y1P7be)
 - [课件下载](/assets/pdf/CUC-Week-7.pdf)
 
+<iframe width="800" height="600" src="//player.bilibili.com/player.html?aid=887711110&bvid=BV1xK4y1P7be&cid=327524606&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
 课程内容：
 1. 通过 “Hello, World! ” 来讲解蓝图的开发环境，主要是创建蓝图、蓝图类型、蓝图编辑器等
 2. 通过一个“自动触发打开的门”实例讲解：构建蓝图 Actor 类，基本组件的使用、组件事件响应
@@ -43,8 +45,11 @@ brief: "中国传媒大学动画学院虚幻4课程第七周+第八周：蓝图�
 
 ## 第八周：蓝图进阶
 
-- [B站课程录播](https://www.bilibili.com/video/BV1xK4y1P7be)
+- [B站课程录播](https://www.bilibili.com/video/BV15Z4y1F7rs)
 - [课件下载](/assets/pdf/CUC-Week-8.pdf)
+
+<iframe width="800" height="600" src="//player.bilibili.com/player.html?aid=375311579&bvid=BV15Z4y1F7rs&cid=329432739&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
 
 课程内容：
 1. Gameplay 框架入门讲解
