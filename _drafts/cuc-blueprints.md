@@ -64,6 +64,5 @@ brief: "中国传媒大学动画学院虚幻4课程第七周+第八周：蓝图�
 
 ## DEMO 工程下载
 
-课程中现场制作的 Demo 工程请见：
-- [CUC MyBlueprintsDemo](https://github.com/neil3d/UnrealCookbook/tree/master/CUC-MyBlueprintsDemo)
+- 点击跳转至 GitHub ：[课程中现场制作的 Demo 工程](https://github.com/neil3d/UnrealCookbook/tree/master/CUC-Blueprints)
 
