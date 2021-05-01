@@ -27,10 +27,12 @@ brief: "中国传媒大学动画学院虚幻4课程第七周+第八周：蓝图�
 
 ## 第七周：蓝图与关卡蓝图 
 
-- [B站课程录播](https://www.bilibili.com/video/BV1xK4y1P7be)
+- B站课程录播: 
+  - [CUC-海绵课堂](https://www.bilibili.com/video/BV1xK4y1P7be)
+  - [网友按小节切分的版本](https://www.bilibili.com/video/BV1CU4y1h7fP)
 - [课件下载](/assets/pdf/CUC-Week-7.pdf)
 
-<iframe width="800" height="600" src="//player.bilibili.com/player.html?aid=887711110&bvid=BV1xK4y1P7be&cid=327524606&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+<iframe width="100%" src="//player.bilibili.com/player.html?aid=887711110&bvid=BV1xK4y1P7be&cid=327524606&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
 课程内容：
 1. 通过 “Hello, World! ” 来讲解蓝图的开发环境，主要是**创建蓝图、蓝图类型、蓝图编辑器等**
@@ -45,10 +47,12 @@ brief: "中国传媒大学动画学院虚幻4课程第七周+第八周：蓝图�
 
 ## 第八周：蓝图进阶
 
-- [B站课程录播](https://www.bilibili.com/video/BV15Z4y1F7rs)
+- B站课程录播:
+  - [CUC-海绵课堂](https://www.bilibili.com/video/BV15Z4y1F7rs)
+  - [网友按小节切分的版本](https://www.bilibili.com/video/BV1sA411V7az)
 - [课件下载](/assets/pdf/CUC-Week-8.pdf)
 
-<iframe width="800" height="600" src="//player.bilibili.com/player.html?aid=375311579&bvid=BV15Z4y1F7rs&cid=329432739&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+<iframe width="100%" src="//player.bilibili.com/player.html?aid=375311579&bvid=BV15Z4y1F7rs&cid=329432739&page=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
 
 课程内容：
@@ -59,7 +63,7 @@ brief: "中国传媒大学动画学院虚幻4课程第七周+第八周：蓝图�
   - 通过“一个电源总开关，关闭所有电器”的实例讲解：**蓝图事件调度器(Event Dispatcher)**
 3. **Timeline 动画控制**
   - 门的开关动画实例讲解，并提示：使用单个Timeline同时处理这两个事件，避免状态错乱  
-4. **蓝图与Prefab  **
+4. **蓝图与Prefab**
 5. 其他蓝图知识点串讲
   - **蓝图结构体**
   - **蓝图调试**
@@ -71,3 +75,16 @@ brief: "中国传媒大学动画学院虚幻4课程第七周+第八周：蓝图�
 
 - 点击跳转至 GitHub ：[课程中现场制作的 Demo 工程](https://github.com/neil3d/UnrealCookbook/tree/master/CUC-Blueprints)
 
+
+
+<script type="text/javascript">
+  function autoVideoHeight() {
+    var iframes = document.getElementsByTagName("iframe");
+    var num = iframes.length;
+    for (; num > 0; num--) {
+        var iframe = iframes[num-1];
+        iframe.style.height = iframe.scrollWidth * 0.65 + "px";
+    }
+  }
+  window.onresize = autoVideoHeight();
+</script>
