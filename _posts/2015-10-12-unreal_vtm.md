@@ -4,7 +4,7 @@ top: false
 title: "虚幻4视频教程"
 author: "房燕良"
 column: "Unreal Engine"
-top: true
+top: false
 categories: unreal
 tags: [unreal, vr]
 image:
@@ -14,6 +14,13 @@ image:
   creditlink: ""
 brief: "在2015年，我与**CSDN学院**合作推出的系列虚幻4入门教程，希望能够帮助更多的同学克服虚幻引擎上手难度大的问题。" 
 ---
+
+## 请注意
+
+- 下面这些课程是 2015 年录制的，版本已经过老
+- 建议移步到我的另一套入门教程：[虚幻4: 蓝图入门与进阶](/unreal/cuc-blueprints.html)
+
+## 原文内容
 
 虚幻4引擎在2014年推出19美元订阅模式，在2015年免费开源，国内想学习这一国际顶级引擎的同学越来越多了。虚幻系列的上手难度向来是比较大的，即使虚幻4已经大大的优化的新手的学习体验，但确实让很多人望而怯步。  
 
