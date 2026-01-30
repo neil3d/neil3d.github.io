@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "蒙特卡洛人生算法"
-author: "房燕良"
+author: "景夫"
 categories: 3dengine
 tags: [raytracing]
 image:

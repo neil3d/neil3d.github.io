@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "用\"历史的发展的\"眼光看 PBR"
-author: "房燕良"
+author: "景夫"
 column: "Unreal Engine"
 categories: unreal
 mathjax: true

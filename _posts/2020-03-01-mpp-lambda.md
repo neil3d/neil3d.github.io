@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "虚幻4与现代C++：Lambda好用也有坑"
-author: "房燕良"
+author: "景夫"
 column: "Unreal Engine"
 categories: unreal
 tags: [unreal, c++]

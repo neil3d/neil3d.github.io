@@ -26,9 +26,9 @@ plugins:
   - jekyll-seo-tag
 
 # Customise atom feed settings (this is where Jekyll-Feed gets configuration information)
-title:		           "游戏程序员的自我修养"
+title:		           "做游戏的景夫"
 description:	       "不追热点 不赶时髦 专注研究游戏引擎技术"
-author:              "房燕良"
+author:              "景夫"
 
 # RSS 2.0 can be used instead of Atom by uncommenting following two lines
 #feed:

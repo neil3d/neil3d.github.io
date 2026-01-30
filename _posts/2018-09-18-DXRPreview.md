@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "DXR 实时光线追踪技术概览"
-author: "房燕良"
+author: "景夫"
 column: "Graphics"
 categories: 3dengine
 tags: [raytracing, SIGGRAPH]

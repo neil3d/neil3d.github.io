@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "从头学习光线追踪"
-author: "房燕良"
+author: "景夫"
 column: "RayTracing"
 categories: ray-tracing
 tags: [ray-tracing, c++]

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "虚幻4: 蓝图入门与进阶"
-author: "房燕良"
+author: "景夫"
 column: "Unreal Engine"
 categories: unreal
 tags: [unreal, blueprint]

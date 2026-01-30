@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "《炉石传说》架构设计赏析(5)：卡牌&技能的静态数据组织"
-author: "房燕良"
+author: "景夫"
 column: "Unity3D"
 categories: gamedev
 tags: [Hearthstone, Game]

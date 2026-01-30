@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "渲染方程的几种解法"
-author: "房燕良"
+author: "景夫"
 column: "Graphics"
 categories: rendering
 mathjax: false

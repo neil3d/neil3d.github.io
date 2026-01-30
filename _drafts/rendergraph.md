@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Render Graph：新一代渲染引擎的核心"
-author: "房燕良"
+author: "景夫"
 categories: 3dengine
 tags: [rendergraph]
 image:
